@@ -39,35 +39,34 @@ const userSchema = new mongoose.Schema({
     itnumber:{
 
         type:String,
-        required:true,
         unique:true
 
     },
     distance:{
 
         type:String,
-        required:true,
+       
        
 
     },
     acYear:{
 
         type:String,
-        required:true,
+        
        
 
     },
     mode:{
 
         type:String,
-        required:true,
+       
        
 
     },
     degree:{
 
         type:String,
-        required:true,
+        
        
 
     },
