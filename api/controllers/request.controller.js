@@ -113,7 +113,6 @@ export const updateTheStatus = async(req, res, next)=>{
     const updateRecord = {
         status
     }
-
     try {
         await cleanRequest.findByIdAndUpdate(recordId, updateRecord);
         res.status(200).json(updateRecord);

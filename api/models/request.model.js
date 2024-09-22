@@ -1,43 +1,48 @@
 import mongoose from "mongoose";
 
-
-const requestSchema = new mongoose.Schema({
+const requestSchema = new mongoose.Schema(
+  {
     name: {
       type: String,
       required: true,
-      trim: true
     },
     email: {
       type: String,
       required: true,
-      trim: true,
-      lowercase: true
+
+      lowercase: true,
     },
     roomNumber: {
       type: String,
       required: true,
-      trim: true
     },
     date: {
-      type: Date,
-      required: true
+      type: String,
+      required: true,
     },
     additionalDetails: {
       type: String,
-      trim: true
+      default : "No any additional details"
     },
-    status:{
-        type: Boolean
+    status: {
+      type: Boolean,
+      default: false,
     },
-    comments:{
-        type: String,
+    commentsUser: {
+      type: String,
+      default : "No any comments yet"
+    },
+    commentsAdmin: {
+      type: String,
+      default : "No any comments yet"
     },
     createdAt: {
       type: Date,
-      default: Date.now
-    }
-  },{timestamps:true});
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
 
-const cleanRequest = mongoose.model('CleanRequest',requestSchema);
+const cleanRequest = mongoose.model("CleanRequest", requestSchema);
 export default cleanRequest;
-
