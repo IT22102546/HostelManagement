@@ -7,6 +7,7 @@ import Header from './Components/Header';
 import DashBoard from './Pages/DashBoard';
 import PrivateRoute from './Components/PrivateRoute';
 import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
+import Addstaff from './Pages/Addstaff';
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/sign-in" element={<SignIn/>}/>
         <Route path="/sign-up" element={<SignUp/>}/>
+        <Route path="/addstaff" element={<Addstaff/>}/>
 
 
         <Route element={<PrivateRoute/>}/>
