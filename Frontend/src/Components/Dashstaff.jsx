@@ -13,7 +13,7 @@ export default function Dashstaff() {
   
 
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchs = async () => {
           try {
             const res = await fetch('/api/staff/get');
             const data = await res.json();
@@ -27,7 +27,7 @@ export default function Dashstaff() {
           }
         };
         if (currentUser.isAdmin) {
-          fetchPosts();
+          fetchs();
         }
       }, []);
 

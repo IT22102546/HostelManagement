@@ -3,7 +3,13 @@ import staff from "../models/staff.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const add = async(req,res,next)=>{
-   
+
+    if (req.body.number) {
+        const mobileRegex = /^(071|076|077|075|078|070|074|072)\d{7}$/;
+        if (!mobileRegex.test(req.body.number)) {
+            return next(errorHandler(400, 'Invalid mobile number format.'));
+        }
+    }
    const Staffmembername=req.body.membername;
    
    const Age=Number(req.body.age);
@@ -90,6 +96,12 @@ export const Getmember= async(req,res,next)=>{
 export const updatestaff= async (req, res, next) => {
 
   try {
+    if (req.body.phonenumber) {
+        const mobileRegex = /^(071|076|077|075|078|070|074|072)\d{7}$/;
+        if (!mobileRegex.test(req.body.phonenumber)) {
+            return next(errorHandler(400, 'Invalid mobile number format.'));
+        }
+    }
     const updatestaff = await staff.findByIdAndUpdate(
       req.params.id,
       {
