@@ -26,6 +26,12 @@ const requestSchema = new mongoose.Schema({
       type: String,
       trim: true
     },
+    status:{
+        type: Boolean
+    },
+    comments:{
+        type: String,
+    },
     createdAt: {
       type: Date,
       default: Date.now
