@@ -10,6 +10,7 @@ export default function Dashstaff() {
     
     const [showModel , setShowModel] = useState(false);
     const [memberIDToDelete, setmemberIdToDelete] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
   
 
     useEffect(() => {
@@ -31,7 +32,10 @@ export default function Dashstaff() {
         }
       }, []);
 
-      
+      const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+       
+      };
       const handleDeleteProduct = async () => {
         setShowModel(false);
         try {
@@ -54,6 +58,16 @@ export default function Dashstaff() {
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+    
+    <input
+          type="text"
+          placeholder="Search members.."
+          value={searchTerm}
+          onChange={handleSearch}
+          className="px-3 py-2 w-150 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mr-2 h-10 dark:bg-slate-800  placeholder-gray-500"
+        style={{marginLeft:"30%",width:"40%",marginBottom:"30px"}}/>
+    
+    
       {currentUser.isAdmin && Staffmembers.length>0?
       (
         <>
@@ -75,7 +89,13 @@ export default function Dashstaff() {
               </Table.HeadCell>
              
             </Table.Head>
-              {Staffmembers.map((members)=>(
+            { Staffmembers.filter((members) => {
+                return searchTerm.toLowerCase() === ''
+                  ? members
+                  : members.Staffmembername.toLowerCase().includes(searchTerm) ;
+              }).map(
+                members=>{
+          return(
                 // eslint-disable-next-line react/jsx-key
                 <Table.Body  className='divide-y'  key={members._id}>
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
@@ -115,7 +135,7 @@ export default function Dashstaff() {
                   </Table.Row>
                  
                 </Table.Body>
-              ))}
+                )})}
           </Table>
         
         </>
