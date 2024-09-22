@@ -10,6 +10,7 @@ export default function Dashstaff() {
     
     const [showModel , setShowModel] = useState(false);
     const [memberIDToDelete, setmemberIdToDelete] = useState('');
+  
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -106,7 +107,7 @@ export default function Dashstaff() {
                     </span>
                   </Table.Cell>
                   <Table.Cell>
-                    <Link className='text-teal-500 hover:underline'to={`/Update-staff/${members._id}`}>
+                    <Link className='text-teal-500 hover:underline'to={`/updatestaff/${members._id}`}>
                       <span>Edit</span>
                     </Link>
                   </Table.Cell>

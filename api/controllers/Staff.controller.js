@@ -71,7 +71,7 @@ res.status (500). send({status: "Error with deleting data", error: err.message})
 
 
 export const Getmember= async(req,res,next)=>{
-  const userId= req.params.id;w
+  const userId= req.params.id;
   console.log(userId);
   staff.findOne({_id:userId}).then((staff)=>{
 
@@ -94,9 +94,9 @@ export const updatestaff= async (req, res, next) => {
       req.params.id,
       {
         $set: {
-     Staffmembername:req.body.SupplierName,
+     Staffmembername:req.body.membername,
     
-    Age:Number(req.body.age),
+    Age:req.body.age,
     phonenumber:req.body.phonenumber,
     email:req.body.EmailAddress,
     address:req.body.Address,
