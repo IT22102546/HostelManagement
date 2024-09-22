@@ -78,7 +78,7 @@ export default function Addstaff() {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/events`);
+        navigate(`/dashboard?tab=profile`);
       }
     } catch (error) {
       setPublishError('Something went wrong');
@@ -126,7 +126,7 @@ export default function Addstaff() {
             }/>
           
             <TextInput type='text'placeholder='Task'required id='pos'className='flex-1'  onChange={(e) =>
-              setFormData({ ...formData, position: e.target.value })
+              setFormData({ ...formData, task: e.target.value })
             }/>
             
             
