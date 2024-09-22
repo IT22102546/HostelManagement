@@ -18,7 +18,7 @@ export default function ProductPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
 
-  const categories = ['All', 'Foods', 'ReadingTable', 'Beds', 'Fans']; // Example categories
+  const categories = ['All', 'Foods', 'ReadingTable', 'Beds', 'Fans'];
 
   useEffect(() => {
     fetchProducts();
