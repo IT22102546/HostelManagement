@@ -67,11 +67,11 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="mt-8 border-t pt-6 text-center md:text-left">
-          <p className="text-gray-600">Move faster with Untitled UI</p>
+          <p className="text-gray-600">Move faster with The Bodima</p>
           <p className="text-gray-500 text-sm mt-1">
-            Save countless hours of design and ship great looking designs faster.
+            Save countless hours of searching and looking hostels and apartments.
           </p>
-          <p className="text-gray-400 text-sm mt-6">&copy; 2077 Untitled UI. All rights reserved.</p>
+          <p className="text-gray-400 text-sm mt-6">&copy; 2024 The Bodima. All rights reserved.</p>
         </div>
       </div>
     </footer>

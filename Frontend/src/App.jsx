@@ -7,6 +7,8 @@ import Header from './Components/Header';
 import DashBoard from './Pages/DashBoard';
 import PrivateRoute from './Components/PrivateRoute';
 import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
+import Footer from './Components/Footer';
+
 
 
 export default function App() {
@@ -28,10 +30,7 @@ export default function App() {
         </Route>
 
       </Routes>
-
-     
-
-
+      <Footer/>
     </BrowserRouter>
   )
 }
