@@ -9,6 +9,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
 import Footer from './Components/Footer';
 import AddProducts from './Pages/AddProducts';
+import AddRoom from './Pages/AddRoom';
 import ProductPage from './Pages/ProductPage';
 import PostProduct from './Pages/PostProduct';
 import Cart from './Pages/Cart';
@@ -37,6 +38,7 @@ export default function App() {
         <Route element={<OnlyAdminPrivateRoute/>}>
 
            <Route path="/addproduct" element={<AddProducts/>}/>
+           <Route path="/addroom" element={<AddRoom/>}/>
         </Route>
 
       </Routes>

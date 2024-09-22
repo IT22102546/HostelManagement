@@ -286,6 +286,19 @@ export default function DashProfile() {
               Add products
             </Button>
           </Link>
+        )} 
+
+        {currentUser.isAdmin && (
+          <Link to='/addroom'>
+            <Button
+              type='button'
+               gradientDuoTone='purpleToBlue'
+              className='w-full , text-black bg-slate-400 '
+              outline
+            >
+              Add Rooms
+            </Button>
+          </Link>
         )}   
 
       </form>
