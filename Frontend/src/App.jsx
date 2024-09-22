@@ -8,6 +8,11 @@ import DashBoard from './Pages/DashBoard';
 import PrivateRoute from './Components/PrivateRoute';
 import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
 import Footer from './Components/Footer';
+import AddProducts from './Pages/AddProducts';
+import ProductPage from './Pages/ProductPage';
+import PostProduct from './Pages/PostProduct';
+import Cart from './Pages/Cart';
+import UpdateProducts from './Pages/UpdateProducts';
 
 
 
@@ -19,14 +24,19 @@ export default function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/sign-in" element={<SignIn/>}/>
         <Route path="/sign-up" element={<SignUp/>}/>
+        <Route path="/product-page" element={<ProductPage/>}/>
+        <Route path="/product/:productSlug" element={<PostProduct/>} />
 
 
         <Route element={<PrivateRoute/>}/>
           <Route path="/dashboard" element={<DashBoard/>}/>
+          <Route path="/update-product/:productId" element={<UpdateProducts/>}/>
+          <Route path="/cart" element={<Cart/>}/> 
         <Route/>
 
         <Route element={<OnlyAdminPrivateRoute/>}>
-          
+
+           <Route path="/addproduct" element={<AddProducts/>}/>
         </Route>
 
       </Routes>

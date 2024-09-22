@@ -50,12 +50,12 @@ export default function Header() {
               category
             </NavLink>
             <NavLink 
-              to="/ex1" 
+              to="/product-page" 
               className={({ isActive }) => 
                 isActive ? "text-black" : "text-white"
               }
             >
-              ex1
+              Inventory
             </NavLink>
             <NavLink 
               to="/ex2" 
