@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Alert, Button, TextInput } from 'flowbite-react';
-import { FaPlus, FaMinus, FaChair } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Alert, Button, TextInput } from "flowbite-react";
+import { FaPlus, FaMinus, FaChair } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PostRoom() {
   const { roomSlug } = useParams();
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [notification, setNotification] = useState({ visible: false, message: '' });
+  const [notification, setNotification] = useState({
+    visible: false,
+    message: "",
+  });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
 
@@ -29,7 +31,7 @@ export default function PostRoom() {
 
         const data = await res.json();
         if (data.rooms.length === 0) {
-          setError('Room not found');
+          setError("Room not found");
           setLoading(false);
           return;
         }
@@ -45,14 +47,10 @@ export default function PostRoom() {
     fetchRoom();
   }, [roomSlug]);
 
-
-
- 
-
   const showNotification = (message) => {
     setNotification({ visible: true, message });
     setTimeout(() => {
-      setNotification({ visible: false, message: '' });
+      setNotification({ visible: false, message: "" });
     }, 3000);
   };
 
@@ -69,7 +67,7 @@ export default function PostRoom() {
       showNotification("Please log in to book a room.");
       return;
     }
-  
+
     try {
       const bookingData = {
         userId: user._id,
@@ -81,8 +79,8 @@ export default function PostRoom() {
         price: room.price,
         slug: room.slug,
       };
-  
-      const res = await fetch('/api/bookings/addbooking', {
+
+      const res = await fetch("/api/bookings/addbooking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +88,7 @@ export default function PostRoom() {
         },
         body: JSON.stringify(bookingData),
       });
-  
+
       if (res.ok) {
         const savedBooking = await res.json();
         showNotification("Room booked successfully!");
@@ -105,45 +103,67 @@ export default function PostRoom() {
   };
 
   return (
-    <div className="p-3 max-w-5xl mx-auto min-h-screen">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 relative">
       {notification.visible && (
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded shadow-md">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
           {notification.message}
         </div>
       )}
-      <div className="flex flex-col sm:flex-row gap-6">
-        
-        <div className="sm:w-2/3">
-        
-          <h1 className="text-3xl my-7 font-semibold justify-center">Room Type - {room.roomtype}</h1>
-          <h1 className="text-3xl my-7 font-semibold justify-center">Room No - RNO{room.roomno}</h1>
 
-          <div className={`p-2 flex items-center justify-center font-semibold ${
-              room.furnished ? "text-blue-800" : "text-red-600"}`} >
-                  <FaChair className="text-2xl mr-2" />
-                  <span>{room.furnished ? "FURNISHED" : "UNFURNISHED"}</span>
-         </div>          
-         <h1 className="text-3xl my-7 font-semibold justify-center">Gender - {room.gender}</h1>
-          <div className="flex items-center mt-4 gap-2 justify-center">
-          <div className=" gap-4 sm:flex-row justify-between mt-4">
-            Price: Rs. {room.price}
+      <div className="bg-white shadow-2xl rounded-lg p-8 w-full max-w-2xl relative">
+        <div className="absolute top-4 left-4 bg-blue-700 text-white text-lg font-bold py-2 px-4 rounded-lg shadow-lg">
+          RNO {room.roomno}
+        </div>
+
+        <div className="flex flex-col items-center text-center pt-16 space-y-8">
+          {/* Room Type */}
+          <h2 className="text-4xl font-bold text-blue-700">
+            Room Type : <span className="font-bold"> {room.roomtype} Room</span>
+          </h2>
+
+          {/* Furnished/Unfurnished Status */}
+          <div className={`flex items-center justify-center px-6 py-3 font-semibold text-xl rounded-full ${
+              room.furnished
+                ? "bg-blue-100 text-blue-800"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <FaChair className="text-3xl mr-3" />
+            <span>{room.furnished ? "FURNISHED" : "UNFURNISHED"}</span>
           </div>
-            
+
+          {/* Gender Badge */}
+          <div className="flex items-center justify-center">
+            <h2 className="text-2xl text-gray-700">
+              Gender:{" "}
+              <span
+                className={`inline-block px-4 py-1 text-lg font-semibold rounded-full ${
+                  room.gender === "Male"
+                    ? "bg-blue-200 text-blue-800"
+                    : "bg-pink-200 text-pink-800"
+                }`}
+              >
+                {room.gender}
+              </span>
+            </h2>
           </div>
-          
-          
-          <div className="flex justify-center gap-4 mt-4">
-            <button
-              className="block w-full text-center py-2 mt-2 bg-slate-200 border border-slate-200 text-black hover:bg-slate-400 rounded hover:border-slate-300 hover:text-white hover:font-semibold"
-              onClick={() => handleBooking(room)}
-            >
-              Book
-            </button>
-          
+
+          {/* Price */}
+          <div className="flex items-center">
+            <span className="text-4xl font-bold text-gray-900">
+              Rs. {room.price}.00
+            </span>
           </div>
+
+          {/* Book Button */}
+          <button
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-10 py-3 rounded-full text-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300"
+            onClick={() => handleBooking(room)}
+          >
+            Book Now
+          </button>
         </div>
       </div>
-      
     </div>
   );
 }
