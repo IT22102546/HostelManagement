@@ -5,6 +5,7 @@ import DashProfile from "../Components/DashProfile";
 import DashUsers from "../Components/DashUsers";
 import DashCleanRequests from "../Components/DashRequests";
 import DashRequests from "../Components/DashRequests";
+import DashMyRequests from "../Components/DashMyRequests";
 
 
 
@@ -32,6 +33,7 @@ export default function DashBoard() {
       {tab==='profile' && <DashProfile/>}
       {tab === 'users' && <DashUsers/>}
       {tab === 'requests' && <DashRequests/>}
+      {tab === 'my_requests' && <DashMyRequests/>}
      
 
       {/*

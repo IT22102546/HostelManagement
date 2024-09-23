@@ -1,5 +1,6 @@
 import { errorHandler } from "../utils/error.js";
 import cleanRequest from "../models/request.model.js";
+import mongoose from "mongoose";
 
 
 //for api testing
@@ -59,15 +60,22 @@ export const deleteRequest = async(req, res ,next)=>{
 export const getOnlyOneRequest = async (req, res, next) => {
     try {
         const requestId = req.params.id;
+
+        // Check if requestId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(requestId)) {
+            return res.status(400).json({ error: 'Invalid request ID format' });
+        }
+
         const requestedRecord = await cleanRequest.findById(requestId);
         
         if (!requestedRecord) {
             return res.status(404).json({ error: 'Clean record not found' });
         }
+        
         res.json(requestedRecord);    
 
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching record:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -75,10 +83,10 @@ export const getOnlyOneRequest = async (req, res, next) => {
 //add a comment for cleaning request by student
 export const addCommentToRequestStudent = async(req, res, next)=>{
     let recordId = req.params.id;
-    const {comment} = req.body;
+    const {commentsUser} = req.body;
     
     const updateRecord = {
-        comment
+        commentsUser
     }
 
     try {
@@ -92,10 +100,10 @@ export const addCommentToRequestStudent = async(req, res, next)=>{
 //add a comment for cleaning request by student
 export const addCommentToRequestAdmin = async(req, res, next)=>{
     let recordId = req.params.id;
-    const {comment} = req.body;
+    const {commentsAdmin} = req.body;
     
     const updateRecord = {
-        comment
+        commentsAdmin
     }
 
     try {
@@ -109,10 +117,10 @@ export const addCommentToRequestAdmin = async(req, res, next)=>{
 //update the status of the cleaning request
 export const updateTheStatus = async(req, res, next)=>{
     let recordId = req.params.id;
-    const {status} = req.body;
+    const {status,date} = req.body;
     
     const updateRecord = {
-        status
+        status,date
     }
     try {
         await cleanRequest.findByIdAndUpdate(recordId, updateRecord);

@@ -67,17 +67,28 @@ export default function DashSideBar() {
                   Users
                 </Sidebar.Item>
               </Link>
+
+              <Link to="/dashboard?tab=requests" key="requests">
+                <Sidebar.Item
+                  active={tab === "requests"}
+                  icon={HiBookmark}
+                  labelColor="dark"
+                  as="div"
+                >
+                  Requests
+                </Sidebar.Item>
+              </Link>
             </>
           )}
 
-          <Link to="/dashboard?tab=requests" key="requests">
+          <Link to="/dashboard?tab=my_requests" key="myrequests">
             <Sidebar.Item
-              active={tab === "requests"}
+              active={tab === "my_requests"}
               icon={HiBookmark}
               labelColor="dark"
               as="div"
             >
-              Requests
+              My Requests
             </Sidebar.Item>
           </Link>
 

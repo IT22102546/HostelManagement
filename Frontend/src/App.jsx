@@ -10,6 +10,9 @@ import OnlyAdminPrivateRoute from "./Components/OnlyAdminPrivateRoute";
 import Footer from "./Components/Footer";
 import CleaningRequestForm from "./Pages/CleanRequestForm";
 import RequestSuccessPage from "./Pages/RequestSuccessPage";
+import UpdateRequestAdmin from "./Pages/UpdateRequestAdmin";
+import UpdateCommentAdmin from "./Pages/UpdateCommentAdmin";
+import UpdateCommentUser from "./Pages/UpdateCommentUser";
 
 export default function App() {
   return (
@@ -26,8 +29,11 @@ export default function App() {
 
         <Route element={<OnlyAdminPrivateRoute />}></Route>
 
+        <Route path="/update-req/:id" element={<UpdateRequestAdmin/>}/>
+        <Route path="/update-comment/:id" element={<UpdateCommentAdmin/>}/>
         <Route path="/dashboard/cleaning_request" element={<CleaningRequestForm />} />
         <Route path="/request-success" element={<RequestSuccessPage />} />
+        <Route path="/update-comment-user/:id" element={<UpdateCommentUser/>}/>
       </Routes>
       <Footer />
     </BrowserRouter>

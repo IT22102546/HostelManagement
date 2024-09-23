@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 
-export default function DashRequests() {
+export default function DashMyRequests() {
   const { currentUser } = useSelector((state) => state.user);
   const [Request, setRequest] = useState([]);
   const [showMore, setShowMore] = useState(true);
@@ -82,89 +82,89 @@ export default function DashRequests() {
     }
   };
 
-  const generatePDFReport = () => {
-    const content = `
-        <style>
-          table {
-            margin:0 auto;
-            width: 90%;
-            border-collapse: collapse;
-          }
-          th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-          }
-          th {
-            background-color: #f2f2f2;
-            font-size: 10px; 
-          }
-          td {
-            font-size: 10px; 
-          }
-          .report-title{
-            text-align:center;
-            font-size:18px;
-          }
-          .details{
-            margin-top:50px;
-            margin-left:30px;
+//   const generatePDFReport = () => {
+//     const content = `
+//         <style>
+//           table {
+//             margin:0 auto;
+//             width: 90%;
+//             border-collapse: collapse;
+//           }
+//           th, td {
+//             padding: 8px;
+//             text-align: left;
+//             border-bottom: 1px solid #ddd;
+//           }
+//           th {
+//             background-color: #f2f2f2;
+//             font-size: 10px; 
+//           }
+//           td {
+//             font-size: 10px; 
+//           }
+//           .report-title{
+//             text-align:center;
+//             font-size:18px;
+//           }
+//           .details{
+//             margin-top:50px;
+//             margin-left:30px;
 
-          }
-        </style>
+//           }
+//         </style>
 
-        <h1 class="report-title"><b>Order Details Report</b></h1>
-        <div class="details">
-          <p>Total Requests: ${totalRequests}</p>
-          <p>Completed Requests : ${completedCount}</p>
+//         <h1 class="report-title"><b>Order Details Report</b></h1>
+//         <div class="details">
+//           <p>Total Requests: ${totalRequests}</p>
+//           <p>Completed Requests : ${completedCount}</p>
          
-        </div>
-        <br>
-        <br>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Room Number</th>
-              <th>Date</th>
-              <th>Additional Info</th>
-              <th>Comments</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${Request.map(
-              (item) => `
-              <tr>
-                <td>${item.name}</td>
-                <td>${item.email}</td>
-                <td>${item.roomNumber}</td>
-                <td>${item.date}</td>
-                <td>${item.additionalDetails}</td>
-                <td>${item.commentsUser}.00</td>
-                <td>${item.status}</td>
-              </tr>
-            `
-            ).join("")}
-          </tbody>
-        </table>
-      `;
+//         </div>
+//         <br>
+//         <br>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>Name</th>
+//               <th>Email</th>
+//               <th>Room Number</th>
+//               <th>Date</th>
+//               <th>Additional Info</th>
+//               <th>Comments</th>
+//               <th>Status</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             ${Request.map(
+//               (item) => `
+//               <tr>
+//                 <td>${item.name}</td>
+//                 <td>${item.email}</td>
+//                 <td>${item.roomNumber}</td>
+//                 <td>${item.date}</td>
+//                 <td>${item.additionalDetails}</td>
+//                 <td>${item.commentsUser}.00</td>
+//                 <td>${item.status}</td>
+//               </tr>
+//             `
+//             ).join("")}
+//           </tbody>
+//         </table>
+//       `;
 
-    html2pdf()
-      .from(content)
-      .set({ margin: 1, filename: "Request_report.pdf" })
-      .save();
-  };
+//     html2pdf()
+//       .from(content)
+//       .set({ margin: 1, filename: "Request_report.pdf" })
+//       .save();
+//   };
 
-  const handleGenerateReport = () => {
-    generatePDFReport();
-  };
+//   const handleGenerateReport = () => {
+//     generatePDFReport();
+//   };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       <div className="flex flex-wrap gap-5">
-        <div className="">
+        {/* <div className="">
           <Button
             gradientDuoTone="purpleToBlue"
             outline
@@ -173,9 +173,9 @@ export default function DashRequests() {
           >
             Generate Report
           </Button>
-        </div>
+        </div> */}
 
-        <div className="flex-wrap flex gap-4 justify-center">
+        {/* <div className="flex-wrap flex gap-4 justify-center">
           <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
             <div className="flex justify-between">
               <div className="">
@@ -213,9 +213,9 @@ export default function DashRequests() {
             </div>
           </div>
 
-        </div>
+        </div> */}
       </div>
-      <h1 className="pt-6 px-4 font-semibold">Request recieved</h1>
+      <h1 className="pt-6 px-4 font-semibold">My Requests</h1>
       {Array.isArray(Request) && Request.length > 0 ? (
         <>
           <div className="flex ">
@@ -242,7 +242,9 @@ export default function DashRequests() {
               <Table.HeadCell>Room Number</Table.HeadCell>
               <Table.HeadCell>Date</Table.HeadCell>
               <Table.HeadCell>Additional Info</Table.HeadCell>
-              <Table.HeadCell>Comments by user</Table.HeadCell>
+              <Table.HeadCell>Feedback from management</Table.HeadCell>
+              <Table.HeadCell>My comments</Table.HeadCell>
+
               <Table.HeadCell>Status</Table.HeadCell>
               <Table.HeadCell>Actions</Table.HeadCell>
             </Table.Head>
@@ -262,7 +264,9 @@ export default function DashRequests() {
                   <Table.Cell>{item.roomNumber}</Table.Cell>
                   <Table.Cell>{item.date}</Table.Cell>
                   <Table.Cell>{item.additionalDetails}</Table.Cell>
+                  <Table.Cell>{item.commentsAdmin}</Table.Cell>
                   <Table.Cell>{item.commentsUser}</Table.Cell>
+
                   <Table.Cell>
                     <span
                       className={
@@ -274,25 +278,14 @@ export default function DashRequests() {
                   </Table.Cell>
                   <Table.Cell>
                     <div className="flex flex-row gap-2">
-                      <Link to={`/update-req/${item._id}`}>
-                        <button>
-                          <box-icon name="edit-alt" color="green"></box-icon>
-                        </button>
-                      </Link>
-                      <Link to={`/update-comment/${item._id}`}>
+                      
+                      <Link to={`/update-comment-user/${item._id}`}>
                         <button>
                         <box-icon name='comment-detail' type='solid' color='blue'></box-icon>
                         </button>
                       </Link>
 
-                      <button
-                        onClick={() => {
-                          setShowModel(true);
-                          setrequestIdToDelete(item._id);
-                        }}
-                      >
-                       <box-icon type='solid' name='message-square-x' color='red'></box-icon>
-                      </button>
+                      
                       
                     </div>
                   </Table.Cell>
