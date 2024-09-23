@@ -22,7 +22,7 @@ export default function RoomPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
 
-  const categories = ["All", "single", "double", "triple"];
+  const categories = ["All", "Single", "Double", "Triple"];
 
   useEffect(() => {
     fetchRooms();
@@ -63,14 +63,47 @@ export default function RoomPage() {
     setCurrentPage(1); // Reset to first page when filter changes
   };
 
-  /*const handleAddToCart = (product) => {
-    if (user) {
-      dispatch(addToCart({ product, userId: user.id }));
-      showNotification('Product added to the cart');
-    } else {
-      console.log('User not logged in');
+//**************************************************************me kella booking dnn hdpu ek */
+  const handleBooking = async (room) => {
+    if (!user) {
+      showNotification("Please log in to book a room.");
+      return;
     }
-  };*/
+
+    try {
+      const bookingData = {
+        userId: user._id,
+        roomId: room._id,
+        furnished: room.furnished,
+        roomtype: room.roomtype,
+        gender: room.gender,
+        roomno: room.roomno,
+        price: room.price,
+        slug: room.slug,
+      };
+
+      const res = await fetch('/api/bookings/addbooking', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`, // Include token if required
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (res.ok) {
+        const savedBooking = await res.json();
+        showNotification("Room booked successfully!");
+      } else {
+        const errorData = await res.json();
+        showNotification(errorData.message || "Failed to book room.");
+      }
+    } catch (error) {
+      console.error(error);
+      showNotification("An error occurred while booking.");
+    }
+  };
+//******************************************************************************* */
 
   const showNotification = (message) => {
     setNotification({ visible: true, message });
@@ -187,7 +220,7 @@ export default function RoomPage() {
                 </p>
 
                 <div className="flex justify-center mt-4 space-x-2">
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"  onClick={() => handleBooking(room)}>
                     Book Now
                   </button>
                 </div>

@@ -8,6 +8,6 @@ router.post('/add',verifyToken,addRoom);
 router.delete('/delete/:roomId/:userId',verifyToken,deleteRoom);
 router.put('/update/:roomId/:userId',verifyToken,updateRoom);
 router.get('/getrooms',getRooms);
-//router.get('/get', getbookingreqs);
+
 
 export default router;
