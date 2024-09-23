@@ -34,7 +34,8 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/product-page" element={<ProductPage/>}/>
-        <Route path="/product/:productSlug" element={<PostProduct/>} />        <Route path="/addstaff" element={<Addstaff/>}/>
+        <Route path="/product/:productSlug" element={<PostProduct/>} />        
+        <Route path="/addstaff" element={<Addstaff/>}/>
         <Route path="/updatestaff/:id" element={<Updatestaff/>}/>
 
 
@@ -55,7 +56,6 @@ export default function App() {
         <Route path="/request-success" element={<RequestSuccessPage />} />
         <Route path="/update-comment-user/:id" element={<UpdateCommentUser/>}/>
         <Route element={<OnlyAdminPrivateRoute/>}>
-
            <Route path="/addproduct" element={<AddProducts/>}/>
         </Route>
 
