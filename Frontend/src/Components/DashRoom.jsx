@@ -265,7 +265,7 @@ console.log(totalRooms)
                     </span>
                   </Table.Cell>*/}
                   <Table.Cell>
-                    {room.isfeature ? (
+                    {/*room.isfeature ? (
                       <Button color='failure' onClick={() => handleReassignFeature(room._id)}>
                         Reassign from Feature
                       </Button>
@@ -273,7 +273,7 @@ console.log(totalRooms)
                       <Button color='success' onClick={() => handleAssignFeature(room._id)}>
                         Assign as Feature
                       </Button>
-                    )}
+                    )*/}
                   </Table.Cell>
                   <Table.Cell>
                     <span className='font-medium text-red-500 hover:underline cursor-pointer'

@@ -38,11 +38,7 @@ const bookingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    slug: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+   
   },
   { timestamps: true }
 );

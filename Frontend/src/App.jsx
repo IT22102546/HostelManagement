@@ -16,6 +16,7 @@ import Cart from './Pages/Cart';
 import UpdateProducts from './Pages/UpdateProducts';
 import RoomPage from './Pages/RoomPage';
 import UpdateRooms from './Pages/UpdateRooms';
+import PostRoom from './Pages/PostRoom';
 
 
 
@@ -30,6 +31,8 @@ export default function App() {
         <Route path="/product-page" element={<ProductPage/>}/>
         <Route path="/room-page" element={<RoomPage/>}/>
         <Route path="/product/:productSlug" element={<PostProduct/>} />
+        <Route path="/room/:roomSlug" element={<PostRoom/>} />
+
 
 
         <Route element={<PrivateRoute/>}/>
