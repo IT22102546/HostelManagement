@@ -15,6 +15,7 @@ import Cart from './Pages/Cart';
 import UpdateProducts from './Pages/UpdateProducts';
 import Ordersummary from './Pages/OrderSummary';
 import OrderSuccess from './Pages/OrderSuccess';
+import UpdateOrder from './Pages/UpdateOrder';
 
 
 
@@ -35,7 +36,8 @@ export default function App() {
           <Route path="/update-product/:productId" element={<UpdateProducts/>}/>
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/order-summary" element={<Ordersummary/>}/>
-          <Route path="/order-pay-success" element={<OrderSuccess/>}/>  
+          <Route path="/order-pay-success" element={<OrderSuccess/>}/> 
+          <Route path="/update-order/:id" element = {<UpdateOrder/>}/> 
         <Route/>
 
         <Route element={<OnlyAdminPrivateRoute/>}>

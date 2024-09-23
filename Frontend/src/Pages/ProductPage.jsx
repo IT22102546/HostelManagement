@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/cart/cartSlice';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 export default function ProductPage() {
   const location = useLocation();

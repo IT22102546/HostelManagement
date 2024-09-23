@@ -83,7 +83,7 @@ export const getOrder = async (req, res, next) => {
 //update order
 export const updateOrder = async(req, res, next)=>{
     let orderId = req.params.id;
-    const {first_name, last_name, email, address, state, zip} = req.body;
+    const {first_name, last_name, email, address, state, zip,status} = req.body;
     
     const updateOrder = {
         first_name,
@@ -91,7 +91,8 @@ export const updateOrder = async(req, res, next)=>{
         email,
         address,
         state,
-        zip
+        zip,
+        status
     }
 
     try {

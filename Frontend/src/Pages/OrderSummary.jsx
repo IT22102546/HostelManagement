@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Alert } from "flowbite-react";
 import { useSelector, useDispatch} from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/cart/cartSlice";
 // import md5 from 'crypto-js/md5';
 
 export default function Ordersummary() {
@@ -53,7 +54,7 @@ export default function Ordersummary() {
           setPublishError(null);
           
           // Redirect user to success page
-          
+          dispatch(clearCart());
           navigate('/order-pay-success');
         } catch (error) {
           
