@@ -17,6 +17,7 @@ import UpdateProducts from './Pages/UpdateProducts';
 
 import RoomPage from './Pages/RoomPage';
 import UpdateRooms from './Pages/UpdateRooms';
+import PostRoom from './Pages/PostRoom';
 
 import Ordersummary from './Pages/OrderSummary';
 import OrderSuccess from './Pages/OrderSuccess';
@@ -43,6 +44,8 @@ export default function App() {
 
         <Route path="/room-page" element={<RoomPage/>}/>
         <Route path="/product/:productSlug" element={<PostProduct/>} />
+        <Route path="/room/:roomSlug" element={<PostRoom/>} />
+
 
         <Route path="/product/:productSlug" element={<PostProduct/>} />        
         <Route path="/addstaff" element={<Addstaff/>}/>
