@@ -21,7 +21,9 @@ import CleaningRequestForm from "./Pages/CleanRequestForm";
 import RequestSuccessPage from "./Pages/RequestSuccessPage";
 import UpdateRequestAdmin from "./Pages/UpdateRequestAdmin";
 import UpdateCommentAdmin from "./Pages/UpdateCommentAdmin";
-import UpdateCommentUser from "./Pages/UpdateCommentUser";
+import UpdateCommentUser from "./Pages/UpdateCommentUser";import Addstaff from './Pages/Addstaff';
+import Updatestaff from './Pages/updateStaff';
+
 
 export default function App() {
   return (
@@ -32,7 +34,10 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/product-page" element={<ProductPage/>}/>
-        <Route path="/product/:productSlug" element={<PostProduct/>} />
+        <Route path="/product/:productSlug" element={<PostProduct/>} />        
+        <Route path="/addstaff" element={<Addstaff/>}/>
+        <Route path="/updatestaff/:id" element={<Updatestaff/>}/>
+
 
         <Route element={<PrivateRoute />} />
         <Route path="/dashboard" element={<DashBoard />} />
@@ -51,7 +56,6 @@ export default function App() {
         <Route path="/request-success" element={<RequestSuccessPage />} />
         <Route path="/update-comment-user/:id" element={<UpdateCommentUser/>}/>
         <Route element={<OnlyAdminPrivateRoute/>}>
-
            <Route path="/addproduct" element={<AddProducts/>}/>
         </Route>
 

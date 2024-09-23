@@ -276,16 +276,27 @@ export default function DashProfile() {
             </Button>
           </Link>
         {currentUser.isAdmin && (
-          <Link to='/addproduct'>
+          <><Link to='/addproduct'>
             <Button
               type='button'
-               gradientDuoTone='purpleToBlue'
+              gradientDuoTone='purpleToBlue'
               className='w-full , text-black bg-slate-400 '
               outline
             >
               Add products
             </Button>
-          </Link>
+          </Link><Link to='/addstaff'>
+              <Button
+                type='button'
+                gradientDuoTone='purpleToBlue'
+                className='w-full , text-black bg-slate-400 '
+                outline
+              >
+                Add Staff
+              </Button>
+            </Link></>
+          
+          
         )}   
 
       </form>

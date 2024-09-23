@@ -31,7 +31,7 @@ export default function DashBoard() {
       </div>
       {tab==='profile' && <DashProfile/>}
       {tab === 'users' && <DashUsers/>}
-      {tab === 'requests' && <DashRequests/>}
+      {tab === 'staff' && <Dashstaff/>} {tab === 'requests' && <DashRequests/>}
       {tab === 'my_requests' && <DashMyRequests/>}
       {tab === 'products' && <DashProduct/>}
       {tab === 'my_orders' && <DashMyOrders/>}

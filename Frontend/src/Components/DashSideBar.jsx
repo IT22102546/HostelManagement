@@ -67,7 +67,15 @@ export default function DashSideBar() {
                   Users
                 </Sidebar.Item>
               </Link>
-
+              <Link to='/dashboard?tab=staff' key="staff">
+                <Sidebar.Item
+                  active={tab === 'staff'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                  Staff
+                </Sidebar.Item>
+              </Link>
               <Link to="/dashboard?tab=requests" key="requests">
                 <Sidebar.Item
                   active={tab === "requests"}
