@@ -29,7 +29,7 @@ const HeroSection = () => {
       <div className="mt-6 md:mt-0 md:w-1/2 flex justify-end" data-aos="slide-left">
       
         <img
-          src="/img/hostel.jpg" // You can replace with the actual image URL
+          src="/img/hostel.png" // You can replace with the actual image URL
           alt="Travellers in Tuk-Tuk"
           className="rounded-xl shadow-lg"
         />
