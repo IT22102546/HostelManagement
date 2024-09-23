@@ -1,6 +1,6 @@
 import { Button, Modal, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiGift, HiOutlineExclamationCircle } from "react-icons/hi";
+import { HiGift, HiOutlineExclamationCircle, HiOutlineHome } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import html2pdf from 'html2pdf.js';
@@ -11,9 +11,12 @@ export default function DashRoom() {
   const [showModel, setShowModel] = useState(false);
   const [roomIdToDelete, setRoomIdToDelete] = useState('');
   const [totalRooms, setTotalRooms] = useState(0);
+  const [totalSingleRooms, setTotalSingleRooms] = useState(0);
+  const [totalDoubleRooms, setTotalDoubleRooms] = useState(0);
+  const [totalTripleRooms, setTotalTripleRooms] = useState(0);
   //const [lastMonthProducts, setlastMonthProducts] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-
+console.log(totalRooms)
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -24,9 +27,10 @@ export default function DashRoom() {
         if (res.ok) {
           setUserRoom(data.rooms);
           setTotalRooms(data.totalRooms);
-         
-
-          //setlastMonthProducts(data.lastMonthProducts);
+          setTotalSingleRooms(data.totalSingleRooms);
+          setTotalDoubleRooms(data.totalDoubleRooms);
+          setTotalTripleRooms(data.totalTripleRooms)
+          
         }
       } catch (error) {
         console.log(error.message);
@@ -81,15 +85,18 @@ export default function DashRoom() {
           font-size: 12px; /* Adjust font size */
         }
       </style>
-      <h1><b>Product Details Report</b></h1>
-      <p>Total Products: ${totalRooms}</p>
-      <p>Last Month Products: ${0}</p>
+      <h1><b>Room Details Report</b></h1>
+      
+      <p>Total Single Rooms: ${totalSingleRooms}</p>
+      <p>Total Double Rooms: ${totalDoubleRooms}</p>
+      <p>Total Triple Rooms: ${totalTripleRooms}</p>
       <br>
       <br>
       <table>
         <thead>
           <tr>
             <th>Updated At</th>
+            <th>Room No</th>
             <th>Room Type</th>
             <th>Gender</th>
             <th>Price</th>
@@ -188,26 +195,42 @@ export default function DashRoom() {
       </div>
 
       <div className='flex-wrap flex gap-4 justify-start p-3'>
+
         <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
           <div className='flex justify-between'>
             <div className=''>
-              <h3 className='text-gray-500 text-md uppercase'>Total Rooms</h3>
-              <p className='text-2xl'>{totalRooms}</p>
+              <h3 className='text-gray-500 text-md uppercase'>
+                Total Single Rooms
+              </h3>
+              <p className='text-2xl'>{totalSingleRooms}</p>
             </div>
-            <HiGift className='bg-red-600 text-white rounded-full text-5xl p-3 shadow-lg' />
+            <HiOutlineHome className='bg-lime-400 text-white rounded-full text-5xl p-3 shadow-lg' />
           </div>
         </div>
-        {/*<div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
+
+        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
           <div className='flex justify-between'>
             <div className=''>
               <h3 className='text-gray-500 text-md uppercase'>
-                Last Month Products
+              Total Double Rooms
               </h3>
-              <p className='text-2xl'>{}</p>
+              <p className='text-2xl'>{totalDoubleRooms}</p>
             </div>
-            <HiGift className='bg-lime-600 text-white rounded-full text-5xl p-3 shadow-lg' />
+            <HiOutlineHome className='bg-lime-600 text-white rounded-full text-5xl p-3 shadow-lg' />
           </div>
-        </div>*/}
+        </div>
+
+        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
+          <div className='flex justify-between'>
+            <div className=''>
+              <h3 className='text-gray-500 text-md uppercase'>
+              Total Triple Rooms
+              </h3>
+              <p className='text-2xl'>{totalTripleRooms}</p>
+            </div>
+            <HiOutlineHome className='bg-lime-800 text-white rounded-full text-5xl p-3 shadow-lg' />
+          </div>
+        </div>
       </div>
       {currentUser.isAdmin && userRoom.length > 0 ? (
         <>

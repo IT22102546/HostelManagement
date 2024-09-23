@@ -78,11 +78,9 @@ export default function RoomPage() {
       setNotification({ visible: false, message: "" });
     }, 3000);
   };
-  const formatRoomId = (id) => {
-    // Convert the ID to a more readable format
-    // For example: "Room 001", "Room 1001", etc.
-    return `Room ${id.slice(0, 3)}`; // Adjust as necessary for your format
-  };
+
+
+  
 
   return (
     <div className="container mx-auto py-6">

@@ -50,7 +50,21 @@ export const getRooms = async (req, res, next) => {
       queryOptions.price = { $gte: minPrice, $lte: maxPrice };
     }
 
-    const totalrooms = await Rooms.countDocuments(queryOptions);
+    
+    const totalrooms = await Rooms.countDocuments({...queryOptions});
+    
+
+    // Count of single rooms
+    const totalSingleRooms = await Rooms.countDocuments({ ...queryOptions, roomtype: 'Single' });
+
+    // Count of double rooms
+    const totalDoubleRooms = await Rooms.countDocuments({ ...queryOptions, roomtype: 'Double' });
+
+    // Add more counts as needed for other room types
+     const totalTripleRooms = await Rooms.countDocuments({ ...queryOptions, roomtype: 'Triple' });
+     
+    
+
     const rooms = await Rooms.find(queryOptions)
       .skip((page - 1) * limit)
       .limit(Number(limit));
@@ -58,6 +72,9 @@ export const getRooms = async (req, res, next) => {
     res.status(200).json({
       rooms,
       totalrooms,
+      totalSingleRooms,
+      totalDoubleRooms,
+      totalTripleRooms,
       totalPages: Math.ceil(totalrooms / limit),
       currentPage: Number(page),
     });
