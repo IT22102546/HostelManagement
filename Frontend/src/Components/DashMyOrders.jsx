@@ -31,17 +31,20 @@ export default function DashMyOrders() {
       try {
         const res = await fetch(`/api/order/getorders`);
         const data = await res.json();
-        const length = data.length;
-        console.log(data);
-
-        const completedCount = data.filter(Order => Order.status === true).length;
-        console.log("Completed Orders:", completedCount);
-        setCompleteStatus(completedCount);
-
-        setTotalOrders(length);
+  
         if (res.ok) {
-          setOrder(data);
-          if (data.length < 9) {
+          // Filter the orders to match the current user's email
+          const userOrders = data.filter(order => order.email === currentUser.email);
+  
+          const completedCount = userOrders.filter(order => order.status === true).length;
+          console.log("Completed Orders:", completedCount);
+          setCompleteStatus(completedCount);
+  
+          setTotalOrders(userOrders.length);
+          setOrder(userOrders);
+  
+          // Disable "Show More" button if fewer than 9 orders
+          if (userOrders.length < 9) {
             setShowMore(false);
           }
         }
@@ -49,13 +52,13 @@ export default function DashMyOrders() {
         console.log("error in fetching", error);
       }
     };
-
-    // Only fetch Orders if there is a valid currentUser
+  
+    // Only fetch orders if there is a valid currentUser
     if (currentUser) {
       fetchOrder();
     }
-    // Make sure the effect runs only when currentUser changes
-  }, [currentUser]); // Removed Order from dependency array
+  }, [currentUser]); // Run effect when currentUser changes
+   // Removed Order from dependency array
 
   //delete Order by id
   const handleDeleteOrder = async () => {
