@@ -220,7 +220,7 @@ export default function RoomPage() {
                 </p>
 
                 <div className="flex justify-center mt-4 space-x-2">
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"  onClick={() => handleBooking(room)}>
+                  <button className="bg-indigo-700 text-white px-4 py-2 rounded hover:bg-indigo-800"  onClick={() => handleBooking(room)}>
                     Book Now
                   </button>
                 </div>
