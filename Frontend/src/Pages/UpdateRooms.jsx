@@ -50,7 +50,7 @@ export default function UpdateRooms() {
     e.preventDefault();
     try {
       const res = await fetch(
-        `/api/rooms/updateroom/${formData._id}/${currentUser._id}`,
+        `/api/rooms/update/${formData._id}/${currentUser._id}`,
         {
           method: "PUT",
           headers: {
@@ -67,10 +67,10 @@ export default function UpdateRooms() {
 
       if (res.ok) {
         setPublishError(null);
-        navigate("/dashboard?tab=products");
+        navigate("/dashboard?tab=rooms");
       }
     } catch (error) {
-      setPublishError("Something went wrong");
+      setPublishError("Something went wrong" + error.message);
     }
   };
 
