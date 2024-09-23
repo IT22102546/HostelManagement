@@ -27,7 +27,7 @@ export default function UpdateRooms() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await fetch(`/api/rooms/getrooms?roomId=${roomId}`);
+        const res = await fetch('/api/rooms/getrooms?roomId=${roomId}');
         const data = await res.json();
         console.log(data);
 
@@ -49,8 +49,7 @@ export default function UpdateRooms() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(
-        `/api/rooms/update/${formData._id}/${currentUser._id}`,
+      const res = await fetch(`/api/rooms/update/${formData._id}/${currentUser._id}`,
         {
           method: "PUT",
           headers: {
@@ -70,7 +69,7 @@ export default function UpdateRooms() {
         navigate("/dashboard?tab=rooms");
       }
     } catch (error) {
-      setPublishError("Something went wrong");
+      setPublishError("Something went wrong" + error.message);
     }
   };
 
@@ -112,13 +111,12 @@ export default function UpdateRooms() {
             onChange={(e) =>
               setFormData({ ...formData, roomtype: e.target.value })
             }
-            value={formData.roomtype || ""}
+            value={formData.roomtype || "Select"}
           >
-            {" "}
-            <option value="">Select Room Type</option>
-            <option value="single">Single Room</option>
-            <option value="double">Double Room</option>
-            <option value="triple">Triple Room</option>
+            <option value="Select">Select Room Type</option>
+            <option value="Single">Single Room</option>
+            <option value="Double">Double Room</option>
+            <option value="Triple">Triple Room</option>
           </Select>
         </div>
 
@@ -160,10 +158,10 @@ export default function UpdateRooms() {
             <div className=" items-center gap-2">
               <input
                 type="checkbox"
-                id="male"
+                id="Male"
                 className="w-5"
-                onChange={() => setFormData({ ...formData, gender: "male" })}
-                checked={formData.gender === "male"}
+                onChange={() => setFormData({ ...formData, gender: "Male" })}
+                checked={formData.gender === "Male"}
               />
               <span className="ml-2">Male</span>
             </div>
@@ -171,10 +169,10 @@ export default function UpdateRooms() {
             <div className=" items-center gap-2">
               <input
                 type="checkbox"
-                id="female"
+                id="Female"
                 className="w-5"
-                onChange={(e) => setFormData({ ...formData, gender: "female" })}
-                checked={formData.gender === "female"}
+                onChange={(e) => setFormData({ ...formData, gender: "Female" })}
+                checked={formData.gender === "Female"}
               />
               <span className="ml-2">Female</span>
             </div>
@@ -190,6 +188,6 @@ export default function UpdateRooms() {
           </Alert>
         )}
       </form>
-    </div>
-  );
+    </div>
+  );
 }
