@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/add',verifyToken,addRoom);
 router.delete('/delete/:roomId/:userId',verifyToken,deleteRoom);
-router.post('/update/roomId/:id',verifyToken,updateRoom);
+router.post('/update/roomId/:userId',verifyToken,updateRoom);
 router.get('/getrooms',getRooms);
 //router.get('/get', getbookingreqs);
 

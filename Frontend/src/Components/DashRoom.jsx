@@ -24,6 +24,8 @@ export default function DashRoom() {
         if (res.ok) {
           setUserRoom(data.rooms);
           setTotalRooms(data.totalRooms);
+          //console.log(data.totalRooms)
+
           //setlastMonthProducts(data.lastMonthProducts);
         }
       } catch (error) {
@@ -98,6 +100,7 @@ export default function DashRoom() {
           ${userRoom.map((room) => `
             <tr>
               <td>${new Date(room.createdAt).toLocaleDateString()}</td>
+              <td>${room.roomno}</td>
               <td>${room.roomtype}</td>
               <td>${room.gender}</td>
               <td>${room.price}</td>
@@ -161,6 +164,8 @@ export default function DashRoom() {
     }
   };*/
 
+ 
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       <div className='flex justify-between'>
@@ -182,7 +187,7 @@ export default function DashRoom() {
         </Button>
       </div>
 
-      <div className='flex-wrap flex gap-4 justify-center p-3'>
+      <div className='flex-wrap flex gap-4 justify-start p-3'>
         <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
           <div className='flex justify-between'>
             <div className=''>
@@ -192,7 +197,7 @@ export default function DashRoom() {
             <HiGift className='bg-red-600 text-white rounded-full text-5xl p-3 shadow-lg' />
           </div>
         </div>
-        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
+        {/*<div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
           <div className='flex justify-between'>
             <div className=''>
               <h3 className='text-gray-500 text-md uppercase'>
@@ -202,16 +207,18 @@ export default function DashRoom() {
             </div>
             <HiGift className='bg-lime-600 text-white rounded-full text-5xl p-3 shadow-lg' />
           </div>
-        </div>
+        </div>*/}
       </div>
       {currentUser.isAdmin && userRoom.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date Updated</Table.HeadCell>
+              <Table.HeadCell>Room NO</Table.HeadCell>
               <Table.HeadCell>Room Type</Table.HeadCell>
               <Table.HeadCell>Gender</Table.HeadCell>
-              <Table.HeadCell>Price</Table.HeadCell>
+              <Table.HeadCell>Price(RS.)</Table.HeadCell>
+              <Table.HeadCell>Furnished status</Table.HeadCell>
               <Table.HeadCell>Feature</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>Edit</Table.HeadCell>
@@ -220,7 +227,7 @@ export default function DashRoom() {
               <Table.Body className='divide-y' key={room._id}>
                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                   <Table.Cell>{new Date(room.updatedAt).toLocaleDateString()}</Table.Cell>
-                 
+                  <Table.Cell>{`RNO ${room.roomno}`}</Table.Cell>
                   <Table.Cell>
                     <Link className='font-medium text-gray-900 dark:text-white' to={`/product/${room.slug}`}>
                       {room.roomtype}
@@ -228,11 +235,12 @@ export default function DashRoom() {
                   </Table.Cell>
                   <Table.Cell>{room.gender}</Table.Cell>
                   <Table.Cell>{room.price}</Table.Cell>
+                  <Table.Cell>{room.furnished ? 'TRUE' : 'FALSE'}</Table.Cell>
                   {/*<Table.Cell>
                     <span className={product.quantity < 5 ? 'text-red-500' : 'text-green-500'}>
                       {product.quantity < 5 ? 'Low Stock' : 'In Stock'}
                     </span>
-                  </Table.Cell>
+                  </Table.Cell>*/}
                   <Table.Cell>
                     {room.isfeature ? (
                       <Button color='failure' onClick={() => handleReassignFeature(room._id)}>
@@ -243,7 +251,7 @@ export default function DashRoom() {
                         Assign as Feature
                       </Button>
                     )}
-                  </Table.Cell>*/}
+                  </Table.Cell>
                   <Table.Cell>
                     <span className='font-medium text-red-500 hover:underline cursor-pointer'
                       onClick={() => {
@@ -254,11 +262,11 @@ export default function DashRoom() {
                       Delete
                     </span>
                   </Table.Cell>
-                 {/*} <Table.Cell>
-                    <Link className='text-teal-500 hover:underline' to={`/update-product/${product._id}`}>
+                  <Table.Cell>
+                    <Link className='text-teal-500 hover:underline' to={`/update-room/${room._id}`}>
                       <span>Edit</span>
                     </Link>
-                  </Table.Cell>*/}
+                  </Table.Cell>
                 </Table.Row>
               </Table.Body>
             ))}

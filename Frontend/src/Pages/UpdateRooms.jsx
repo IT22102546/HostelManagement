@@ -1,104 +1,87 @@
-import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { Alert, Button, FileInput, Select, TextInput, Textarea } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from "../firebase";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
-import { useNavigate } from "react-router-dom";
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function AddRoom() {
-
+export default function UpdateRooms() {
+ 
   const [formData, setFormData] = useState({ 
     roomtype: '', 
     furnished: false, 
     gender: '', 
     price: '', });
   const [publishError, setPublishError] = useState(null);
+  const { roomId } = useParams();
   const navigate = useNavigate();
-  console.log(formData);
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const res = await fetch(`/api/rooms/getrooms?roomId=${roomId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          setPublishError(data.message);
+          return;
+        }
+        const room = data.rooms.find(r => r._id === roomId);
+        setFormData({ ...room, roomtype: room.roomtype  });
+        setPublishError(null);
+      } catch (error) {
+        setPublishError(error.message);
+      }
+    };
+
+    fetchRooms();
+  }, [roomId]);
 
 
-
-  const handleChange = (e) => {
-    if (
-      e.target.id === "single" ||
-      e.target.id === "double" ||
-      e.target.id === "triple"
-    ) {
-      setFormData({
-        ...formData,
-        roomtype: e.target.id,
-      });
-    }
-
-    if (e.target.id === "male" || e.target.id === "female") {
-      setFormData({
-        ...formData,
-        gender: e.target.id,
-      });
-    }
-
-    if (e.target.id === "furnished") {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.checked,
-      });
-    }
-  };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/rooms/add', {
-        method: "POST",
+      const res = await fetch(`/api/rooms/updateroom/${formData._id}/${currentUser._id}`, {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData), // Sends roomtype, furnished, and price
+        body: JSON.stringify(formData),
       });
-  
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
         return;
       }
-  
+
       if (res.ok) {
         setPublishError(null);
-        navigate(`/room/${data.slug}`);
+        navigate('/dashboard?tab=products');
       }
     } catch (error) {
-      setPublishError("Something went wrong");
-      console.error(error);
+      setPublishError('Something went wrong');
     }
   };
-  
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-      <h1 className="text-center text-3xl my-7 font-semibold">Add Room</h1>
+      <h1 className="text-center text-3xl my-7 font-semibold">Update Products</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <TextInput type='text' placeholder='Room-no' required id='roomno' className='flex flex-col gap-4 justify-between' onChange={(e) =>
-            setFormData({ ...formData, roomno: e.target.value })
-          } />
-        <div className="flex flex-col gap-4 justify-between">
+      <div className="flex flex-col gap-4 justify-between">
           <Select
             onChange={(e) =>
               setFormData({ ...formData, roomtype: e.target.value })
             }
-          > <option value="Select Room Type">Select Room Type</option>
+          > <option value="">Select Room Type</option>
             <option value="single">Single Room</option>
             <option value="double">Double Room</option>
             <option value="triple">Triple Room</option>
           </Select>
         </div>
-
+        
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <div className="flex items-start gap-2">
             <label className="gap-2">Furnish status</label>
@@ -106,7 +89,7 @@ export default function AddRoom() {
               type="checkbox"
               id="furnished"
               className="w-5"
-              onChange={handleChange}
+              onChange={(e)=> setFormData({ ...formData, furnished: e.target.value})}
               checked={formData.furnished}
             />
             <span>Furnished</span>
@@ -120,7 +103,7 @@ export default function AddRoom() {
                 type="checkbox"
                 id="male"
                 className="w-5"
-                onChange={handleChange}
+                onChange={(e)=> setFormData({ ...formData, gender: e.target.value})}
                 checked={formData.gender === "male"}
               />
               <span className="ml-2">Male</span>
@@ -131,7 +114,7 @@ export default function AddRoom() {
                 type="checkbox"
                 id="female"
                 className="w-5"
-                onChange={handleChange}
+                onChange={(e)=> setFormData({ ...formData, gender: e.target.value})}
                 checked={formData.gender === "female"}
               />
               <span className="ml-2">Female</span>
@@ -148,11 +131,9 @@ export default function AddRoom() {
             }
           />
         </div>
-        <Button type="submit" className="bg-slate-400">
-          Add Rooms
-        </Button>
+        <Button type='submit' gradientDuoTone='purpleToBlue'>Update</Button>
         {publishError && (
-          <Alert className="mt-5" color="failure">
+          <Alert className='mt-5' color='failure'>
             {publishError}
           </Alert>
         )}

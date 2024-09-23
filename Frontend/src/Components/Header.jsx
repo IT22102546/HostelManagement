@@ -58,12 +58,12 @@ export default function Header() {
               Inventory
             </NavLink>
             <NavLink 
-              to="/ex2" 
+              to="/room-page" 
               className={({ isActive }) => 
                 isActive ? "text-black" : "text-white"
               }
             >
-              ex2
+              Rooms
             </NavLink>
             <NavLink 
               to="/ex3" 

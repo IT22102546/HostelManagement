@@ -2,36 +2,35 @@ import Rooms from "../models/room.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const addRoom = async (req, res, next) => {
-    try {
-      if (!req.user.isAdmin) {
-        return next(errorHandler(403, 'You are not allowed to add rooms'));
-      }
-  
-      const { roomtype, furnished, price } = req.body;
-  
-      if (!roomtype || typeof furnished === 'undefined' || !price) {
-        return next(errorHandler(400, 'Please provide all required fields'));
-      }
-  
-      // Use roomtype instead of roomId for slug generation or handle missing roomId
-      const slug = roomtype.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
-  
-      const newRoom = new Rooms({
-        ...req.body,
-        slug,
-        userId: req.user.id,
-      });
-  
-      const savedRoom = await newRoom.save();
-      res.status(201).json(savedRoom);
-    } catch (error) {
-      next(error);
+  try {
+    if (!req.user.isAdmin) {
+      return next(errorHandler(403, 'You are not allowed to add rooms'));
     }
-  };
-  
+
+    const { roomtype, furnished, price, gender,roomno } = req.body;
+
+    if (!roomtype || typeof furnished === 'undefined' || !price || !gender || !roomno) {
+      return next(errorHandler(400, 'Please provide all required fields'));
+    }
+
+    const slug = roomtype.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
+
+    const newRoom = new Rooms({
+      ...req.body,
+      slug,
+      userId: req.user.id,
+    });
+
+    const savedRoom = await newRoom.save();
+    res.status(201).json(savedRoom);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getRooms = async (req, res, next) => {
   try {
-    const { slug, searchTerm, page = 1, limit = 9, roomtype,priceRange } = req.query;
+    const { slug, searchTerm, page = 1, limit = 9, roomtype, priceRange } = req.query;
     const queryOptions = {};
 
     if (slug) {
@@ -45,11 +44,11 @@ export const getRooms = async (req, res, next) => {
     if (roomtype) {
       queryOptions.roomtype = roomtype;
     }
+    
     if (priceRange) {
-        const [minPrice, maxPrice] = priceRange.split('-').map(Number);
-        queryOptions.price = { $gte: minPrice, $lte: maxPrice };
-      }
-
+      const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+      queryOptions.price = { $gte: minPrice, $lte: maxPrice };
+    }
 
     const totalrooms = await Rooms.countDocuments(queryOptions);
     const rooms = await Rooms.find(queryOptions)
@@ -67,13 +66,12 @@ export const getRooms = async (req, res, next) => {
   }
 };
 
-
 export const updateRoom = async (req, res, next) => {
   try {
     if (!req.user.isAdmin || req.user.id !== req.params.userId) {
       return next(errorHandler(403, 'You are not allowed to update room details'));
     }
-    if (!req.body.roomtype || !req.body.gender || !req.body.furnished ) {
+    if (!req.body.roomno || !req.body.roomtype || !req.body.gender ||  req.body.furnished === 'undefined') {
       return next(errorHandler(400, 'Please provide all required fields'));
     }
 
@@ -81,6 +79,7 @@ export const updateRoom = async (req, res, next) => {
       req.params.roomId,
       {
         $set: {
+          roomno: req.body.roomno,
           roomtype: req.body.roomtype,
           gender: req.body.gender,
           furnished: req.body.furnished,
@@ -89,6 +88,7 @@ export const updateRoom = async (req, res, next) => {
       },
       { new: true }
     );
+
     res.status(200).json(updatedRoom);
   } catch (error) {
     next(error);
@@ -98,7 +98,7 @@ export const updateRoom = async (req, res, next) => {
 export const deleteRoom = async (req, res, next) => {
   try {
     if (!req.user.isAdmin || req.user.id !== req.params.userId) {
-      return next(errorHandler(403, 'You are not allowed to delete Room '));
+      return next(errorHandler(403, 'You are not allowed to delete Room'));
     }
     await Rooms.findByIdAndDelete(req.params.roomId);
     res.status(200).json('The Room has been deleted');

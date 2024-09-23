@@ -14,6 +14,8 @@ import ProductPage from './Pages/ProductPage';
 import PostProduct from './Pages/PostProduct';
 import Cart from './Pages/Cart';
 import UpdateProducts from './Pages/UpdateProducts';
+import RoomPage from './Pages/RoomPage';
+import UpdateRooms from './Pages/UpdateRooms';
 
 
 
@@ -26,12 +28,14 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn/>}/>
         <Route path="/sign-up" element={<SignUp/>}/>
         <Route path="/product-page" element={<ProductPage/>}/>
+        <Route path="/room-page" element={<RoomPage/>}/>
         <Route path="/product/:productSlug" element={<PostProduct/>} />
 
 
         <Route element={<PrivateRoute/>}/>
           <Route path="/dashboard" element={<DashBoard/>}/>
           <Route path="/update-product/:productId" element={<UpdateProducts/>}/>
+          <Route path="/update-room/:productId" element={<UpdateRooms/>}/>
           <Route path="/cart" element={<Cart/>}/> 
         <Route/>
 
