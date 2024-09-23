@@ -156,7 +156,7 @@ export default function ProductPage() {
                 <p className="text-center text-gray-600">Price: Rs. {product.price}</p>
                
                 <div className="flex justify-center mt-4 space-x-2">
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                  <button className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
                     Buy Now
                   </button>
                   <button
@@ -175,7 +175,7 @@ export default function ProductPage() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="mx-2 px-4 py-2 bg-gray-200 rounded"
+              className="mx-2 px-4 py-2  bg-indigo-200 hover:bg-indigo-300 rounded"
             >
               Previous
             </button>
@@ -183,7 +183,7 @@ export default function ProductPage() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="mx-2 px-4 py-2 bg-gray-200 rounded"
+              className="mx-2 px-4 py-2 bg-indigo-200 hover:bg-indigo-300 rounded"
             >
               Next
             </button>

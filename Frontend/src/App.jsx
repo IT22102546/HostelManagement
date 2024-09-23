@@ -13,6 +13,8 @@ import ProductPage from './Pages/ProductPage';
 import PostProduct from './Pages/PostProduct';
 import Cart from './Pages/Cart';
 import UpdateProducts from './Pages/UpdateProducts';
+import Ordersummary from './Pages/OrderSummary';
+import OrderSuccess from './Pages/OrderSuccess';
 
 
 
@@ -31,7 +33,9 @@ export default function App() {
         <Route element={<PrivateRoute/>}/>
           <Route path="/dashboard" element={<DashBoard/>}/>
           <Route path="/update-product/:productId" element={<UpdateProducts/>}/>
-          <Route path="/cart" element={<Cart/>}/> 
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="/order-summary" element={<Ordersummary/>}/>
+          <Route path="/order-pay-success" element={<OrderSuccess/>}/>  
         <Route/>
 
         <Route element={<OnlyAdminPrivateRoute/>}>

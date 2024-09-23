@@ -4,6 +4,7 @@ import DashSideBar from "../Components/DashSideBar";
 import DashProfile from "../Components/DashProfile";
 import DashUsers from "../Components/DashUsers";
 import DashProduct from "../Components/DashProduct";
+import DashMyOrders from "../Components/DashMyOrders";
 
 
 
@@ -31,6 +32,7 @@ export default function DashBoard() {
       {tab==='profile' && <DashProfile/>}
       {tab === 'users' && <DashUsers/>}
       {tab === 'products' && <DashProduct/>}
+      {tab === 'my_orders' && <DashMyOrders/>}
      
 
       {/*
