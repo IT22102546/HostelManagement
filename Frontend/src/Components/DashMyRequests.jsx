@@ -218,7 +218,11 @@ export default function DashMyRequests() {
       <h1 className="pt-6 px-4 font-semibold">My Requests</h1>
       {Array.isArray(Request) && Request.length > 0 ? (
         <>
+          <Link to='/dashboard/cleaning_request'>
+          <button className="bg-indigo-600 hover:bg-indigo-700  rounded-lg px-3 p-2 mt-2 text-white">Request Clean Service</button>
+          </Link>
           <div className="flex ">
+            
             <TextInput
               type="text"
               placeholder="Search a request by (First Name or Email or Room Number)"

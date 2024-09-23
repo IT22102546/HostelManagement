@@ -4,7 +4,6 @@ import {
   HiArchive,
   HiArrowSmRight,
   HiBookmark,
-  HiFolderAdd,
   HiGift,
   HiOutlineUserGroup,
   HiUser,
@@ -69,7 +68,6 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
-
               <Link to="/dashboard?tab=requests" key="requests">
                 <Sidebar.Item
                   active={tab === "requests"}
@@ -78,6 +76,8 @@ export default function DashSideBar() {
                   as="div"
                 >
                   Requests
+                </Sidebar.Item>
+              </Link>
 
               <Link to="/dashboard?tab=products" key="products">
                 <Sidebar.Item
@@ -96,12 +96,10 @@ export default function DashSideBar() {
                   as="div"
                 >
                   Recieved Orders
-
                 </Sidebar.Item>
               </Link>
             </>
           )}
-
 
           <Link to="/dashboard?tab=my_requests" key="myrequests">
             <Sidebar.Item
@@ -111,11 +109,16 @@ export default function DashSideBar() {
               as="div"
             >
               My Requests
+            </Sidebar.Item>
+          </Link>
 
           <Link to="/dashboard?tab=my_orders" key="orders">
-            <Sidebar.Item active={tab === "my_orders"} icon={HiOutlineArchive} as="div">
+            <Sidebar.Item
+              active={tab === "my_orders"}
+              icon={HiOutlineArchive}
+              as="div"
+            >
               My Orders
-
             </Sidebar.Item>
           </Link>
 
