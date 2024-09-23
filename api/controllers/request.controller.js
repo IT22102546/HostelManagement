@@ -20,9 +20,10 @@ export const createRequest = async (req, res, next) => {
     const name = req.body.name;
     const roomNumber = req.body.roomNumber;
     const date = req.body.date;
+    const additionalDetails = req.body.additionalDetails;
 
     const newRequest = new cleanRequest({
-        email,name,roomNumber,date
+        email,name,roomNumber,date,additionalDetails
     })
 
     try {

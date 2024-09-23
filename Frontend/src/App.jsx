@@ -9,6 +9,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import OnlyAdminPrivateRoute from "./Components/OnlyAdminPrivateRoute";
 import Footer from "./Components/Footer";
 import CleaningRequestForm from "./Pages/CleanRequestForm";
+import RequestSuccessPage from "./Pages/RequestSuccessPage";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route element={<OnlyAdminPrivateRoute />}></Route>
 
         <Route path="/dashboard/cleaning_request" element={<CleaningRequestForm />} />
+        <Route path="/request-success" element={<RequestSuccessPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

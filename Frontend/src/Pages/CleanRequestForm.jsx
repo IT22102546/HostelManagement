@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { Alert, Spinner } from "flowbite-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CleaningRequestForm = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    roomNumber: '',
-    date: '',
-    additionalDetails: '',
+    name: "",
+    email: "",
+    roomNumber: "",
+    date: "",
+    additionalDetails: "",
   });
 
   const handleChange = (e) => {
@@ -14,21 +19,59 @@ const CleaningRequestForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    // Handle form submission (e.g., send data to the backend)
+    // Handle form submission
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.roomNumber ||
+      !formData.date
+    ) {
+      return setError("Please Fill all Fields");
+    }
+
+    try {
+      setLoading(true);
+      setError(false);
+      const res = await fetch("/api/request/place_clean_req", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      console.log(data);
+      setLoading(false);
+      if (data.success === false) {
+        setError(data.message);
+        return;
+      }
+      navigate("/request-success");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-2xl font-semibold mb-4 font-sans">Place a cleaning request</h2>
+        <h2 className="text-2xl font-semibold mb-4 font-sans">
+          Place a cleaning request
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4 p-4 mt-5">
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
               Name
             </label>
             <input
@@ -44,7 +87,10 @@ const CleaningRequestForm = () => {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <input
@@ -60,7 +106,10 @@ const CleaningRequestForm = () => {
 
           {/* Room Number */}
           <div>
-            <label htmlFor="roomNumber" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="roomNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
               Room Number
             </label>
             <input
@@ -76,7 +125,10 @@ const CleaningRequestForm = () => {
 
           {/* Date */}
           <div>
-            <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700"
+            >
               Request Date
             </label>
             <input
@@ -92,7 +144,10 @@ const CleaningRequestForm = () => {
 
           {/* Additional Details */}
           <div>
-            <label htmlFor="additionalDetails" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="additionalDetails"
+              className="block text-sm font-medium text-gray-700"
+            >
               Additional Details
             </label>
             <textarea
@@ -108,24 +163,47 @@ const CleaningRequestForm = () => {
           {/* Submit Button */}
           <div className="flex justify-between items-center">
             <button
+              disabled={loading}
               type="submit"
               className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600"
             >
-              Submit Request
+              {loading ? (
+                            <>
+                                <Spinner size='sm' />
+                                <span className="pl-3">Loading</span>
+                            </>
+                        ) : 'Submit Request'}
             </button>
             <button
               type="button"
+              disabled={loading}
               className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-              onClick={() => setFormData({ name: '', email: '', roomNumber: '', date: '', additionalDetails: '' })}
+              onClick={() =>
+                setFormData({
+                  name: "",
+                  email: "",
+                  roomNumber: "",
+                  date: "",
+                  additionalDetails: "",
+                })
+              }
             >
               Reset
             </button>
           </div>
         </form>
+        <div className="text-red-600">
+                    {error && (
+                        <Alert className="mt-5" color="failure">
+                            {error}
+                        </Alert>
+                    )}
+                </div>
 
         {/* Payment Link Info (Optional Based on UI) */}
         <p className="text-sm text-gray-500 mt-4">
-          Request for cleaning services based on availability. Your request will be processed within 48 hours.
+          Request for cleaning services based on availability. Your request will
+          be processed within 48 hours.
         </p>
       </div>
     </div>
