@@ -155,14 +155,31 @@ export default function RoomPage() {
             {rooms.map((room) => (
               <div key={room._id} className="border rounded-lg shadow-lg p-4">
                 <Link to={`/room/${room.slug}`}></Link>
-                <p className="text-start text-blue-800 font-semibold">{`RNO ${room.roomno}`}</p>
+                <div className="flex justify-between">
+                  <p className="text-blue-800 font-semibold">{`RNO ${room.roomno}`}</p>
+                  <p
+                    className={`font-bold px-4 py-2 rounded-lg border shadow-inner ${
+                      room.gender === "Male"
+                        ? "bg-blue-200 text-blue-800 border-blue-500"
+                        : "bg-pink-200 text-pink-800 border-pink-500"
+                    }`}
+                  >
+                    {room.gender}
+                  </p>
+                </div>
+
                 <h3 className=" text-lg font-semibold text-center mb-2">
-                  
                   <Link to={`/room/${room.slug}`}>
-                    Room Type : {room.roomtype} Room
+                    Room Type :{" "}
+                    <span className="text-xl">{room.roomtype} </span>Room
                   </Link>
                 </h3>
-                <div className="p-2 flex items-center justify-center text-blue-800 font-semibold">
+
+                <div
+                  className={`p-2 flex items-center justify-center font-semibold ${
+                    room.furnished ? "text-blue-800" : "text-red-600"
+                  }`}
+                >
                   <FaChair className="text-2xl mr-2" />
                   <span>{room.furnished ? "FURNISHED" : "UNFURNISHED"}</span>
                 </div>
