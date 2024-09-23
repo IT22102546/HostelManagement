@@ -71,7 +71,15 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
-              
+              <Link to='/dashboard?tab=rooms' key="rooms">
+                <Sidebar.Item
+                  active={tab === 'rooms'}
+                  icon={HiGift}
+                  as='div'
+                >
+                  Rooms
+                </Sidebar.Item>
+              </Link>
 
              
             </>

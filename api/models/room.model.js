@@ -6,7 +6,11 @@ const roomSchema = new mongoose.Schema(
             type: String,
            
         },
-      
+        roomId: {
+            type: String,
+          
+            unique: true,
+        },
         furnished:{
             type:Boolean,
             required:true,
@@ -19,6 +23,10 @@ const roomSchema = new mongoose.Schema(
             type:String,
             required:true,
         },
+        price: {
+            type: Number,
+            required: true,
+          },
         slug: {
             type: String,
             required:true,
