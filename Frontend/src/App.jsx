@@ -9,13 +9,19 @@ import PrivateRoute from './Components/PrivateRoute';
 import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
 import Footer from './Components/Footer';
 import AddProducts from './Pages/AddProducts';
+import AddRoom from './Pages/AddRoom';
 import ProductPage from './Pages/ProductPage';
 import PostProduct from './Pages/PostProduct';
 import Cart from './Pages/Cart';
 import UpdateProducts from './Pages/UpdateProducts';
+
+import RoomPage from './Pages/RoomPage';
+import UpdateRooms from './Pages/UpdateRooms';
+
 import Ordersummary from './Pages/OrderSummary';
 import OrderSuccess from './Pages/OrderSuccess';
 import UpdateOrder from './Pages/UpdateOrder';
+
 
 import CleaningRequestForm from "./Pages/CleanRequestForm";
 import RequestSuccessPage from "./Pages/RequestSuccessPage";
@@ -34,14 +40,22 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/product-page" element={<ProductPage/>}/>
+
+        <Route path="/room-page" element={<RoomPage/>}/>
+        <Route path="/product/:productSlug" element={<PostProduct/>} />
+
         <Route path="/product/:productSlug" element={<PostProduct/>} />        
         <Route path="/addstaff" element={<Addstaff/>}/>
         <Route path="/updatestaff/:id" element={<Updatestaff/>}/>
 
 
+
         <Route element={<PrivateRoute />} />
         <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/update-product/:productId" element={<UpdateProducts/>}/>
+          <Route path="/update-room/:roomId" element={<UpdateRooms/>}/>
+          <Route path="/cart" element={<Cart/>}/> 
+        <Route/>
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/order-summary" element={<Ordersummary/>}/>
           <Route path="/order-pay-success" element={<OrderSuccess/>}/> 
@@ -57,6 +71,7 @@ export default function App() {
         <Route path="/update-comment-user/:id" element={<UpdateCommentUser/>}/>
         <Route element={<OnlyAdminPrivateRoute/>}>
            <Route path="/addproduct" element={<AddProducts/>}/>
+           <Route path="/addroom" element={<AddRoom/>}/>
         </Route>
 
       </Routes>
