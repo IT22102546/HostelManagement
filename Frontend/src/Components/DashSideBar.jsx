@@ -75,6 +75,16 @@ export default function DashSideBar() {
                   Products
                 </Sidebar.Item>
               </Link>
+
+              <Link to="/dashboard?tab=recived_orders" key="orders_recived">
+                <Sidebar.Item
+                  active={tab === "recived_orders"}
+                  icon={HiGift}
+                  as="div"
+                >
+                  Recieved Orders
+                </Sidebar.Item>
+              </Link>
             </>
           )}
 
