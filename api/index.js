@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
 import requestRoute from "./routes/request.route.js";
+import productRoute from "./routes/product.route.js";
+import orderRoute from "./routes/order.route.js";
 
 
 
@@ -34,6 +36,9 @@ app.use(cors(corsOptions));
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
 app.use("/api/request",requestRoute);
+app.use("/api/products", productRoute);
+app.use("/api/order", orderRoute);
+
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';

@@ -8,6 +8,7 @@ import {
   HiGift,
   HiOutlineUserGroup,
   HiUser,
+  HiOutlineArchive,
 } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -68,6 +69,7 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
+
               <Link to="/dashboard?tab=requests" key="requests">
                 <Sidebar.Item
                   active={tab === "requests"}
@@ -76,10 +78,30 @@ export default function DashSideBar() {
                   as="div"
                 >
                   Requests
+
+              <Link to="/dashboard?tab=products" key="products">
+                <Sidebar.Item
+                  active={tab === "products"}
+                  icon={HiGift}
+                  as="div"
+                >
+                  Products
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=recived_orders" key="orders_recived">
+                <Sidebar.Item
+                  active={tab === "recived_orders"}
+                  icon={HiArchive}
+                  as="div"
+                >
+                  Recieved Orders
+
                 </Sidebar.Item>
               </Link>
             </>
           )}
+
 
           <Link to="/dashboard?tab=my_requests" key="myrequests">
             <Sidebar.Item
@@ -89,6 +111,11 @@ export default function DashSideBar() {
               as="div"
             >
               My Requests
+
+          <Link to="/dashboard?tab=my_orders" key="orders">
+            <Sidebar.Item active={tab === "my_orders"} icon={HiOutlineArchive} as="div">
+              My Orders
+
             </Sidebar.Item>
           </Link>
 
