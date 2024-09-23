@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiShoppingBag, HiUser, HiMenu } from 'react-icons/hi';
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../redux/user/userSlice";
+import './Header.css'; // Import custom CSS for animations
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
@@ -20,13 +21,13 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="border-b-2 relative z-50 bg-blue-600">
+    <Navbar className="border-b-2 relative z-50 bg-gradient-to-r from-purple-700 to-purple-900 text-white p-8 rounded-lg shadow-lg">
       <div className="container mx-auto flex items-center justify-between py-4">
 
         {/* Logo */}
         <div className="flex items-center">
           <NavLink to="/" className="self-center whitespace-nowrap text-3xl font-semibold font-tangerine text-white">
-            Logo
+            <h1 className="font-semibold text-xl font-cinzel">Hostel<span className="text-white font-serif font-bold text-3xl">NEST.</span> </h1>
           </NavLink>
         </div>
 
@@ -36,7 +37,7 @@ export default function Header() {
             <NavLink 
               to="/" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "nav-link-active" : "nav-link"
               }
             >
               Home
@@ -44,15 +45,15 @@ export default function Header() {
             <NavLink 
               to="/category" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "nav-link-active" : "nav-link"
               }
             >
-              category
+              Category
             </NavLink>
             <NavLink 
               to="/product-page" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "nav-link-active" : "nav-link"
               }
             >
               Inventory
@@ -60,7 +61,7 @@ export default function Header() {
             <NavLink 
               to="/room-page" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "nav-link-active" : "nav-link"
               }
             >
               Rooms
@@ -68,7 +69,7 @@ export default function Header() {
             <NavLink 
               to="/ex3" 
               className={({ isActive }) => 
-                isActive ?"text-black" : "text-white"
+                isActive ?"nav-link-active" : "nav-link"
               }
             >
               ex3
@@ -76,7 +77,7 @@ export default function Header() {
             <NavLink 
               to="/ex4" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "nav-link-active" : "nav-link"
               }
             >
               ex4
@@ -129,7 +130,7 @@ export default function Header() {
           <NavLink 
             to="/" 
             className={({ isActive }) => 
-              isActive ? "text-black" : "text-white"
+              isActive ? "nav-link-active" : "nav-link"
             }
           >
             Home
@@ -137,31 +138,23 @@ export default function Header() {
           <NavLink 
             to="/category" 
             className={({ isActive }) => 
-              isActive ? "text-black" : "text-white"
+              isActive ? "nav-link-active" : "nav-link"
             }
           >
-            Badges
-          </NavLink>
-          <NavLink 
-            to="/category" 
-            className={({ isActive }) => 
-              isActive ? "text-black" : "text-white"
-            }
-          >
-            Guid Activities
+            Category
           </NavLink>
           <NavLink 
             to="/product-page" 
             className={({ isActive }) => 
-              isActive ? "text-black" : "text-white"
+              isActive ? "nav-link-active" : "nav-link"
             }
           >
-            Scout Shop
+            Inventory
           </NavLink>
           <NavLink 
             to="/articles" 
             className={({ isActive }) => 
-              isActive ?"text-black" : "text-white"
+              isActive ?"nav-link-active" : "nav-link"
             }
           >
             Articles
@@ -169,7 +162,7 @@ export default function Header() {
           <NavLink 
             to="/history-page" 
             className={({ isActive }) => 
-              isActive ? "text-black" : "text-white"
+              isActive ? "nav-link-active" : "nav-link"
             }
           >
             History
