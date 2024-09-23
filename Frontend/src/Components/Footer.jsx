@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="mb-6 md:mb-0">
             <div className="flex items-center mb-4">
               <img src="/img/logo.jpg" alt="Hostel" className="w-44 h-44 mr-2" />
-              <span className="font-bold text-xl">The Bodima</span>
+              <h1 className="font-semibold text-xl font-cinzel">Hostel<span className="text-indigo-800 font-serif font-bold text-3xl">NEST.</span> </h1>
             </div>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-600 hover:text-gray-800">
