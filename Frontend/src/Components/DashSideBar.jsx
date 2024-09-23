@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import {
   HiArchive,
   HiArrowSmRight,
+  HiBookmark,
+  HiGift,
   HiOutlineUserGroup,
   HiUser,
-  HiGift,
   HiOutlineArchive,
 } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
@@ -67,6 +68,17 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
+              <Link to="/dashboard?tab=requests" key="requests">
+                <Sidebar.Item
+                  active={tab === "requests"}
+                  icon={HiBookmark}
+                  labelColor="dark"
+                  as="div"
+                >
+                  Requests
+                </Sidebar.Item>
+              </Link>
+
               <Link to="/dashboard?tab=products" key="products">
                 <Sidebar.Item
                   active={tab === "products"}
@@ -89,8 +101,23 @@ export default function DashSideBar() {
             </>
           )}
 
+          <Link to="/dashboard?tab=my_requests" key="myrequests">
+            <Sidebar.Item
+              active={tab === "my_requests"}
+              icon={HiBookmark}
+              labelColor="dark"
+              as="div"
+            >
+              My Requests
+            </Sidebar.Item>
+          </Link>
+
           <Link to="/dashboard?tab=my_orders" key="orders">
-            <Sidebar.Item active={tab === "my_orders"} icon={HiOutlineArchive} as="div">
+            <Sidebar.Item
+              active={tab === "my_orders"}
+              icon={HiOutlineArchive}
+              as="div"
+            >
               My Orders
             </Sidebar.Item>
           </Link>
