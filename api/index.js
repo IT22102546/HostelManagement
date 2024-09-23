@@ -5,7 +5,13 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
+<<<<<<< HEAD
 import staffRoute from "./routes/staff.route.js"
+=======
+import requestRoute from "./routes/request.route.js";
+import productRoute from "./routes/product.route.js";
+import orderRoute from "./routes/order.route.js";
+>>>>>>> origin/main
 
 
 
@@ -33,7 +39,13 @@ app.use(cors(corsOptions));
 
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
+<<<<<<< HEAD
 app.use("/api/staff",staffRoute)
+=======
+app.use("/api/request",requestRoute);
+app.use("/api/products", productRoute);
+app.use("/api/order", orderRoute);
+>>>>>>> origin/main
 
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
