@@ -7,6 +7,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
 export default function UpdateRooms() {
  
   const [formData, setFormData] = useState({ 
@@ -15,22 +16,27 @@ export default function UpdateRooms() {
     gender: '', 
     price: '', });
   const [publishError, setPublishError] = useState(null);
-  const { roomId } = useParams();
+  const {roomId} = useParams();
+  console.log(roomId); 
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
+  
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const res = await fetch(`/api/rooms/getrooms?roomId=${roomId}`);
         const data = await res.json();
+        console.log(data)
+
         if (!res.ok) {
           setPublishError(data.message);
           return;
         }
         const room = data.rooms.find(r => r._id === roomId);
-        setFormData({ ...room, roomtype: room.roomtype  });
+        setFormData({ ...room, roomno: room.roomno  });
         setPublishError(null);
+       
       } catch (error) {
         setPublishError(error.message);
       }
@@ -70,11 +76,12 @@ export default function UpdateRooms() {
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update Products</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <TextInput type='text' placeholder='Room-no' required id='roomno' className='flex flex-col gap-4 justify-between' onChange={(e) =>
+          setFormData({ ...formData, roomno: e.target.value })} value={formData.roomno || ''}/>
+        
       <div className="flex flex-col gap-4 justify-between">
           <Select
-            onChange={(e) =>
-              setFormData({ ...formData, roomtype: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, roomtype: e.target.value })} value={formData.roomtype || ''}
           > <option value="">Select Room Type</option>
             <option value="single">Single Room</option>
             <option value="double">Double Room</option>
@@ -103,8 +110,8 @@ export default function UpdateRooms() {
                 type="checkbox"
                 id="male"
                 className="w-5"
-                onChange={(e)=> setFormData({ ...formData, gender: e.target.value})}
-                checked={formData.gender === "male"}
+                onChange={() => setFormData({ ...formData, gender: 'male' })}
+                checked={formData.gender === 'male'}
               />
               <span className="ml-2">Male</span>
             </div>
@@ -114,7 +121,7 @@ export default function UpdateRooms() {
                 type="checkbox"
                 id="female"
                 className="w-5"
-                onChange={(e)=> setFormData({ ...formData, gender: e.target.value})}
+                onChange={(e)=> setFormData({ ...formData, gender:'female'})}
                 checked={formData.gender === "female"}
               />
               <span className="ml-2">Female</span>

@@ -19,12 +19,12 @@ export default function DashRoom() {
       try {
         const res = await fetch(`/api/rooms/getrooms?searchTerm=${searchTerm}`);
         const data = await res.json();
-        console.log(data)
+        
 
         if (res.ok) {
           setUserRoom(data.rooms);
           setTotalRooms(data.totalRooms);
-          //console.log(data.totalRooms)
+         
 
           //setlastMonthProducts(data.lastMonthProducts);
         }
@@ -235,7 +235,7 @@ export default function DashRoom() {
                   </Table.Cell>
                   <Table.Cell>{room.gender}</Table.Cell>
                   <Table.Cell>{room.price}</Table.Cell>
-                  <Table.Cell>{room.furnished ? 'TRUE' : 'FALSE'}</Table.Cell>
+                  <Table.Cell>{room.furnished ? 'FURNISHED' : 'UNFURNISHED'}</Table.Cell>
                   {/*<Table.Cell>
                     <span className={product.quantity < 5 ? 'text-red-500' : 'text-green-500'}>
                       {product.quantity < 5 ? 'Low Stock' : 'In Stock'}

@@ -22,6 +22,7 @@ export default function UpdateProducts() {
       try {
         const res = await fetch(`/api/products/getproducts?productId=${productId}`);
         const data = await res.json();
+        console.log(productId)
         if (!res.ok) {
           setPublishError(data.message);
           return;

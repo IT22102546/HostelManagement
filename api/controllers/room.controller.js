@@ -13,7 +13,7 @@ export const addRoom = async (req, res, next) => {
       return next(errorHandler(400, 'Please provide all required fields'));
     }
 
-    const slug = roomtype.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
+    const slug = roomno.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
 
     const newRoom = new Rooms({
       ...req.body,
@@ -71,7 +71,7 @@ export const updateRoom = async (req, res, next) => {
     if (!req.user.isAdmin || req.user.id !== req.params.userId) {
       return next(errorHandler(403, 'You are not allowed to update room details'));
     }
-    if (!req.body.roomno || !req.body.roomtype || !req.body.gender ||  req.body.furnished === 'undefined') {
+    if (!req.body.roomno || !req.body.roomtype || !req.body.gender ) {
       return next(errorHandler(400, 'Please provide all required fields'));
     }
 

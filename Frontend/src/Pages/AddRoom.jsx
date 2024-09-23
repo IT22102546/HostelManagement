@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 export default function AddRoom() {
 
   const [formData, setFormData] = useState({ 
+    roomno:'',
     roomtype: '', 
     furnished: false, 
     gender: '', 

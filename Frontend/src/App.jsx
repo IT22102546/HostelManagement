@@ -35,7 +35,7 @@ export default function App() {
         <Route element={<PrivateRoute/>}/>
           <Route path="/dashboard" element={<DashBoard/>}/>
           <Route path="/update-product/:productId" element={<UpdateProducts/>}/>
-          <Route path="/update-room/:productId" element={<UpdateRooms/>}/>
+          <Route path="/update-room/:roomId" element={<UpdateRooms/>}/>
           <Route path="/cart" element={<Cart/>}/> 
         <Route/>
 
