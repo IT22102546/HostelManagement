@@ -10,6 +10,7 @@ import DashProduct from "../Components/DashProduct";
 import DashRoom from "../Components/DashRoom";
 import DashMyOrders from "../Components/DashMyOrders";
 import DashRecievedOrders from "../Components/DashRecievedOrders";
+import DashBookingRequests from "../Components/DashBookingRequests";
 
 
 
@@ -39,6 +40,8 @@ export default function DashBoard() {
       {tab === 'rooms' && <DashRoom/>}
       {tab === 'my_orders' && <DashMyOrders/>}
       {tab === 'recived_orders' && <DashRecievedOrders/>}
+      {tab === 'bookings' && <DashBookingRequests/>}
+      
 
      
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Alert, Button, TextInput } from "flowbite-react";
-import { FaPlus, FaMinus, FaChair } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { Alert } from "flowbite-react";
+import { FaChair } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function PostRoom() {
@@ -68,10 +68,16 @@ export default function PostRoom() {
       return;
     }
 
+    if (!room) {
+      showNotification("Room data is missing.");
+      return;
+    }
+
     try {
       const bookingData = {
         userId: user._id,
-        roomId: room._id,
+        email: user.email,
+        username: user.username,
         furnished: room.furnished,
         roomtype: room.roomtype,
         gender: room.gender,
@@ -84,28 +90,30 @@ export default function PostRoom() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`, // Include token if required
         },
         body: JSON.stringify(bookingData),
       });
 
-      if (res.ok) {
-        const savedBooking = await res.json();
-        showNotification("Room booked successfully!");
-      } else {
+      if (!res.ok) {
         const errorData = await res.json();
-        showNotification(errorData.message || "Failed to book room.");
+        if (res.status === 409) {
+          throw new Error("ALREADY BOOKING REQUEST ADDED!");
+        }
+        throw new Error(errorData.message || "Failed to book room.");
       }
+
+      const savedBooking = await res.json();
+      showNotification("Room booked successfully!");
     } catch (error) {
       console.error(error);
-      showNotification("An error occurred while booking.");
+      showNotification(error.message || "An error occurred while booking.");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 relative">
       {notification.visible && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
           {notification.message}
         </div>
       )}
@@ -121,8 +129,20 @@ export default function PostRoom() {
             Room Type : <span className="font-bold"> {room.roomtype} Room</span>
           </h2>
 
+          {/* Room Status */}
+          <p
+            className={`text-xl font-semibold ${
+              room.roomstatus === "Reserved"
+                ? "text-red-600"
+                : "text-green-600"
+            }`}
+          >
+            {room.roomstatus ? room.roomstatus.toUpperCase() : "AVAILABLE"}
+          </p>
+
           {/* Furnished/Unfurnished Status */}
-          <div className={`flex items-center justify-center px-6 py-3 font-semibold text-xl rounded-full ${
+          <div
+            className={`flex items-center justify-center px-6 py-3 font-semibold text-xl rounded-full ${
               room.furnished
                 ? "bg-blue-100 text-blue-800"
                 : "bg-red-100 text-red-600"

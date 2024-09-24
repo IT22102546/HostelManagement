@@ -1,8 +1,16 @@
 import Booking from "../models/booking.model.js";
-import { errorHandler } from "../utils/error.js";
+//import { errorHandler } from "../utils/error.js";
 
 export const addBooking = async (req, res, next) => {
   try {
+    const { userId, roomno } = req.body;
+
+    // Check if the booking already exists for the same user and room
+    const existingBooking = await Booking.findOne({ userId, roomno });
+    if (existingBooking) {
+      return res.status(409).json({ message: "ALREADY BOOKING REQUEST ADDED" });
+    }
+    
     const newbooking= new Booking({
       ...req.body,
       userId: req.user.id,
@@ -44,4 +52,17 @@ export const getBookings = async (req, res, next) => {
       next(error);
     }
   };
+
+  
+export const deleteBooking = async (req, res, next) => {
+  try {
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+      return next(errorHandler(403, 'You are not allowed to delete Room'));
+    }
+    await Booking.findByIdAndDelete(req.params.bookingId);
+    res.status(200).json('The Booking has been deleted');
+  } catch (error) {
+    next(error);
+  }
+};
   

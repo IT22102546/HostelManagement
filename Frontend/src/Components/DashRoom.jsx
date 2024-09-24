@@ -16,7 +16,7 @@ export default function DashRoom() {
   const [totalTripleRooms, setTotalTripleRooms] = useState(0);
   //const [lastMonthProducts, setlastMonthProducts] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-console.log(totalRooms)
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -202,12 +202,12 @@ console.log(totalRooms)
               <Table.Body className='divide-y' key={room._id}>
                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                   <Table.Cell>{new Date(room.updatedAt).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{`RNO ${room.roomno}`}</Table.Cell>
                   <Table.Cell>
-                    <Link className='font-medium text-gray-900 dark:text-white' to={`/product/${room.slug}`}>
-                      {room.roomtype}
+                    <Link className='font-medium text-gray-900 dark:text-white' to={`/room/${room.slug}`}>
+                      {`RNO ${room.roomno}`}
                     </Link>
                   </Table.Cell>
+                  <Table.Cell>{room.roomtype} </Table.Cell>
                   <Table.Cell>{room.gender}</Table.Cell>
                   <Table.Cell>{room.price}</Table.Cell>
                   <Table.Cell>{room.furnished ? 'FURNISHED' : 'UNFURNISHED'}</Table.Cell>

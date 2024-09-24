@@ -7,15 +7,14 @@ const bookingSchema = new mongoose.Schema(
       ref: "User", // Reference to the User model
       required: true,
     },
-    roomId: {
-      type: mongoose.Schema.Types.ObjectId, // Use ObjectId for better referencing
-      ref: "Room", // Reference to the Room model
+    email: {
+      type: String,
+      ref: "User", // Reference to the Room model
       required: true,
     },
     username: {
-        type: mongoose.Schema.Types.ObjectId, // Use ObjectId for better referencing
-        ref: "User", // Reference to the User model
-        required: true,
+      type:String,
+      ref: "User", // Reference to the User model
     },
     furnished: {
       type: Boolean,
