@@ -137,6 +137,17 @@ export default function DashSideBar() {
               My Requests
             </Sidebar.Item>
           </Link>
+
+          <Link to="/dashboard?tab=mybookings" key="mybookings">
+            <Sidebar.Item
+              active={tab === "my_requests"}
+              icon={HiBookmark}
+              labelColor="dark"
+              as="div"
+            >
+              My Bookings
+            </Sidebar.Item>
+          </Link>
           
 
           <Link to="/dashboard?tab=my_orders" key="orders">

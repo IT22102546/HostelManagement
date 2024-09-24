@@ -10,7 +10,7 @@ export const addBooking = async (req, res, next) => {
     if (existingBooking) {
       return res.status(409).json({ message: "ALREADY BOOKING REQUEST ADDED" });
     }
-    
+
     const newbooking= new Booking({
       ...req.body,
       userId: req.user.id,
@@ -65,4 +65,30 @@ export const deleteBooking = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateBookingStatus = async (req, res, next) => {
+  try {
+    const { bookingId } = req.params;
+    const { bookingstatus } = req.body;
+
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    booking.bookingstatus = bookingstatus;
+    booking.updatedAt = Date.now(); // Update the updatedAt field
+
+    const updatedBooking = await booking.save();
+
+    res.status(200).json({
+      message: "Booking status updated successfully",
+      updatedBooking,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
   

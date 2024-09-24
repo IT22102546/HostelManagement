@@ -78,6 +78,7 @@ export default function PostRoom() {
         userId: user._id,
         email: user.email,
         username: user.username,
+        bookingstatus: room.bookingstatus,
         furnished: room.furnished,
         roomtype: room.roomtype,
         gender: room.gender,

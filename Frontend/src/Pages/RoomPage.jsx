@@ -38,6 +38,7 @@ export default function RoomPage() {
         setRooms(data.rooms);
         setTotalRooms(data.totalRooms);
         setTotalPages(data.totalPages);
+        console.log(data)
       }
     } catch (error) {
       console.error(error.message);

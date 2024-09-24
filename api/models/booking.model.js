@@ -16,6 +16,10 @@ const bookingSchema = new mongoose.Schema(
       type:String,
       ref: "User", // Reference to the User model
     },
+    bookingstatus: {
+      type:Boolean,
+      ref: "Room", // Reference to the Room model
+    },
     furnished: {
       type: Boolean,
       required: true,

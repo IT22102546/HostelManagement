@@ -8,7 +8,7 @@ export default function DashBookingRequests() {
   const { currentUser } = useSelector((state) => state.user);
   const [userBookingRequests, setUserBookingRequests] = useState([]);
   const [showModel, setShowModel] = useState(false);
-  const [bookingdToDelete, setBookingIdToDelete] = useState('');
+  const [bookingIdToDelete, setBookingIdToDelete] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function DashBookingRequests() {
     setShowModel(false);
     try {
       const res = await fetch(
-        `/api/bookings/deletebooking/${bookingdToDelete}/${currentUser._id}`,
+        `/api/bookings/deletebooking/${bookingIdToDelete}/${currentUser._id}`,
         {
           method: 'DELETE',
         }
@@ -45,7 +45,32 @@ export default function DashBookingRequests() {
         console.log(data.message);
       } else {
         setUserBookingRequests((prev) =>
-          prev.filter((booking) => booking._id !== bookingdToDelete)
+          prev.filter((booking) => booking._id !== bookingIdToDelete)
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleToggleStatus = async (bookingId, currentStatus) => {
+    try {
+      const res = await fetch(`/api/bookings/updatestatus/${bookingId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bookingstatus: !currentStatus }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUserBookingRequests((prev) =>
+          prev.map((booking) =>
+            booking._id === bookingId ? { ...booking, bookingstatus: !currentStatus } : booking
+          )
         );
       }
     } catch (error) {
@@ -141,7 +166,8 @@ export default function DashBookingRequests() {
             <Table.HeadCell>Gender</Table.HeadCell>
             <Table.HeadCell>Price(RS.)</Table.HeadCell>
             <Table.HeadCell>Furnished Status</Table.HeadCell>
-            <Table.HeadCell>delete</Table.HeadCell>
+            <Table.HeadCell>Booking Status</Table.HeadCell>
+            <Table.HeadCell>Delete</Table.HeadCell>
           </Table.Head>
           {userBookingRequests.map((booking) => (
             <Table.Body className="divide-y" key={booking._id}>
@@ -155,12 +181,22 @@ export default function DashBookingRequests() {
                 <Table.Cell>{booking.price}</Table.Cell>
                 <Table.Cell>{booking.furnished ? 'FURNISHED' : 'UNFURNISHED'}</Table.Cell>
                 <Table.Cell>
-                  <Button color="failure"onClick={() => {
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={booking.bookingstatus}
+                      onChange={() => handleToggleStatus(booking._id, booking.bookingstatus)}
+                      className="form-checkbox h-6 w-6 text-blue-600"
+                    />
+                    <span className="ml-2">{booking.bookingstatus ? 'Accepted' : 'Pending'}</span>
+                  </label>
+                </Table.Cell>
+                <Table.Cell>
+                  <Button color="failure" onClick={() => {
                         setShowModel(true);
                         setBookingIdToDelete(booking._id);
                       }}>Delete</Button>
                 </Table.Cell>
-                
               </Table.Row>
             </Table.Body>
           ))}
