@@ -37,15 +37,15 @@ export const getBookings = async (req, res, next) => {
       }
   
 
-      const totalBookings = await Booking.countDocuments(queryOptions);
+      const totalBookingRequests = await Booking.countDocuments(queryOptions);
       const bookings = await Booking.find(queryOptions)
         .skip((page - 1) * limit)
         .limit(Number(limit));
   
       res.status(200).json({
         bookings,
-        totalBookings,
-        totalPages: Math.ceil(totalBookings / limit),
+        totalBookingRequests,
+        totalPages: Math.ceil(totalBookingRequests / limit),
         currentPage: Number(page),
       });
     } catch (error) {

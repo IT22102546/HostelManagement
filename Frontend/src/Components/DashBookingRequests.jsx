@@ -1,23 +1,28 @@
 import { Button, Modal, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { HiBookmark, HiBookmarkAlt, HiOutlineBookmarkAlt, HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import html2pdf from 'html2pdf.js';
+import html2pdf from "html2pdf.js";
 
 export default function DashBookingRequests() {
   const { currentUser } = useSelector((state) => state.user);
   const [userBookingRequests, setUserBookingRequests] = useState([]);
   const [showModel, setShowModel] = useState(false);
-  const [bookingIdToDelete, setBookingIdToDelete] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [bookingIdToDelete, setBookingIdToDelete] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [totalBookingRequests, setTotalBookingRequests] = useState(0);
+
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await fetch(`/api/bookings/getbookings?searchTerm=${searchTerm}`);
+        const res = await fetch(
+          `/api/bookings/getbookings?searchTerm=${searchTerm}`
+        );
         const data = await res.json();
         if (res.ok) {
           setUserBookingRequests(data.bookings); // Assuming 'bookings' is the correct array name
+          setTotalBookingRequests(data.totalBookingRequests)
         }
       } catch (error) {
         console.log(error.message);
@@ -37,7 +42,7 @@ export default function DashBookingRequests() {
       const res = await fetch(
         `/api/bookings/deletebooking/${bookingIdToDelete}/${currentUser._id}`,
         {
-          method: 'DELETE',
+          method: "DELETE",
         }
       );
       const data = await res.json();
@@ -56,9 +61,9 @@ export default function DashBookingRequests() {
   const handleToggleStatus = async (bookingId, currentStatus) => {
     try {
       const res = await fetch(`/api/bookings/updatestatus/${bookingId}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ bookingstatus: !currentStatus }),
       });
@@ -69,7 +74,9 @@ export default function DashBookingRequests() {
       } else {
         setUserBookingRequests((prev) =>
           prev.map((booking) =>
-            booking._id === bookingId ? { ...booking, bookingstatus: !currentStatus } : booking
+            booking._id === bookingId
+              ? { ...booking, bookingstatus: !currentStatus }
+              : booking
           )
         );
       }
@@ -113,7 +120,9 @@ export default function DashBookingRequests() {
           </tr>
         </thead>
         <tbody>
-          ${userBookingRequests.map((booking) => `
+          ${userBookingRequests
+            .map(
+              (booking) => `
             <tr>
               <td>${new Date(booking.updatedAt).toLocaleDateString()}</td>
               <td>${booking.username}</td>
@@ -122,14 +131,19 @@ export default function DashBookingRequests() {
               <td>${booking.roomtype}</td>
               <td>${booking.gender}</td>
               <td>${booking.price}</td>
-              <td>${booking.furnished ? 'FURNISHED' : 'UNFURNISHED'}</td>
+              <td>${booking.furnished ? "FURNISHED" : "UNFURNISHED"}</td>
             </tr>
-          `).join('')}
+          `
+            )
+            .join("")}
         </tbody>
       </table>
     `;
 
-    html2pdf().from(content).set({ margin: 1, filename: 'Booking_Request_report.pdf' }).save();
+    html2pdf()
+      .from(content)
+      .set({ margin: 1, filename: "Booking_Request_report.pdf" })
+      .save();
   };
 
   const handleGenerateReport = () => {
@@ -155,6 +169,20 @@ export default function DashBookingRequests() {
         </Button>
       </div>
 
+      <div className="flex-wrap flex gap-4 justify-start p-3">
+        <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+          <div className="flex justify-between">
+            <div className="">
+              <h3 className="text-gray-500 text-md uppercase">
+                Total Booking Requests
+              </h3>
+              <p className="text-2xl">{totalBookingRequests}</p>
+            </div>
+            <HiOutlineBookmarkAlt className="bg-blue-400 text-white rounded-full text-5xl p-3 shadow-lg" />
+          </div>
+        </div>
+      </div>
+
       {currentUser.isAdmin && userBookingRequests.length > 0 ? (
         <Table hoverable className="shadow-md">
           <Table.Head>
@@ -172,30 +200,43 @@ export default function DashBookingRequests() {
           {userBookingRequests.map((booking) => (
             <Table.Body className="divide-y" key={booking._id}>
               <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell>{new Date(booking.updatedAt).toLocaleDateString()}</Table.Cell>
+                <Table.Cell>
+                  {new Date(booking.updatedAt).toLocaleDateString()}
+                </Table.Cell>
                 <Table.Cell>{booking.username}</Table.Cell>
                 <Table.Cell>{booking.email}</Table.Cell>
-                <Table.Cell>{booking.roomno}</Table.Cell> 
+                <Table.Cell>{booking.roomno}</Table.Cell>
                 <Table.Cell>{booking.roomtype}</Table.Cell>
                 <Table.Cell>{booking.gender}</Table.Cell>
                 <Table.Cell>{booking.price}</Table.Cell>
-                <Table.Cell>{booking.furnished ? 'FURNISHED' : 'UNFURNISHED'}</Table.Cell>
+                <Table.Cell>
+                  {booking.furnished ? "FURNISHED" : "UNFURNISHED"}
+                </Table.Cell>
                 <Table.Cell>
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={booking.bookingstatus}
-                      onChange={() => handleToggleStatus(booking._id, booking.bookingstatus)}
+                      onChange={() =>
+                        handleToggleStatus(booking._id, booking.bookingstatus)
+                      }
                       className="form-checkbox h-6 w-6 text-blue-600"
                     />
-                    <span className="ml-2">{booking.bookingstatus ? 'Accepted' : 'Pending'}</span>
+                    <span className="ml-2">
+                      {booking.bookingstatus ? "Accepted" : "Pending"}
+                    </span>
                   </label>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button color="failure" onClick={() => {
-                        setShowModel(true);
-                        setBookingIdToDelete(booking._id);
-                      }}>Delete</Button>
+                  <Button
+                    color="failure"
+                    onClick={() => {
+                      setShowModel(true);
+                      setBookingIdToDelete(booking._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
@@ -205,7 +246,12 @@ export default function DashBookingRequests() {
         <p>No bookings available to show</p>
       )}
 
-      <Modal show={showModel} onClose={() => setShowModel(false)} popup size="md">
+      <Modal
+        show={showModel}
+        onClose={() => setShowModel(false)}
+        popup
+        size="md"
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
@@ -215,8 +261,12 @@ export default function DashBookingRequests() {
             </h3>
           </div>
           <div className="flex justify-center gap-4">
-            <Button color="failure" onClick={handleDeleteBooking}>Yes, delete</Button>
-            <Button color="gray" onClick={() => setShowModel(false)}>No, cancel</Button>
+            <Button color="failure" onClick={handleDeleteBooking}>
+              Yes, delete
+            </Button>
+            <Button color="gray" onClick={() => setShowModel(false)}>
+              No, cancel
+            </Button>
           </div>
         </Modal.Body>
       </Modal>
