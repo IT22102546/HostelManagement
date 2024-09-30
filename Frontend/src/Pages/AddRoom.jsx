@@ -61,7 +61,7 @@ export default function AddRoom() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Sends roomtype, furnished, and price
+        body: JSON.stringify(formData), 
       });
 
       const data = await res.json();

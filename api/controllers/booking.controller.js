@@ -1,5 +1,6 @@
-import Booking from "../models/booking.model.js";
-//import { errorHandler } from "../utils/error.js";
+import nodemailer from 'nodemailer';
+import Booking from '../models/booking.model.js';
+import Rooms from '../models/room.model.js';
 
 export const addBooking = async (req, res, next) => {
   try {
@@ -80,6 +81,13 @@ export const updateBookingStatus = async (req, res, next) => {
     booking.bookingstatus = bookingstatus;
     booking.updatedAt = Date.now(); // Update the updatedAt field
 
+    await Rooms.findOneAndUpdate({ roomno: booking.roomno }, { bookingstatus: bookingstatus });
+
+    // If the status is now true (approved), send email
+    if (bookingstatus) {
+      await sendApprovalEmail(booking.email, booking.username, booking.roomno);
+    }
+
     const updatedBooking = await booking.save();
 
     res.status(200).json({
@@ -90,5 +98,31 @@ export const updateBookingStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+
+const sendApprovalEmail = async (email, username, roomno) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Your Booking Request has been Approved!',
+    text: `Hello ${username},\n\nYour booking request for Room No: ${roomno} has been approved. Please contact us for further details.\n\nThank you!`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully to:', email);
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
+
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // You can use any email service, this example is for Gmail
+  auth: {
+    user: `rashmikasumanaweera@gmail.com`, // Your email
+    pass: `123456`, // Your email password or app-specific password
+  },
+});
 
   

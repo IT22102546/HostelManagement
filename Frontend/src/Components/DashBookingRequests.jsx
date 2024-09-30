@@ -58,6 +58,12 @@ export default function DashBookingRequests() {
     }
   };
 
+  const showNotification = (message) => {
+    alert(message); // Simple alert notification
+    // Or you can use a more sophisticated method, such as showing a custom message in the DOM
+  };
+  
+  
   const handleToggleStatus = async (bookingId, currentStatus) => {
     try {
       const res = await fetch(`/api/bookings/updatestatus/${bookingId}`, {
@@ -67,7 +73,7 @@ export default function DashBookingRequests() {
         },
         body: JSON.stringify({ bookingstatus: !currentStatus }),
       });
-
+  
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
@@ -79,11 +85,19 @@ export default function DashBookingRequests() {
               : booking
           )
         );
+  
+        // Notify admin
+        if (!currentStatus) {
+          showNotification("Booking approved and email sent to the user!");
+        } else {
+          showNotification("Booking status changed back to pending.");
+        }
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+  
 
   const generatePDFReport = () => {
     const content = `

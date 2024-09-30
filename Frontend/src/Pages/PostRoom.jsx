@@ -67,15 +67,15 @@ export default function PostRoom() {
       showNotification("Please log in to book a room.");
       return;
     }
-
+  
     if (!room) {
       showNotification("Room data is missing.");
       return;
     }
-
+  
     try {
       const bookingData = {
-        userId: user._id,
+        userId: user._id, // You can change this if user is not logged in
         email: user.email,
         username: user.username,
         bookingstatus: room.bookingstatus,
@@ -86,7 +86,7 @@ export default function PostRoom() {
         price: room.price,
         slug: room.slug,
       };
-
+  
       const res = await fetch("/api/bookings/addbooking", {
         method: "POST",
         headers: {
@@ -94,7 +94,7 @@ export default function PostRoom() {
         },
         body: JSON.stringify(bookingData),
       });
-
+  
       if (!res.ok) {
         const errorData = await res.json();
         if (res.status === 409) {
@@ -102,14 +102,15 @@ export default function PostRoom() {
         }
         throw new Error(errorData.message || "Failed to book room.");
       }
-
+  
       const savedBooking = await res.json();
-      showNotification("Room booked successfully!");
+      showNotification("Booking Request Added successfully!");
     } catch (error) {
       console.error(error);
       showNotification(error.message || "An error occurred while booking.");
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 relative">
