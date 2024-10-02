@@ -21,6 +21,7 @@ export default function AddRoom() {
     gender: "",
     price: "",
     bookingstatus: false,
+    slug:""
   });
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();

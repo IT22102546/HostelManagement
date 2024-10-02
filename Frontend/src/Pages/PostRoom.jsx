@@ -67,12 +67,12 @@ export default function PostRoom() {
       showNotification("Please log in to book a room.");
       return;
     }
-  
+
     if (!room) {
       showNotification("Room data is missing.");
       return;
     }
-  
+
     try {
       const bookingData = {
         userId: user._id, // You can change this if user is not logged in
@@ -86,7 +86,7 @@ export default function PostRoom() {
         price: room.price,
         slug: room.slug,
       };
-  
+
       const res = await fetch("/api/bookings/addbooking", {
         method: "POST",
         headers: {
@@ -94,7 +94,7 @@ export default function PostRoom() {
         },
         body: JSON.stringify(bookingData),
       });
-  
+
       if (!res.ok) {
         const errorData = await res.json();
         if (res.status === 409) {
@@ -102,7 +102,7 @@ export default function PostRoom() {
         }
         throw new Error(errorData.message || "Failed to book room.");
       }
-  
+
       const savedBooking = await res.json();
       showNotification("Booking Request Added successfully!");
     } catch (error) {
@@ -110,7 +110,6 @@ export default function PostRoom() {
       showNotification(error.message || "An error occurred while booking.");
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 relative">
@@ -120,7 +119,7 @@ export default function PostRoom() {
         </div>
       )}
 
-      <div className="bg-white shadow-2xl rounded-lg p-8 w-full max-w-2xl relative">
+      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl relative">
         <div className="absolute top-4 left-4 bg-blue-700 text-white text-lg font-bold py-2 px-4 rounded-lg shadow-lg">
           RNO {room.roomno}
         </div>
@@ -132,15 +131,14 @@ export default function PostRoom() {
           </h2>
 
           {/* Room Status */}
-          <p
-            className={`text-xl font-semibold ${
-              room.roomstatus === "Reserved"
-                ? "text-red-600"
-                : "text-green-600"
+
+          <div
+            className={`text-2xl font-semibold ${
+              room.bookingstatus ? "text-red-600" : "text-blue-600"
             }`}
           >
-            {room.roomstatus ? room.roomstatus.toUpperCase() : "AVAILABLE"}
-          </p>
+            <span>{room.bookingstatus ? "RESERVED" : "AVAILABLE"}</span>
+          </div>
 
           {/* Furnished/Unfurnished Status */}
           <div

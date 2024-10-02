@@ -7,22 +7,29 @@ export const addRoom = async (req, res, next) => {
       return next(errorHandler(403, 'You are not allowed to add rooms'));
     }
 
-    const { roomtype, furnished, price, gender,roomno } = req.body;
+    const { roomtype, furnished, price, gender, roomno } = req.body;
 
+    // Ensure all required fields are provided
     if (!roomtype || typeof furnished === 'undefined' || !price || !gender || !roomno) {
       return next(errorHandler(400, 'Please provide all required fields'));
     }
 
-    const slug = roomno.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
-
+    // Create the room without the slug first to get the ObjectId
     const newRoom = new Rooms({
       ...req.body,
-      slug,
       userId: req.user.id,
     });
 
     const savedRoom = await newRoom.save();
-    res.status(201).json(savedRoom);
+
+    // Generate the slug using roomno and ObjectId
+    const slug = `${roomno.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '')}-${savedRoom._id}`;
+
+    // Update the room with the newly created slug
+    savedRoom.slug = slug;
+    const updatedRoom = await savedRoom.save();
+
+    res.status(201).json(updatedRoom);
   } catch (error) {
     next(error);
   }
