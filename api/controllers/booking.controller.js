@@ -102,7 +102,7 @@ export const updateBookingStatus = async (req, res, next) => {
 
 const sendApprovalEmail = async (email, username, roomno) => {
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from:  'rashmikasumanaweera@gmail.com',
     to: email,
     subject: 'Your Booking Request has been Approved!',
     text: `Hello ${username},\n\nYour booking request for Room No: ${roomno} has been approved. Please contact us for further details.\n\nThank you!`,
@@ -119,9 +119,12 @@ const sendApprovalEmail = async (email, username, roomno) => {
 
 const transporter = nodemailer.createTransport({
   service: 'gmail', // You can use any email service, this example is for Gmail
+  host:"smtp.gmail.com",
+  port:587,
+  secure:false,
   auth: {
-    user: `rashmikasumanaweera@gmail.com`, // Your email
-    pass: `123456`, // Your email password or app-specific password
+    user: 'rashmikasumanaweera@gmail.com', // Your email
+    pass: 'stxf dvbq kvhm odte', // Your email password or app-specific password
   },
 });
 
