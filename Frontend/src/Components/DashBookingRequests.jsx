@@ -1,6 +1,12 @@
 import { Button, Modal, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiBookmark, HiBookmarkAlt, HiOutlineBookmarkAlt, HiOutlineExclamationCircle } from "react-icons/hi";
+import {
+  HiBookmark,
+  HiBookmarkAlt,
+  HiInformationCircle,
+  HiOutlineBookmarkAlt,
+  HiOutlineExclamationCircle,
+} from "react-icons/hi";
 import { useSelector } from "react-redux";
 import html2pdf from "html2pdf.js";
 
@@ -11,7 +17,8 @@ export default function DashBookingRequests() {
   const [bookingIdToDelete, setBookingIdToDelete] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [totalBookingRequests, setTotalBookingRequests] = useState(0);
-
+  const [totalBookingIncome, setTotalBookingIncome] = useState(0); //  state for total rrom booking income
+  const [approvedBookingsCount, setApprovedBookingsCount] = useState(0);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -21,8 +28,19 @@ export default function DashBookingRequests() {
         );
         const data = await res.json();
         if (res.ok) {
-          setUserBookingRequests(data.bookings); // Assuming 'bookings' is the correct array name
-          setTotalBookingRequests(data.totalBookingRequests)
+          setUserBookingRequests(data.bookings);
+          setTotalBookingRequests(data.totalBookingRequests);
+
+        // Calculate the total income from approved bookings
+          const approvedBookings = data.bookings.filter(
+            (booking) => booking.bookingstatus === true
+          );
+          const total = approvedBookings.reduce(
+            (acc, booking) => acc + booking.price,
+            0
+          );
+          setTotalBookingIncome(total,approvedBookings); 
+          setApprovedBookingsCount(approvedBookings.length);
         }
       } catch (error) {
         console.log(error.message);
@@ -59,11 +77,9 @@ export default function DashBookingRequests() {
   };
 
   const showNotification = (message) => {
-    alert(message); // Simple alert notification
-    // Or you can use a more sophisticated method, such as showing a custom message in the DOM
+    alert(message); 
   };
-  
-  
+
   const handleToggleStatus = async (bookingId, currentStatus) => {
     try {
       const res = await fetch(`/api/bookings/updatestatus/${bookingId}`, {
@@ -73,7 +89,7 @@ export default function DashBookingRequests() {
         },
         body: JSON.stringify({ bookingstatus: !currentStatus }),
       });
-  
+
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
@@ -85,19 +101,34 @@ export default function DashBookingRequests() {
               : booking
           )
         );
-  
-        // Notify admin
+
         if (!currentStatus) {
           showNotification("Booking approved and email sent to the user!");
         } else {
           showNotification("Booking status changed back to pending.");
         }
+
+        // Recalculate total income when a booking status is toggled
+        const updatedBookings = userBookingRequests.map((booking) =>
+          booking._id === bookingId
+            ? { ...booking, bookingstatus: !currentStatus }
+            : booking
+        );
+        const approvedBookings = updatedBookings.filter(
+          (booking) => booking.bookingstatus === true
+        );
+        const total = approvedBookings.reduce(
+          (acc, booking) => acc + booking.price,
+          0
+        );
+        setTotalBookingIncome(total);
+        setApprovedBookingsCount(approvedBookings.length);
+
       }
     } catch (error) {
       console.log(error.message);
     }
   };
-  
 
   const generatePDFReport = () => {
     const content = `
@@ -113,10 +144,6 @@ export default function DashBookingRequests() {
         }
         th {
           background-color: #f2f2f2;
-          font-size: 14px; /* Adjust font size */
-        }
-        td {
-          font-size: 12px; /* Adjust font size */
         }
       </style>
       <h1><b>Room Details Report</b></h1>
@@ -141,7 +168,7 @@ export default function DashBookingRequests() {
               <td>${new Date(booking.updatedAt).toLocaleDateString()}</td>
               <td>${booking.username}</td>
               <td>${booking.email}</td>
-              <td>${booking.roomno}</td> 
+              <td>${booking.roomno}</td>
               <td>${booking.roomtype}</td>
               <td>${booking.gender}</td>
               <td>${booking.price}</td>
@@ -160,10 +187,6 @@ export default function DashBookingRequests() {
       .save();
   };
 
-  const handleGenerateReport = () => {
-    generatePDFReport();
-  };
-
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar">
       <div className="flex justify-between">
@@ -177,7 +200,7 @@ export default function DashBookingRequests() {
         <Button
           gradientDuoTone="purpleToBlue"
           outline
-          onClick={handleGenerateReport}
+          onClick={generatePDFReport}
         >
           Generate Report
         </Button>
@@ -193,6 +216,30 @@ export default function DashBookingRequests() {
               <p className="text-2xl">{totalBookingRequests}</p>
             </div>
             <HiOutlineBookmarkAlt className="bg-blue-400 text-white rounded-full text-5xl p-3 shadow-lg" />
+          </div>
+        </div>
+
+        <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+          <div className="flex justify-between">
+            <div className="">
+              <h3 className="text-gray-500 text-md uppercase">
+                Total Approved Bookings 
+              </h3>
+              <p className="text-2xl">{approvedBookingsCount}</p>
+            </div>
+            <HiBookmark className="bg-green-400 text-white rounded-full text-5xl p-3 shadow-lg" />
+          </div>
+        </div>
+
+        <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+          <div className="flex justify-between">
+            <div className="">
+              <h3 className="text-gray-500 text-md uppercase">
+                Total Approved Booking Income
+              </h3>
+              <p className="text-2xl">Rs. {totalBookingIncome}.00</p>
+            </div>
+            <HiInformationCircle  className="bg-yellow-400 text-white rounded-full text-5xl p-3 shadow-lg" />
           </div>
         </div>
       </div>
