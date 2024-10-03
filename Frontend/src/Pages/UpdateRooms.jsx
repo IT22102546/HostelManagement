@@ -27,7 +27,7 @@ export default function UpdateRooms() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await fetch(`/api/rooms/getrooms?roomId=${roomId}`);
+        const res = await fetch('/api/rooms/getrooms?roomId=${roomId}');
         const data = await res.json();
         console.log(data);
 
@@ -49,8 +49,7 @@ export default function UpdateRooms() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(
-        `/api/rooms/update/${formData._id}/${currentUser._id}`,
+      const res = await fetch(`/api/rooms/update/${formData._id}/${currentUser._id}`,
         {
           method: "PUT",
           headers: {
@@ -189,6 +188,6 @@ export default function UpdateRooms() {
           </Alert>
         )}
       </form>
-    </div>
-  );
+    </div>
+  );
 }
