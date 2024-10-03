@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome} from 'react-icons/hi';
+import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt} from 'react-icons/hi';
 import {
   HiBookmark,
   HiOutlineArchive,
@@ -113,6 +113,17 @@ export default function DashSideBar() {
                   Recieved Orders
                 </Sidebar.Item>
               </Link>
+
+
+              <Link to="/dashboard?tab=bookings" key="bookings">
+                <Sidebar.Item
+                  active={tab === "bookings"}
+                  icon={HiOutlineBookmarkAlt}
+                  as="div"
+                >
+                  Booking Requests
+                </Sidebar.Item>
+              </Link>
             </>
           )}
 
@@ -126,6 +137,18 @@ export default function DashSideBar() {
               My Requests
             </Sidebar.Item>
           </Link>
+
+          <Link to="/dashboard?tab=mybookings" key="mybookings">
+            <Sidebar.Item
+              active={tab === "my_requests"}
+              icon={HiOutlineBookmarkAlt}
+              labelColor="dark"
+              as="div"
+            >
+              My Bookings
+            </Sidebar.Item>
+          </Link>
+          
 
           <Link to="/dashboard?tab=my_orders" key="orders">
             <Sidebar.Item

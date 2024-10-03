@@ -20,6 +20,8 @@ export default function AddRoom() {
     furnished: false,
     gender: "",
     price: "",
+    bookingstatus: false,
+    slug:""
   });
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();
@@ -60,7 +62,7 @@ export default function AddRoom() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Sends roomtype, furnished, and price
+        body: JSON.stringify(formData), 
       });
 
       const data = await res.json();

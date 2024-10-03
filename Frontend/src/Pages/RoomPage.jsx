@@ -38,6 +38,7 @@ export default function RoomPage() {
         setRooms(data.rooms);
         setTotalRooms(data.totalRooms);
         setTotalPages(data.totalPages);
+        console.log(data)
       }
     } catch (error) {
       console.error(error.message);
@@ -172,6 +173,14 @@ export default function RoomPage() {
                 >
                   <FaChair className="text-2xl mr-2" />
                   <span>{room.furnished ? "FURNISHED" : "UNFURNISHED"}</span>
+                </div>
+
+                <div
+                  className={`items-center justify-center font-cinzel text-xl rounded-lg inline-block my-1 ml-24 px-4 border border-black shadow-inner ${
+                    room.bookingstatus ? "text-red-600" : "text-blue-600"
+                  }`}
+                >
+                  <span>{room.bookingstatus ? "RESERVED" : "AVAILABLE"}</span>
                 </div>
 
                 <p className="text-center text-gray-600">

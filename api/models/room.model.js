@@ -29,9 +29,12 @@ const roomSchema = new mongoose.Schema(
           },
         slug: {
             type: String,
-            required:true,
             unique: true,
         },
+        bookingstatus: {
+            type: Boolean,
+            default :false,
+          },
        
     },{timestamps:true}
 )

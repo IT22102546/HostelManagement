@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Alert, Button, TextInput } from "flowbite-react";
-import { FaPlus, FaMinus, FaChair } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { Alert } from "flowbite-react";
+import { FaChair } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function PostRoom() {
@@ -68,10 +68,17 @@ export default function PostRoom() {
       return;
     }
 
+    if (!room) {
+      showNotification("Room data is missing.");
+      return;
+    }
+
     try {
       const bookingData = {
-        userId: user._id,
-        roomId: room._id,
+        userId: user._id, // You can change this if user is not logged in
+        email: user.email,
+        username: user.username,
+        bookingstatus: room.bookingstatus,
         furnished: room.furnished,
         roomtype: room.roomtype,
         gender: room.gender,
@@ -84,33 +91,35 @@ export default function PostRoom() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`, // Include token if required
         },
         body: JSON.stringify(bookingData),
       });
 
-      if (res.ok) {
-        const savedBooking = await res.json();
-        showNotification("Room booked successfully!");
-      } else {
+      if (!res.ok) {
         const errorData = await res.json();
-        showNotification(errorData.message || "Failed to book room.");
+        if (res.status === 409) {
+          throw new Error("ALREADY BOOKING REQUEST ADDED!");
+        }
+        throw new Error(errorData.message || "Failed to book room.");
       }
+
+      const savedBooking = await res.json();
+      showNotification("Booking Request Added successfully!");
     } catch (error) {
       console.error(error);
-      showNotification("An error occurred while booking.");
+      showNotification(error.message || "An error occurred while booking.");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 relative">
       {notification.visible && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
           {notification.message}
         </div>
       )}
 
-      <div className="bg-white shadow-2xl rounded-lg p-8 w-full max-w-2xl relative">
+      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl relative">
         <div className="absolute top-4 left-4 bg-blue-700 text-white text-lg font-bold py-2 px-4 rounded-lg shadow-lg">
           RNO {room.roomno}
         </div>
@@ -121,8 +130,19 @@ export default function PostRoom() {
             Room Type : <span className="font-bold"> {room.roomtype} Room</span>
           </h2>
 
+          {/* Room Status */}
+
+          <div
+            className={`text-2xl font-semibold ${
+              room.bookingstatus ? "text-red-600" : "text-blue-600"
+            }`}
+          >
+            <span>{room.bookingstatus ? "RESERVED" : "AVAILABLE"}</span>
+          </div>
+
           {/* Furnished/Unfurnished Status */}
-          <div className={`flex items-center justify-center px-6 py-3 font-semibold text-xl rounded-full ${
+          <div
+            className={`flex items-center justify-center px-6 py-3 font-semibold text-xl rounded-full ${
               room.furnished
                 ? "bg-blue-100 text-blue-800"
                 : "bg-red-100 text-red-600"
