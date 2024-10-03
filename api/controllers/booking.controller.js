@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 import Booking from '../models/booking.model.js';
 import Rooms from '../models/room.model.js';
+dotenv.config();
 
 export const addBooking = async (req, res, next) => {
   try {
@@ -102,7 +104,7 @@ export const updateBookingStatus = async (req, res, next) => {
 
 const sendApprovalEmail = async (email, username, roomno) => {
   const mailOptions = {
-    from:  'rashmikasumanaweera@gmail.com',
+    from: process.env.EMAIL_USERNAME,
     to: email,
     subject: 'Your Booking Request has been Approved!',
     text: `Hello ${username},\n\nYour booking request for Room No: ${roomno} has been approved. Please contact us for further details.\n\nThank you!`,
@@ -119,12 +121,10 @@ const sendApprovalEmail = async (email, username, roomno) => {
 
 const transporter = nodemailer.createTransport({
   service: 'gmail', // You can use any email service, this example is for Gmail
-  host:"smtp.gmail.com",
-  port:587,
-  secure:false,
+  // true for 465, false for other ports
   auth: {
-    user: 'rashmikasumanaweera@gmail.com', // Your email
-    pass: 'stxf dvbq kvhm odte', // Your email password or app-specific password
+    user: process.env.EMAIL_USERNAME, // Your email from the .env file
+    pass: process.env.EMAIL_PASSWORD, // Your app-specific password from the .env file
   },
 });
 
