@@ -39,7 +39,6 @@ export const getBookings = async (req, res, next) => {
         queryOptions.username = username;
       }
   
-
       const totalBookingRequests = await Booking.countDocuments(queryOptions);
       const bookings = await Booking.find(queryOptions)
         .skip((page - 1) * limit)
