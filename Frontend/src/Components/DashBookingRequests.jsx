@@ -9,6 +9,7 @@ import {
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import html2pdf from "html2pdf.js";
+import { Link } from "react-router-dom";
 
 export default function DashBookingRequests() {
   const { currentUser } = useSelector((state) => state.user);
@@ -189,6 +190,18 @@ export default function DashBookingRequests() {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar">
+       <div className="flex justify-end pb-4">
+          <Link to="/roomsummary">
+            <Button
+              type="button"
+              gradientDuoTone="purpleToBlue"
+              className="w-full , text-black bg-slate-400 "
+              outline
+            >
+              Room Income Summary
+            </Button>
+          </Link>
+        </div>
       <div className="flex justify-between">
         <input
           type="text"

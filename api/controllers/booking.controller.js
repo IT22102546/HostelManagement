@@ -80,7 +80,7 @@ export const updateBookingStatus = async (req, res, next) => {
     }
 
     booking.bookingstatus = bookingstatus;
-    booking.updatedAt = Date.now(); // Update the updatedAt field
+    //booking.updatedAt = Date.now(); // Update the updatedAt field
 
     await Rooms.findOneAndUpdate({ roomno: booking.roomno }, { bookingstatus: bookingstatus });
 
@@ -120,7 +120,6 @@ const sendApprovalEmail = async (email, username, roomno) => {
 
 const transporter = nodemailer.createTransport({
   service: 'gmail', // You can use any email service, this example is for Gmail
-  // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USERNAME, // Your email from the .env file
     pass: process.env.EMAIL_PASSWORD, // Your app-specific password from the .env file
