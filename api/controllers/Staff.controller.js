@@ -20,6 +20,7 @@ export const add = async(req,res,next)=>{
    const phonenumber=req.body.number;
   const Picture=req.body.image;
   const stafftype=req.body.type;
+  const salary=req.body.salary;
   
       const newstaffmember = new staff({
         Staffmembername,
@@ -33,6 +34,7 @@ export const add = async(req,res,next)=>{
        
         Picture,
         stafftype,
+        salary,
         
 });
 
@@ -118,6 +120,7 @@ export const updatestaff= async (req, res, next) => {
  
     Picture:req.body.image,
     stafftype:req.body.type,
+    salary:req.body.salary,
 
         },
       },

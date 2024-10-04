@@ -131,8 +131,11 @@ export default function Addstaff() {
             <TextInput type='text'placeholder='Address'required id='Address'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, Address: e.target.value })
             }/>
+            <TextInput type='number'placeholder='Salary 'required id='Salary'className='flex-1'  onChange={(e) =>
+              setFormData({ ...formData, salary: e.target.value })
+            }/>
           
-            <TextInput type='text'placeholder='Task'required id='pos'className='flex-1'  onChange={(e) =>
+            <TextInput type='text'placeholder='Task'required id='Task'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, task: e.target.value })
             }/>
             

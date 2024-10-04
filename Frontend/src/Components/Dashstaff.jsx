@@ -81,6 +81,7 @@ export default function Dashstaff() {
               <Table.HeadCell>Phone number</Table.HeadCell>
               <Table.HeadCell>Address</Table.HeadCell>
               <Table.HeadCell>Staff type</Table.HeadCell>
+              <Table.HeadCell>Salary</Table.HeadCell>
               <Table.HeadCell>Task</Table.HeadCell>
               <Table.HeadCell>
                 <span>Delete</span>
@@ -117,6 +118,7 @@ export default function Dashstaff() {
                   <Table.Cell>{members.phonenumber}</Table.Cell>
                   <Table.Cell>{members.address}</Table.Cell>
                   <Table.Cell>{members.stafftype}</Table.Cell>
+                  <Table.Cell>{members.salary}</Table.Cell>
                   <Table.Cell>{members.task}</Table.Cell>
                   <Table.Cell>
                     <span className='font-medium text-red-500 hover:underline cursor-pointer'
