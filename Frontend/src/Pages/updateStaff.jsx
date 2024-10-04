@@ -21,6 +21,7 @@ export default function Updatestaff() {
     const[number,setnumber]=useState();
     const[address,setaddress]=useState();
     const[task,settask]=useState();
+    const[type,settype]=useState();
 
     
 
@@ -91,6 +92,8 @@ export default function Updatestaff() {
             setnumber(data.phonenumber)
             settask(data.task)
             setage(data.Age)
+            settype(data.stafftype)
+
             console.log(data)
         
          }
@@ -164,6 +167,13 @@ export default function Updatestaff() {
 <TextInput type='email'placeholder='Email'required id='email'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             } defaultValue={email}/>
+             <Select onChange={(e) => setFormData({ ...formData, type: e.target.value })} defaultValue={type}>
+            <option value='Administrative staff'>Administrative staff</option>
+            <option value='cleaning staff'>cleaning staff</option>
+            <option value='Security staff'>Security staff</option>
+            <option value='Technical staff'>Technical staff</option>
+            <option value='Laundary staff'>Laundary staff</option>
+          </Select>
             <TextInput type='text'placeholder='Address'required id='Address'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, Address: e.target.value })
             } defaultValue={address}/>
