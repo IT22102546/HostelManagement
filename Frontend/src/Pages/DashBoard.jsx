@@ -4,10 +4,11 @@ import DashSideBar from "../Components/DashSideBar";
 import DashProfile from "../Components/DashProfile";
 import DashUsers from "../Components/DashUsers";
 import Dashstaff from "../Components/Dashstaff";
-
-
-
-
+import DashRequests from "../Components/DashRequests";
+import DashMyRequests from "../Components/DashMyRequests";
+import DashProduct from "../Components/DashProduct";
+import DashMyOrders from "../Components/DashMyOrders";
+import DashRecievedOrders from "../Components/DashRecievedOrders";
 
 
 
@@ -31,9 +32,15 @@ export default function DashBoard() {
       {tab==='profile' && <DashProfile/>}
       {tab === 'users' && <DashUsers/>}
       {tab === 'staff' && <Dashstaff/>}
+      {tab === 'requests' && <DashRequests/>}
+      {tab === 'my_requests' && <DashMyRequests/>}
+      {tab === 'products' && <DashProduct/>}
+      {tab === 'my_orders' && <DashMyOrders/>}
+      {tab === 'recived_orders' && <DashRecievedOrders/>}
+
+     
 
       {/*
-      {tab === 'products' && <DashProduct/>}
       {tab == 'orders' && <DashOrders/>}
       {tab === 'myorders' && <DashMyOrders/>}
 

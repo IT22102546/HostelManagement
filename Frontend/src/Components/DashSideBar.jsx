@@ -1,23 +1,30 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArchive, HiArrowSmRight, HiFolderAdd, HiGift, HiOutlineUserGroup, HiUser} from 'react-icons/hi';
+import {
+  HiArchive,
+  HiArrowSmRight,
+  HiBookmark,
+  HiGift,
+  HiOutlineUserGroup,
+  HiUser,
+  HiOutlineArchive,
+} from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signOut } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
-
 export default function DashSideBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const location = useLocation();
   const [tab, setTab] = useState();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const tabFromUrl = urlParams.get('tab');
+    const tabFromUrl = urlParams.get("tab");
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
@@ -25,9 +32,9 @@ export default function DashSideBar() {
 
   const handleSignOut = async () => {
     try {
-      await fetch('/api/user/signout');
+      await fetch("/api/user/signout");
       dispatch(signOut());
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -37,13 +44,13 @@ export default function DashSideBar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Link to='/dashboard?tab=profile' key="profile">
-            <Sidebar.Item 
-              active={tab === 'profile'} 
-              icon={HiUser} 
-              label={currentUser?.isAdmin ? 'Admin' : 'User'} 
-              labelColor='dark'
-              as='div'
+          <Link to="/dashboard?tab=profile" key="profile">
+            <Sidebar.Item
+              active={tab === "profile"}
+              icon={HiUser}
+              label={currentUser?.isAdmin ? "Admin" : "User"}
+              labelColor="dark"
+              as="div"
             >
               Profile
             </Sidebar.Item>
@@ -51,11 +58,11 @@ export default function DashSideBar() {
 
           {currentUser?.isAdmin && (
             <>
-              <Link to='/dashboard?tab=users' key="users">
+              <Link to="/dashboard?tab=users" key="users">
                 <Sidebar.Item
-                  active={tab === 'users'}
+                  active={tab === "users"}
                   icon={HiOutlineUserGroup}
-                  as='div'
+                  as="div"
                 >
                   Users
                 </Sidebar.Item>
@@ -69,18 +76,63 @@ export default function DashSideBar() {
                   Staff
                 </Sidebar.Item>
               </Link>
-              
+              <Link to="/dashboard?tab=requests" key="requests">
+                <Sidebar.Item
+                  active={tab === "requests"}
+                  icon={HiBookmark}
+                  labelColor="dark"
+                  as="div"
+                >
+                  Requests
+                </Sidebar.Item>
+              </Link>
 
-             
+              <Link to="/dashboard?tab=products" key="products">
+                <Sidebar.Item
+                  active={tab === "products"}
+                  icon={HiGift}
+                  as="div"
+                >
+                  Products
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=recived_orders" key="orders_recived">
+                <Sidebar.Item
+                  active={tab === "recived_orders"}
+                  icon={HiArchive}
+                  as="div"
+                >
+                  Recieved Orders
+                </Sidebar.Item>
+              </Link>
             </>
           )}
 
-             
+          <Link to="/dashboard?tab=my_requests" key="myrequests">
+            <Sidebar.Item
+              active={tab === "my_requests"}
+              icon={HiBookmark}
+              labelColor="dark"
+              as="div"
+            >
+              My Requests
+            </Sidebar.Item>
+          </Link>
 
-              
-          <Sidebar.Item 
-            icon={HiArrowSmRight} 
-            className="cursor-pointer" 
+          <Link to="/dashboard?tab=my_orders" key="orders">
+            <Sidebar.Item
+              active={tab === "my_orders"}
+              icon={HiOutlineArchive}
+              as="div"
+            >
+              My Orders
+            </Sidebar.Item>
+          </Link>
+
+          <Sidebar.Item
+            icon={HiArrowSmRight}
+            className="cursor-pointer"
             onClick={handleSignOut}
             key="signout"
           >

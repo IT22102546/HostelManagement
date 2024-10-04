@@ -20,15 +20,16 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="border-b-2 relative z-50 bg-blue-600">
+    <Navbar className="border-b-2 relative z-50 bg-gradient-to-r from-purple-700 to-purple-900 text-white p-8 rounded-lg shadow-lg">
       <div className="container mx-auto flex items-center justify-between py-4">
 
         {/* Logo */}
         <div className="flex items-center">
           <NavLink to="/" className="self-center whitespace-nowrap text-3xl font-semibold font-tangerine text-white">
-            Logo
+            <img src="/img/head_logo.png" alt="Logo" className="w-20 h-auto"/>  {/* Adjust the size as needed */}
           </NavLink>
         </div>
+
 
         {/* Right Section: Navigation links and user controls */}
         <div className="flex items-center space-x-8">
@@ -36,7 +37,7 @@ export default function Header() {
             <NavLink 
               to="/" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "text-white font-semibold" : "text-white"
               }
             >
               Home
@@ -44,23 +45,23 @@ export default function Header() {
             <NavLink 
               to="/category" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "text-white font-semibold" : "text-white"
               }
             >
               category
             </NavLink>
             <NavLink 
-              to="/ex1" 
+              to="/product-page" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "text-white font-semibold" : "text-white"
               }
             >
-              ex1
+              Inventory
             </NavLink>
             <NavLink 
               to="/ex2" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "text-white font-semibold" : "text-white"
               }
             >
               ex2
@@ -68,7 +69,7 @@ export default function Header() {
             <NavLink 
               to="/ex3" 
               className={({ isActive }) => 
-                isActive ?"text-black" : "text-white"
+                isActive ?"text-white font-semibold" : "text-white"
               }
             >
               ex3
@@ -76,7 +77,7 @@ export default function Header() {
             <NavLink 
               to="/ex4" 
               className={({ isActive }) => 
-                isActive ? "text-black" : "text-white"
+                isActive ? "text-white font-semibold" : "text-white"
               }
             >
               ex4
