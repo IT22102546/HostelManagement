@@ -58,6 +58,11 @@ const staffSchema = new mongoose.Schema({
       
 
     },
+
+    stafftype:{
+        type:String,
+        required:true,
+    },
    
 },{timestamps:true})
 

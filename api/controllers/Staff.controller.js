@@ -19,6 +19,7 @@ export const add = async(req,res,next)=>{
    const task=req.body.task;
    const phonenumber=req.body.number;
   const Picture=req.body.image;
+  const stafftype=req.body.type;
   
       const newstaffmember = new staff({
         Staffmembername,
@@ -31,6 +32,7 @@ export const add = async(req,res,next)=>{
         task,
        
         Picture,
+        stafftype,
         
 });
 
@@ -115,6 +117,7 @@ export const updatestaff= async (req, res, next) => {
     task:req.body.task,
  
     Picture:req.body.image,
+    stafftype:req.body.type,
 
         },
       },
