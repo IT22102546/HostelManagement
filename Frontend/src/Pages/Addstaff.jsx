@@ -137,7 +137,7 @@ export default function Addstaff() {
           
             <TextInput type='text'placeholder='Task'required id='Task'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, task: e.target.value })
-            }/>
+            } defaultValue={"none"}/>
             
             
         <Button type='submit' gradientDuoTone='purpleToBlue'>Add</Button>

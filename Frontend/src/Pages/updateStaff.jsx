@@ -126,7 +126,7 @@ export default function Updatestaff() {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/dashboard?tab=profile`);
+        navigate(`/dashboard?tab=staff`);
       }
     } catch (error) {
       setPublishError('Something went wrong');
@@ -134,7 +134,7 @@ export default function Updatestaff() {
   };
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-        <h1 className="text-center text-3xl my-7 font-semibold">Add Staff Member</h1>
+        <h1 className="text-center text-3xl my-7 font-semibold">Update Staff Member</h1>
         <form className="flex flex-col  gap-4" onSubmit={handleSubmit}>
         
          <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>

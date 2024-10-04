@@ -151,6 +151,8 @@ export default function Dashstaff() {
               <Table.HeadCell>Staff type</Table.HeadCell>
               <Table.HeadCell>Salary</Table.HeadCell>
               <Table.HeadCell>Task</Table.HeadCell>
+          
+              <Table.HeadCell>Assign task</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>Edit</Table.HeadCell>
             </Table.Head>
@@ -181,6 +183,11 @@ export default function Dashstaff() {
                     <Table.Cell>{members.salary}</Table.Cell>
                     <Table.Cell>{members.task}</Table.Cell>
                     <Table.Cell>
+                      <Link className="text-teal-500 hover:underline" to={`/updatestaff/${members._id}`}>
+                        <span>Edit</span>
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>
                       <span
                         className="font-medium text-red-500 hover:underline cursor-pointer"
                         onClick={() => {
@@ -192,8 +199,8 @@ export default function Dashstaff() {
                       </span>
                     </Table.Cell>
                     <Table.Cell>
-                      <Link className="text-teal-500 hover:underline" to={`/updatestaff/${members._id}`}>
-                        <span>Edit</span>
+                      <Link className="text-teal-500 hover:underline" to={`/taskassign/${members._id}`}>
+                        <span>Assign </span>
                       </Link>
                     </Table.Cell>
                   </Table.Row>
