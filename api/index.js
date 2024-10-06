@@ -10,7 +10,9 @@ import staffRoute from "./routes/staff.route.js"
 
 import requestRoute from "./routes/request.route.js";
 import productRoute from "./routes/product.route.js";
+import roomRoute from'./routes/room.route.js';
 import orderRoute from "./routes/order.route.js";
+import bookingRoute from'./routes/booking.route.js';
 
 
 
@@ -42,6 +44,8 @@ app.use("/api/user",userRoute);
 app.use("/api/staff",staffRoute)
 app.use("/api/request",requestRoute);
 app.use("/api/products", productRoute);
+app.use("/api/rooms", roomRoute);
+app.use("/api/bookings", bookingRoute);
 app.use("/api/order", orderRoute);
 
 

@@ -31,36 +31,40 @@ export default function DashMyRequests() {
     // };
 
   //fetch all the Request from database
-  useEffect(() => {
-    const fetchRequest = async () => {
-      try {
-        const res = await fetch(`/api/request/get_all_req`);
-        const data = await res.json();
-        const length = data.length;
-        console.log(data);
+  //fetch all the Request from database
+useEffect(() => {
+  const fetchRequest = async () => {
+    try {
+      const res = await fetch(`/api/request/get_all_req`);
+      const data = await res.json();
+      
+      if (res.ok) {
+        // Filter requests to only show the current user's requests
+        const userRequests = data.filter((request) => request.email === currentUser.email);
 
-        const completedCount = data.filter(request => request.status === true).length;
+        const length = userRequests.length;
+
+        const completedCount = userRequests.filter(request => request.status === true).length;
         console.log("Completed Requests:", completedCount);
         setCompleteStatus(completedCount);
 
         setTotalRequests(length);
-        if (res.ok) {
-          setRequest(data);
-          if (data.length < 9) {
-            setShowMore(false);
-          }
+        setRequest(userRequests);
+        if (userRequests.length < 9) {
+          setShowMore(false);
         }
-      } catch (error) {
-        console.log("error in fetching", error);
       }
-    };
-
-    // Only fetch requests if there is a valid currentUser
-    if (currentUser) {
-      fetchRequest();
+    } catch (error) {
+      console.log("error in fetching", error);
     }
-    // Make sure the effect runs only when currentUser changes
-  }, [currentUser]); // Removed Request from dependency array
+  };
+
+  // Only fetch requests if there is a valid currentUser
+  if (currentUser) {
+    fetchRequest();
+  }
+}, [currentUser]); // Removed Request from dependency array
+
 
   //delete request by id
   const handleDeleteRequest = async () => {
@@ -216,11 +220,12 @@ export default function DashMyRequests() {
         </div> */}
       </div>
       <h1 className="pt-6 px-4 font-semibold">My Requests</h1>
-      {Array.isArray(Request) && Request.length > 0 ? (
-        <>
-          <Link to='/dashboard/cleaning_request'>
+      <Link to='/dashboard/cleaning_request'>
           <button className="bg-indigo-600 hover:bg-indigo-700  rounded-lg px-3 p-2 mt-2 text-white">Request Clean Service</button>
           </Link>
+      {Array.isArray(Request) && Request.length > 0 ? (
+        <>
+          
           <div className="flex ">
             
             <TextInput

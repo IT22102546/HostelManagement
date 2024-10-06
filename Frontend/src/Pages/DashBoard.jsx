@@ -7,8 +7,11 @@ import Dashstaff from "../Components/Dashstaff";
 import DashRequests from "../Components/DashRequests";
 import DashMyRequests from "../Components/DashMyRequests";
 import DashProduct from "../Components/DashProduct";
+import DashRoom from "../Components/DashRoom";
 import DashMyOrders from "../Components/DashMyOrders";
 import DashRecievedOrders from "../Components/DashRecievedOrders";
+import DashBookingRequests from "../Components/DashBookingRequests";
+import DashMyBookingRequests from "../Components/DashMyBookingRequests";
 
 
 
@@ -35,8 +38,11 @@ export default function DashBoard() {
       {tab === 'requests' && <DashRequests/>}
       {tab === 'my_requests' && <DashMyRequests/>}
       {tab === 'products' && <DashProduct/>}
+      {tab === 'rooms' && <DashRoom/>}
       {tab === 'my_orders' && <DashMyOrders/>}
       {tab === 'recived_orders' && <DashRecievedOrders/>}
+      {tab === 'bookings' && <DashBookingRequests/>}
+      {tab === 'mybookings' && <DashMyBookingRequests/>}
 
      
 
