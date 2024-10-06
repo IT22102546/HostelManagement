@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt} from 'react-icons/hi';
+import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt, HiDesktopComputer} from 'react-icons/hi';
 import {
   HiBookmark,
   HiOutlineArchive,
@@ -122,6 +122,16 @@ export default function DashSideBar() {
                   as="div"
                 >
                   Booking Requests
+                </Sidebar.Item>
+              </Link>
+
+              <Link to="/dashboard?tab=support-desk" key="support-desk">
+                <Sidebar.Item
+                  active={tab === "support-desk"}
+                  icon={HiDesktopComputer}
+                  as="div"
+                >
+                  Support Desk
                 </Sidebar.Item>
               </Link>
             </>
