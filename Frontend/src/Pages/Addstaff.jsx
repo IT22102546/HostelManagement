@@ -121,13 +121,23 @@ export default function Addstaff() {
 <TextInput type='email'placeholder='Email'required id='email'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }/>
+            <Select onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
+            <option value='Administrative staff'>Administrative staff</option>
+            <option value='cleaning staff'>cleaning staff</option>
+            <option value='Security staff'>Security staff</option>
+            <option value='Technical staff'>Technical staff</option>
+            <option value='Laundary staff'>Laundary staff</option>
+          </Select>
             <TextInput type='text'placeholder='Address'required id='Address'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, Address: e.target.value })
             }/>
-          
-            <TextInput type='text'placeholder='Task'required id='pos'className='flex-1'  onChange={(e) =>
-              setFormData({ ...formData, task: e.target.value })
+            <TextInput type='number'placeholder='Salary 'required id='Salary'className='flex-1'  onChange={(e) =>
+              setFormData({ ...formData, salary: e.target.value })
             }/>
+          
+            <TextInput type='text'placeholder='Task'required id='Task'className='flex-1'  onChange={(e) =>
+              setFormData({ ...formData, task: e.target.value })
+            } defaultValue={"none"}/>
             
             
         <Button type='submit' gradientDuoTone='purpleToBlue'>Add</Button>
