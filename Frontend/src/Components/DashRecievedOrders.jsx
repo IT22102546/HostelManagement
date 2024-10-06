@@ -92,8 +92,6 @@ export default function DashRecievedOrders() {
     }
   };
 
-
-  
   const generatePDFReport = () => {
     const content = `
         <style>
@@ -238,6 +236,19 @@ export default function DashRecievedOrders() {
           </div>
 
         </div>
+        <div className="flex justify-end pb-4">
+          <Link to="/ordermonthlysummary">
+            <Button
+              type="button"
+              gradientDuoTone="purpleToBlue"
+              className="w-full , text-black bg-slate-400 "
+              outline
+            >
+              Order Income Summary
+            </Button>
+          </Link>
+        </div>
+
       </div>
       <h1 className="pt-6 px-4 font-semibold">Order recieved</h1>
       {Array.isArray(Order) && Order.length > 0 ? (
