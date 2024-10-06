@@ -31,6 +31,10 @@ import UpdateCommentAdmin from "./Pages/UpdateCommentAdmin";
 import UpdateCommentUser from "./Pages/UpdateCommentUser";import Addstaff from './Pages/Addstaff';
 import Updatestaff from './Pages/updateStaff';
 
+import RoomIncomeMonthlySummary from "./Pages/RoomIncomeMonthlySummary";
+import OrderIncomeMonthlySummary from './Pages/OrderIncomeMonthlySummary';
+
+
 
 export default function App() {
   return (
@@ -76,6 +80,8 @@ export default function App() {
            <Route path="/addproduct" element={<AddProducts/>}/>
            <Route path="/addroom" element={<AddRoom/>}/>
         </Route>
+        <Route path="/roomsummary" element={<RoomIncomeMonthlySummary/>}/>
+        <Route path="/ordermonthlysummary" element={<OrderIncomeMonthlySummary/>}/>
 
       </Routes>
       <Footer />
