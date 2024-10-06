@@ -21,6 +21,8 @@ export default function Updatestaff() {
     const[number,setnumber]=useState();
     const[address,setaddress]=useState();
     const[task,settask]=useState();
+    const[type,settype]=useState();
+    const[salary,setsalary]=useState();
 
     
 
@@ -91,6 +93,9 @@ export default function Updatestaff() {
             setnumber(data.phonenumber)
             settask(data.task)
             setage(data.Age)
+            settype(data.stafftype)
+            setsalary(data.salary)
+
             console.log(data)
         
          }
@@ -121,7 +126,7 @@ export default function Updatestaff() {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/dashboard?tab=profile`);
+        navigate(`/dashboard?tab=staff`);
       }
     } catch (error) {
       setPublishError('Something went wrong');
@@ -129,7 +134,7 @@ export default function Updatestaff() {
   };
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-        <h1 className="text-center text-3xl my-7 font-semibold">Add Staff Member</h1>
+        <h1 className="text-center text-3xl my-7 font-semibold">Update Staff Member</h1>
         <form className="flex flex-col  gap-4" onSubmit={handleSubmit}>
         
          <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
@@ -164,9 +169,20 @@ export default function Updatestaff() {
 <TextInput type='email'placeholder='Email'required id='email'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             } defaultValue={email}/>
+             <Select onChange={(e) => setFormData({ ...formData, type: e.target.value })} defaultValue={type}>
+            <option value='Administrative staff'>Administrative staff</option>
+            <option value='cleaning staff'>cleaning staff</option>
+            <option value='Security staff'>Security staff</option>
+            <option value='Technical staff'>Technical staff</option>
+            <option value='Laundary staff'>Laundary staff</option>
+          </Select>
             <TextInput type='text'placeholder='Address'required id='Address'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, Address: e.target.value })
             } defaultValue={address}/>
+
+<TextInput type='number'placeholder='Salary 'required id='Salary'className='flex-1'  onChange={(e) =>
+              setFormData({ ...formData, salary: e.target.value })
+            } defaultValue={salary}/>
           
             <TextInput type='text'placeholder='Task'required id='pos'className='flex-1'  onChange={(e) =>
               setFormData({ ...formData, task: e.target.value })

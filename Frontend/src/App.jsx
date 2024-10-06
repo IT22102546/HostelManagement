@@ -30,6 +30,7 @@ import UpdateRequestAdmin from "./Pages/UpdateRequestAdmin";
 import UpdateCommentAdmin from "./Pages/UpdateCommentAdmin";
 import UpdateCommentUser from "./Pages/UpdateCommentUser";import Addstaff from './Pages/Addstaff';
 import Updatestaff from './Pages/updateStaff';
+import AssignTask from './Pages/AssignTask';
 
 import RoomIncomeMonthlySummary from "./Pages/RoomIncomeMonthlySummary";
 import OrderIncomeMonthlySummary from './Pages/OrderIncomeMonthlySummary';
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/product/:productSlug" element={<PostProduct/>} />        
         <Route path="/addstaff" element={<Addstaff/>}/>
         <Route path="/updatestaff/:id" element={<Updatestaff/>}/>
+        <Route path="/taskassign/:id" element={<AssignTask/>}/>
 
 
 

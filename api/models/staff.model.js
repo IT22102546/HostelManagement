@@ -15,7 +15,7 @@ const staffSchema = new mongoose.Schema({
 
         type:Number,
         required:true,
-        unique:true
+      
 
     },
 
@@ -55,9 +55,21 @@ const staffSchema = new mongoose.Schema({
 
         type:String,
         required:true,
+        default:"none"
       
 
     },
+
+    stafftype:{
+        type:String,
+        required:true,
+    },
+
+    salary:{
+        type:Number,
+        required:true,
+    },
+   
    
 },{timestamps:true})
 
