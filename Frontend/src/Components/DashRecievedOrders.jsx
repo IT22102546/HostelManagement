@@ -21,7 +21,7 @@ export default function DashRecievedOrders() {
   const [totalOrders, setTotalOrders] = useState(0);
   const [completedCount, setCompleteStatus] = useState();
   const [searchName, setSearchName] = useState("");
-
+  const [totalOrderIncome, setTotalOrderIncome] = useState("");
 
   //get total sales
     // const calculateTotalOrder = () => {
@@ -50,6 +50,15 @@ export default function DashRecievedOrders() {
           if (data.length < 9) {
             setShowMore(false);
           }
+           // Calculate the total income from approved bookings
+          const completedOrders = data.filter(
+            (order) => order.status === true
+          );
+          const totalOrderIncome = completedOrders.reduce(
+            (acc, order) => acc + order.totalcost,
+            0
+          );
+          setTotalOrderIncome(totalOrderIncome,completedOrders); 
         }
       } catch (error) {
         console.log("error in fetching", error);
@@ -83,6 +92,8 @@ export default function DashRecievedOrders() {
     }
   };
 
+
+  
   const generatePDFReport = () => {
     const content = `
         <style>
@@ -212,6 +223,18 @@ export default function DashRecievedOrders() {
               </span>
               <div className="text-gray-500">Currently</div>
             </div>
+          </div>
+
+          <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+            <div className="flex justify-between">
+              <div className="">
+                <h3 className="text-gray-500 text-md uppercase">Total Order Income</h3>
+                <p className="text-2xl">Rs.{totalOrderIncome}.00</p>
+              </div>
+
+              <HiOutlineExclamationCircle className="bg-green-600 text-white rounded-full text-5xl p-3 shadow-lg" />
+            </div>
+           
           </div>
 
         </div>

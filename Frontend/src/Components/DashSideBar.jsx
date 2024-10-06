@@ -1,12 +1,8 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt} from 'react-icons/hi';
 import {
-  HiArchive,
-  HiArrowSmRight,
   HiBookmark,
-  HiGift,
-  HiOutlineUserGroup,
-  HiUser,
   HiOutlineArchive,
 } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
@@ -67,7 +63,15 @@ export default function DashSideBar() {
                   Users
                 </Sidebar.Item>
               </Link>
-
+              <Link to='/dashboard?tab=staff' key="staff">
+                <Sidebar.Item
+                  active={tab === 'staff'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                  Staff
+                </Sidebar.Item>
+              </Link>
               <Link to="/dashboard?tab=requests" key="requests">
                 <Sidebar.Item
                   active={tab === "requests"}
@@ -89,6 +93,17 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
+              <Link to='/dashboard?tab=rooms' key="rooms">
+                <Sidebar.Item
+                  active={tab === 'rooms'}
+                  icon={HiOutlineHome}
+                  as='div'
+                >
+                  Rooms
+                </Sidebar.Item>
+              </Link>
+
+             
               <Link to="/dashboard?tab=recived_orders" key="orders_recived">
                 <Sidebar.Item
                   active={tab === "recived_orders"}
@@ -96,6 +111,17 @@ export default function DashSideBar() {
                   as="div"
                 >
                   Recieved Orders
+                </Sidebar.Item>
+              </Link>
+
+
+              <Link to="/dashboard?tab=bookings" key="bookings">
+                <Sidebar.Item
+                  active={tab === "bookings"}
+                  icon={HiOutlineBookmarkAlt}
+                  as="div"
+                >
+                  Booking Requests
                 </Sidebar.Item>
               </Link>
             </>
@@ -111,6 +137,18 @@ export default function DashSideBar() {
               My Requests
             </Sidebar.Item>
           </Link>
+
+          <Link to="/dashboard?tab=mybookings" key="mybookings">
+            <Sidebar.Item
+              active={tab === "my_requests"}
+              icon={HiOutlineBookmarkAlt}
+              labelColor="dark"
+              as="div"
+            >
+              My Bookings
+            </Sidebar.Item>
+          </Link>
+          
 
           <Link to="/dashboard?tab=my_orders" key="orders">
             <Sidebar.Item
