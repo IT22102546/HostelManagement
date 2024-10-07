@@ -286,7 +286,7 @@ export default function DashBookingRequests() {
             <Table.HeadCell>Gender</Table.HeadCell>
             <Table.HeadCell>Price(RS.)</Table.HeadCell>
             <Table.HeadCell>Furnished Status</Table.HeadCell>
-            <Table.HeadCell>Room Status </Table.HeadCell>
+            <Table.HeadCell>Room status</Table.HeadCell>
             <Table.HeadCell>Booking Status</Table.HeadCell>
             <Table.HeadCell>Delete</Table.HeadCell>
           </Table.Head>
@@ -307,7 +307,7 @@ export default function DashBookingRequests() {
                 </Table.Cell>
                 <Table.Cell>
                   {userRooms
-                    .filter((room) => room.roomno === booking.roomno) // Filter the room by matching roomno
+                    .filter((room) => room.roomno === booking.roomno) //git Filter the room by matching roomno
                     .map((room) => (
                       <span
                         key={room._id}
