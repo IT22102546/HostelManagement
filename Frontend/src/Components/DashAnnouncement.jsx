@@ -12,32 +12,31 @@ import html2pdf from "html2pdf.js";
 
 export default function DashAnnouncement() {
   const { currentUser } = useSelector((state) => state.user);
-  const [Ticket, setTicket] = useState([]);
+  const [Announcement, setAnnouncement] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModel, setShowModel] = useState(false);
-  const [TicketIdToDelete, setTicketIdToDelete] = useState("");
-  const [totalTickets, setTotalTickets] = useState(0);
+  const [AnnouncementIdToDelete, setAnnouncementIdToDelete] = useState("");
+  const [totalAnnouncements, setTotalAnnouncements] = useState(0);
   const [completedCount, setCompleteStatus] = useState();
   const [searchName, setSearchName] = useState("");
 
-
   useEffect(() => {
-    const fetchTicket = async () => {
+    const fetchAnnouncement = async () => {
       try {
-        const res = await fetch(`/api/ticket/get_all_tickets`);
+        const res = await fetch(`/api/announcement/get_all_announcements`);
         const data = await res.json();
         const length = data.length;
         console.log(data);
 
         const completedCount = data.filter(
-          (Ticket) => Ticket.status === true
+          (Announcement) => Announcement.status === true
         ).length;
-        console.log("Completed Tickets:", completedCount);
+
         setCompleteStatus(completedCount);
 
-        setTotalTickets(length);
+        setTotalAnnouncements(length);
         if (res.ok) {
-          setTicket(data);
+          setAnnouncement(data);
           if (data.length < 9) {
             setShowMore(false);
           }
@@ -47,26 +46,31 @@ export default function DashAnnouncement() {
       }
     };
 
-    // Only fetch Tickets if there is a valid currentUser
+    // Only fetch Announcements if there is a valid currentUser
     if (currentUser) {
-      fetchTicket();
+      fetchAnnouncement();
     }
     // Make sure the effect runs only when currentUser changes
-  }, [currentUser]); // Removed Ticket from dependency array
+  }, [currentUser]); // Removed Announcement from dependency array
 
-  //delete Ticket by id
-  const handleDeleteTicket = async () => {
+  //delete Announcement by id
+  const handleDeleteAnnouncement = async () => {
     setShowModel(false);
     try {
-      const res = await fetch(`/api/ticket/delete_ticket/${TicketIdToDelete}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `/api/announcement/delete_announcement/${AnnouncementIdToDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
       } else {
-        setTicket((prev) =>
-          prev.filter((Tickets) => Tickets._id !== TicketIdToDelete)
+        setAnnouncement((prev) =>
+          prev.filter(
+            (Announcements) => Announcements._id !== AnnouncementIdToDelete
+          )
         );
       }
     } catch (error) {
@@ -107,8 +111,8 @@ export default function DashAnnouncement() {
 
         <h1 class="report-title"><b>Order Details Report</b></h1>
         <div class="details">
-          <p>Total Tickets: ${totalTickets}</p>
-          <p>Completed Tickets : ${completedCount}</p>
+          <p>Total Announcements: ${totalAnnouncements}</p>
+          <p>Completed Announcements : ${completedCount}</p>
          
         </div>
         <br>
@@ -116,26 +120,20 @@ export default function DashAnnouncement() {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Issue Type</th>
               <th>Title</th>
+              <th>Category</th>
               <th>Description</th>
-              <th>Reply</th>
-              <th>Status</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
-            ${Ticket.map(
+            ${Announcement.map(
               (item) => `
               <tr>
-                <td>${item.studentName}</td>
-                <td>${item.email}</td>
-                <td>${item.issueType}</td>
                 <td>${item.title}</td>
+                <td>${item.category}</td>
                 <td>${item.description}</td>
-                <td>${item.reply}</td>
-                <td>${item.status}</td>
+                <td>${item.date}</td>
               </tr>
             `
             ).join("")}
@@ -145,7 +143,7 @@ export default function DashAnnouncement() {
 
     html2pdf()
       .from(content)
-      .set({ margin: 1, filename: "Ticket_report.pdf" })
+      .set({ margin: 1, filename: "Announcement_report.pdf" })
       .save();
   };
 
@@ -174,7 +172,7 @@ export default function DashAnnouncement() {
                 <h3 className="text-gray-500 text-md uppercase">
                   Total Announcements
                 </h3>
-                <p className="text-2xl">{totalTickets}</p>
+                <p className="text-2xl">{totalAnnouncements}</p>
               </div>
 
               <HiOutlineArchive className="bg-green-600 text-white rounded-full text-5xl p-3 shadow-lg" />
@@ -182,16 +180,15 @@ export default function DashAnnouncement() {
             <div className="flex gap-2 text-sm">
               <span className="text-green-500 flex items-center">
                 <HiOutlineArchive />
-                {totalTickets}
+                {totalAnnouncements}
               </span>
               <div className="text-gray-500">Total</div>
             </div>
           </div>
-         
         </div>
       </div>
-      <h1 className="pt-6 px-4 font-semibold">Tickets recieved</h1>
-      {Array.isArray(Ticket) && Ticket.length > 0 ? (
+      <h1 className="pt-6 px-4 font-semibold">Announcements </h1>
+      {Array.isArray(Announcement) && Announcement.length > 0 ? (
         <>
           <div className="flex ">
             <TextInput
@@ -210,76 +207,66 @@ export default function DashAnnouncement() {
             />
           </div>
           <div className="flex gap-5">
-            
-           <Link to='/announcement-form'>
-           
-            <Button
-                gradientDuoTone="purpleToBlue"
-                outline
-                className="mb-1"
-            >
+            <Link to="/announcement-form">
+              <Button gradientDuoTone="purpleToBlue" outline className="mb-1">
                 Post Announcement
-            </Button>
-           </Link> 
-
+              </Button>
+            </Link>
           </div>
 
           <Table hoverable className="shadow-md">
             <Table.Head>
-              <Table.HeadCell>Student id</Table.HeadCell>
-              <Table.HeadCell>Name</Table.HeadCell>
-              <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Issue type</Table.HeadCell>
-              <Table.HeadCell>title</Table.HeadCell>
+              <Table.HeadCell>Title</Table.HeadCell>
+              <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Description</Table.HeadCell>
-              <Table.HeadCell>Reply</Table.HeadCell>
-              <Table.HeadCell>Status</Table.HeadCell>
-              <Table.HeadCell>Actions</Table.HeadCell>
+              <Table.HeadCell>Date</Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
 
-            {Ticket.filter((item) => {
-               const searchQuery = searchName.toLowerCase();
+            {Announcement.filter((item) => {
+              const searchQuery = searchName.toLowerCase();
 
-               // Ensure name and email are defined before calling toLowerCase()
-               const name = item.studentName ? item.studentName.toLowerCase().includes(searchQuery) : false;
-               const email = item.email ? item.email.toLowerCase().includes(searchQuery) : false;
-             
-               // Return true if any of the search criteria match
-               return name || email;
+              // Ensure name and email are defined before calling toLowerCase()
+              const title = item.title
+                ? item.title.toLowerCase().includes(searchQuery)
+                : false;
+              const category = item.category
+                ? item.category.toLowerCase().includes(searchQuery)
+                : false;
 
-              
+              // Return true if any of the search criteria match
+              return title || category;
             }).map((item) => (
               <Table.Body className="divide-y" key={item._id}>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{item.studentId}</Table.Cell>
-                  <Table.Cell>{item.studentName}</Table.Cell>
-                  <Table.Cell>{item.email}</Table.Cell>
-                  <Table.Cell>{item.issueType}</Table.Cell>
                   <Table.Cell>{item.title}</Table.Cell>
+                  <Table.Cell>{item.category}</Table.Cell>
                   <Table.Cell>{item.description}</Table.Cell>
-                  <Table.Cell>{item.reply}</Table.Cell>
                   <Table.Cell>
-                    <span
-                      className={
-                        item.status ? "text-green-600" : "text-red-600"
-                      }
-                    >
-                      {item.status ? "Completed" : "Not Completed"}
-                    </span>
+                    {new Date(item.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}{" / "}
+                    {new Date(item.createdAt).toLocaleTimeString("en-US", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
                   </Table.Cell>
+
                   <Table.Cell>
                     <div className="flex flex-row gap-2">
-                      <Link to={`/update-ticket/${item._id}`}>
+                      <Link to={`/update-announcement/${item._id}`}>
                         <button>
                           <box-icon name="edit-alt" color="green"></box-icon>
                         </button>
                       </Link>
-                      
 
                       <button
                         onClick={() => {
                           setShowModel(true);
-                          setTicketIdToDelete(item._id);
+                          setAnnouncementIdToDelete(item._id);
                         }}
                       >
                         <box-icon
@@ -305,7 +292,7 @@ export default function DashAnnouncement() {
           )}
         </>
       ) : (
-        <p>You have not any Ticket yet</p>
+        <p>You have not any Announcement yet</p>
       )}
 
       <Modal
@@ -323,7 +310,7 @@ export default function DashAnnouncement() {
             </h3>
           </div>
           <div className="flex justify-center gap-4">
-            <Button color="failure" onClick={handleDeleteTicket}>
+            <Button color="failure" onClick={handleDeleteAnnouncement}>
               Yes, I am sure
             </Button>
             <Button color="gray" onClick={() => setShowModel(false)}>
