@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt, HiDesktopComputer, HiTicket, HiSpeakerphone} from 'react-icons/hi';
+import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt, HiDesktopComputer, HiTicket, HiSpeakerphone, HiSupport} from 'react-icons/hi';
 import {
   HiBookmark,
   HiOutlineArchive,
@@ -145,6 +145,26 @@ export default function DashSideBar() {
                   Announcements
                 </Sidebar.Item>
               </Link>
+
+              <Link to="/dashboard?tab=suppliers" key="suppliers">
+                <Sidebar.Item
+                  active={tab === "suppliers"}
+                  icon={HiSupport}
+                  as="div"
+                >
+                 Suppliers
+                </Sidebar.Item>
+              </Link>
+{/* 
+              <Link to="/dashboard?tab=pending_suppliers" key="pending_suppliers">
+                <Sidebar.Item
+                  active={tab === "pending_suppliers"}
+                  icon={HiSupport}
+                  as="div"
+                >
+                 Pending Suppliers
+                </Sidebar.Item>
+              </Link> */}
             </>
           )}
 
