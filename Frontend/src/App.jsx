@@ -43,6 +43,7 @@ import SupplierForm from './Pages/SupplierForm';
 import SellerFormSuccess from './Pages/SellerFormSuccess';
 import ApprovedSuppliers from './Components/DashApprovedSuppliers';
 import DashSupplierRegistration from './Components/DashSupplierRegistration';
+import UpdateSellerRequest from './Pages/UpdateSellerRequest';
 
 
 
@@ -103,6 +104,7 @@ export default function App() {
         <Route path="/seller-form-success" element={<SellerFormSuccess/>}/>
         <Route path="/suppliers" element={<ApprovedSuppliers/>}/>
         <Route path="/pending-suppliers" element={<DashSupplierRegistration/>}/>
+        <Route path="/update-pending-supplier/:id" element={<UpdateSellerRequest/>}/>
 
       </Routes>
       <Footer />

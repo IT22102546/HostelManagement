@@ -65,23 +65,14 @@ export const getSupplier = async (req, res, next) => {
 // Update a supplier by ID
 export const updateSupplier = async (req, res, next) => {
     const supplierId = req.params.id;
-    const { supplierName, supplierRegisterNo, dateOfRegistration, businessAddress, contactNumber, email, productCategories } = req.body;
-
-    const updatedFields = {
-        supplierName,
-        supplierRegisterNo,
-        dateOfRegistration,
-        businessAddress,
-        contactNumber,
-        email,
-        productCategories
-    };
+    const { isSupplier } = req.body; // Only updating the isSupplier field
 
     try {
+        // Update only the isSupplier field
         const updatedSupplier = await Supplier.findByIdAndUpdate(
             supplierId,
-            updatedFields,
-            { new: true }  // Return the updated document
+            { isSupplier },  // Only update isSupplier field
+            { new: true }    // Return the updated document
         );
 
         if (!updatedSupplier) {
@@ -93,6 +84,7 @@ export const updateSupplier = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // Delete a supplier by ID
 export const deleteSupplier = async (req, res, next) => {

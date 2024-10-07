@@ -61,18 +61,14 @@ export default function DashSupplierRegistration() {
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       <div className="flex flex-wrap gap-5">
-        <div className="">
-          <Button gradientDuoTone="purpleToBlue" outline className="">
-            Generate Report
-          </Button>
-        </div>
+        
 
         <div className="flex-wrap flex gap-4 justify-center">
           <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
             <div className="flex justify-between">
               <div className="">
                 <h3 className="text-gray-500 text-md uppercase">
-                  Total Suppliers
+                  Total Suppliers Registrations
                 </h3>
                 <p className="text-2xl">{totalSuppliers}</p>
               </div>
@@ -89,12 +85,8 @@ export default function DashSupplierRegistration() {
           </div>
         </div>
       </div>
-      <h1 className="pt-6 px-4 font-semibold">Suppliers</h1>
-      <Link to="/dashboard?tab=suppliers">
-            <Button gradientDuoTone="purpleToBlue" outline className="">
-              Go to suppliers
-            </Button>
-          </Link> <br />
+      <h1 className="pt-6 px-4 font-semibold">Become Suppliers Requests</h1>
+
       {Array.isArray(suppliers) && suppliers.length > 0 ? (
         <>
           <div className="flex ">
@@ -114,8 +106,12 @@ export default function DashSupplierRegistration() {
             />
           </div>
           <div className="flex gap-5"></div>
-          
-
+          <Link to="/dashboard?tab=suppliers">
+            <Button gradientDuoTone="purpleToBlue" outline className="">
+              Go to suppliers
+            </Button>
+          </Link>{" "}
+          <br />
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Supplier Name</Table.HeadCell>
@@ -149,7 +145,7 @@ export default function DashSupplierRegistration() {
                     <Table.Cell>{item.productCategories.join(", ")}</Table.Cell>
                     <Table.Cell>
                       <div className="flex flex-row gap-2">
-                        <Link to={`/update-supplier/${item._id}`}>
+                        <Link to={`/update-pending-supplier/${item._id}`}>
                           <button>
                             <box-icon name="edit-alt" color="green"></box-icon>
                           </button>
@@ -183,7 +179,6 @@ export default function DashSupplierRegistration() {
                 </Table.Body>
               ))}
           </Table>
-
           {showMore && (
             <button className="w-full text-teal-500 self-center text-sm py-7">
               Show more
