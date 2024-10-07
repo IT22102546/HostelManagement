@@ -14,6 +14,7 @@ import DashBookingRequests from "../Components/DashBookingRequests";
 import DashMyBookingRequests from "../Components/DashMyBookingRequests";
 import DashSupportDesk from "../Components/DashSupportDesk";
 import DashMyTickets from "../Components/DashMyTickets";
+import DashAnnouncement from "../Components/DashAnnouncement";
 
 
 
@@ -47,6 +48,7 @@ export default function DashBoard() {
       {tab === 'mybookings' && <DashMyBookingRequests/>}
       {tab === 'support-desk' && <DashSupportDesk/>}
       {tab === 'my_tickets' && <DashMyTickets/>}
+      {tab === 'announcement' && <DashAnnouncement/>}
 
      
 

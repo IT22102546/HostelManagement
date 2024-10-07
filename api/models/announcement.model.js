@@ -16,12 +16,7 @@ const announcementSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    reply:{
-        type: String,
-    },
-    attachments:{
-        type: String,
-    },
+   
     createdAt: {
         type: Date,
         default: Date.now

@@ -8,7 +8,7 @@ export const testAnnouncement = (req, res) => {
 
 // Create a new announcement
 export const createAnnouncement = async (req, res, next) => {
-    const { title, category, description, reply, attachments } = req.body;
+    const { title, category, description} = req.body;
 
     // Ensure required fields are provided
     if (!title || !category || !description) {
@@ -19,9 +19,7 @@ export const createAnnouncement = async (req, res, next) => {
     const newAnnouncement = new Announcement({
         title,
         category,
-        description,
-        reply,        // Optional field
-        attachments,  // Optional field
+        description
     });
 
     try {
