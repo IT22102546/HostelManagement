@@ -34,6 +34,9 @@ import AssignTask from './Pages/AssignTask';
 
 import RoomIncomeMonthlySummary from "./Pages/RoomIncomeMonthlySummary";
 import OrderIncomeMonthlySummary from './Pages/OrderIncomeMonthlySummary';
+import Support from './Pages/Support';
+import UpdateTicket from './Pages/UpdateTicket';
+import DashMyTickets from './Components/DashMyTickets';
 
 
 
@@ -84,6 +87,9 @@ export default function App() {
         </Route>
         <Route path="/roomsummary" element={<RoomIncomeMonthlySummary/>}/>
         <Route path="/ordermonthlysummary" element={<OrderIncomeMonthlySummary/>}/>
+        <Route path="/support" element={<Support/>}/>
+        <Route path="/update-ticket/:id" element={<UpdateTicket/>}/>
+        <Route path="/my_tickets" element={<DashMyTickets/>}/>
 
       </Routes>
       <Footer />

@@ -12,40 +12,32 @@ import html2pdf from "html2pdf.js";
 
 export default function DashSupportDesk() {
   const { currentUser } = useSelector((state) => state.user);
-  const [Request, setRequest] = useState([]);
+  const [Ticket, setTicket] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModel, setShowModel] = useState(false);
-  const [requestIdToDelete, setrequestIdToDelete] = useState("");
-  const [totalRequests, setTotalRequests] = useState(0);
+  const [TicketIdToDelete, setTicketIdToDelete] = useState("");
+  const [totalTickets, setTotalTickets] = useState(0);
   const [completedCount, setCompleteStatus] = useState();
   const [searchName, setSearchName] = useState("");
 
-  //get total sales
-  // const calculateTotalRequest = () => {
-  //   const total = Request.reduce((accumulator, currentOrder) => {
-  //     return accumulator + parseFloat(currentOrder.totalcost);
-  //   }, 0);
-  //   setTotalRequests(total);
-  // };
 
-  //fetch all the Request from database
   useEffect(() => {
-    const fetchRequest = async () => {
+    const fetchTicket = async () => {
       try {
-        const res = await fetch(`/api/request/get_all_req`);
+        const res = await fetch(`/api/ticket/get_all_tickets`);
         const data = await res.json();
         const length = data.length;
         console.log(data);
 
         const completedCount = data.filter(
-          (request) => request.status === true
+          (Ticket) => Ticket.status === true
         ).length;
-        console.log("Completed Requests:", completedCount);
+        console.log("Completed Tickets:", completedCount);
         setCompleteStatus(completedCount);
 
-        setTotalRequests(length);
+        setTotalTickets(length);
         if (res.ok) {
-          setRequest(data);
+          setTicket(data);
           if (data.length < 9) {
             setShowMore(false);
           }
@@ -55,26 +47,26 @@ export default function DashSupportDesk() {
       }
     };
 
-    // Only fetch requests if there is a valid currentUser
+    // Only fetch Tickets if there is a valid currentUser
     if (currentUser) {
-      fetchRequest();
+      fetchTicket();
     }
     // Make sure the effect runs only when currentUser changes
-  }, [currentUser]); // Removed Request from dependency array
+  }, [currentUser]); // Removed Ticket from dependency array
 
-  //delete request by id
-  const handleDeleteRequest = async () => {
+  //delete Ticket by id
+  const handleDeleteTicket = async () => {
     setShowModel(false);
     try {
-      const res = await fetch(`/api/request/delete_req/${requestIdToDelete}`, {
+      const res = await fetch(`/api/ticket/delete_ticket/${TicketIdToDelete}`, {
         method: "DELETE",
       });
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
       } else {
-        setRequest((prev) =>
-          prev.filter((requests) => requests._id !== requestIdToDelete)
+        setTicket((prev) =>
+          prev.filter((Tickets) => Tickets._id !== TicketIdToDelete)
         );
       }
     } catch (error) {
@@ -115,8 +107,8 @@ export default function DashSupportDesk() {
 
         <h1 class="report-title"><b>Order Details Report</b></h1>
         <div class="details">
-          <p>Total Requests: ${totalRequests}</p>
-          <p>Completed Requests : ${completedCount}</p>
+          <p>Total Tickets: ${totalTickets}</p>
+          <p>Completed Tickets : ${completedCount}</p>
          
         </div>
         <br>
@@ -126,23 +118,23 @@ export default function DashSupportDesk() {
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>Room Number</th>
-              <th>Date</th>
-              <th>Additional Info</th>
-              <th>Comments</th>
+              <th>Issue Type</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Reply</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            ${Request.map(
+            ${Ticket.map(
               (item) => `
               <tr>
-                <td>${item.name}</td>
+                <td>${item.studentName}</td>
                 <td>${item.email}</td>
-                <td>${item.roomNumber}</td>
-                <td>${item.date}</td>
-                <td>${item.additionalDetails}</td>
-                <td>${item.commentsUser}.00</td>
+                <td>${item.issueType}</td>
+                <td>${item.title}</td>
+                <td>${item.description}</td>
+                <td>${item.reply}</td>
                 <td>${item.status}</td>
               </tr>
             `
@@ -153,7 +145,7 @@ export default function DashSupportDesk() {
 
     html2pdf()
       .from(content)
-      .set({ margin: 1, filename: "Request_report.pdf" })
+      .set({ margin: 1, filename: "Ticket_report.pdf" })
       .save();
   };
 
@@ -180,9 +172,9 @@ export default function DashSupportDesk() {
             <div className="flex justify-between">
               <div className="">
                 <h3 className="text-gray-500 text-md uppercase">
-                  Total Request
+                  Total Ticket
                 </h3>
-                <p className="text-2xl">{totalRequests}</p>
+                <p className="text-2xl">{totalTickets}</p>
               </div>
 
               <HiOutlineArchive className="bg-green-600 text-white rounded-full text-5xl p-3 shadow-lg" />
@@ -190,7 +182,7 @@ export default function DashSupportDesk() {
             <div className="flex gap-2 text-sm">
               <span className="text-green-500 flex items-center">
                 <HiOutlineArchive />
-                {totalRequests}
+                {totalTickets}
               </span>
               <div className="text-gray-500">Total</div>
             </div>
@@ -217,12 +209,12 @@ export default function DashSupportDesk() {
         </div>
       </div>
       <h1 className="pt-6 px-4 font-semibold">Tickets recieved</h1>
-      {Array.isArray(Request) && Request.length > 0 ? (
+      {Array.isArray(Ticket) && Ticket.length > 0 ? (
         <>
           <div className="flex ">
             <TextInput
               type="text"
-              placeholder="Search a tickets by (First Name or Email or Room Number)"
+              placeholder="Search a tickets by (First Name or Email)"
               required
               id="title"
               className="flex-1"
@@ -242,32 +234,38 @@ export default function DashSupportDesk() {
 
           <Table hoverable className="shadow-md">
             <Table.Head>
+              <Table.HeadCell>Student id</Table.HeadCell>
               <Table.HeadCell>Name</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Room Number</Table.HeadCell>
-              <Table.HeadCell>Date</Table.HeadCell>
-              <Table.HeadCell>Additional Info</Table.HeadCell>
-              <Table.HeadCell>Comments by user</Table.HeadCell>
+              <Table.HeadCell>Issue type</Table.HeadCell>
+              <Table.HeadCell>title</Table.HeadCell>
+              <Table.HeadCell>Description</Table.HeadCell>
+              <Table.HeadCell>Reply</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
               <Table.HeadCell>Actions</Table.HeadCell>
             </Table.Head>
 
-            {Request.filter((item) => {
-              const searchQuery = searchName.toLowerCase();
-              const name = item.name.toLowerCase().includes(searchQuery);
-              const email = item.email.toLowerCase().includes(searchQuery);
+            {Ticket.filter((item) => {
+               const searchQuery = searchName.toLowerCase();
 
-              // Return true if any of the search criteria match
-              return name || email;
+               // Ensure name and email are defined before calling toLowerCase()
+               const name = item.studentName ? item.studentName.toLowerCase().includes(searchQuery) : false;
+               const email = item.email ? item.email.toLowerCase().includes(searchQuery) : false;
+             
+               // Return true if any of the search criteria match
+               return name || email;
+
+              
             }).map((item) => (
               <Table.Body className="divide-y" key={item._id}>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{item.name}</Table.Cell>
+                  <Table.Cell>{item.studentId}</Table.Cell>
+                  <Table.Cell>{item.studentName}</Table.Cell>
                   <Table.Cell>{item.email}</Table.Cell>
-                  <Table.Cell>{item.roomNumber}</Table.Cell>
-                  <Table.Cell>{item.date}</Table.Cell>
-                  <Table.Cell>{item.additionalDetails}</Table.Cell>
-                  <Table.Cell>{item.commentsUser}</Table.Cell>
+                  <Table.Cell>{item.issueType}</Table.Cell>
+                  <Table.Cell>{item.title}</Table.Cell>
+                  <Table.Cell>{item.description}</Table.Cell>
+                  <Table.Cell>{item.reply}</Table.Cell>
                   <Table.Cell>
                     <span
                       className={
@@ -279,25 +277,17 @@ export default function DashSupportDesk() {
                   </Table.Cell>
                   <Table.Cell>
                     <div className="flex flex-row gap-2">
-                      <Link to={`/update-req/${item._id}`}>
+                      <Link to={`/update-ticket/${item._id}`}>
                         <button>
                           <box-icon name="edit-alt" color="green"></box-icon>
                         </button>
                       </Link>
-                      <Link to={`/update-comment/${item._id}`}>
-                        <button>
-                          <box-icon
-                            name="comment-detail"
-                            type="solid"
-                            color="blue"
-                          ></box-icon>
-                        </button>
-                      </Link>
+                      
 
                       <button
                         onClick={() => {
                           setShowModel(true);
-                          setrequestIdToDelete(item._id);
+                          setTicketIdToDelete(item._id);
                         }}
                       >
                         <box-icon
@@ -323,7 +313,7 @@ export default function DashSupportDesk() {
           )}
         </>
       ) : (
-        <p>You have not any Request yet</p>
+        <p>You have not any Ticket yet</p>
       )}
 
       <Modal
@@ -341,7 +331,7 @@ export default function DashSupportDesk() {
             </h3>
           </div>
           <div className="flex justify-center gap-4">
-            <Button color="failure" onClick={handleDeleteRequest}>
+            <Button color="failure" onClick={handleDeleteTicket}>
               Yes, I am sure
             </Button>
             <Button color="gray" onClick={() => setShowModel(false)}>
