@@ -103,6 +103,16 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
+              <Link to="/dashboard?tab=bookings" key="bookings">
+                <Sidebar.Item
+                  active={tab === "bookings"}
+                  icon={HiOutlineBookmarkAlt}
+                  as="div"
+                  
+                >
+                  Booking Requests
+                </Sidebar.Item>
+              </Link>
              
               <Link to="/dashboard?tab=recived_orders" key="orders_recived">
                 <Sidebar.Item
@@ -115,15 +125,6 @@ export default function DashSideBar() {
               </Link>
 
 
-              <Link to="/dashboard?tab=bookings" key="bookings">
-                <Sidebar.Item
-                  active={tab === "bookings"}
-                  icon={HiOutlineBookmarkAlt}
-                  as="div"
-                >
-                  Booking Requests
-                </Sidebar.Item>
-              </Link>
 
               <Link to="/dashboard?tab=support-desk" key="support-desk">
                 <Sidebar.Item
@@ -190,7 +191,7 @@ export default function DashSideBar() {
             </Sidebar.Item>
           </Link>
           
-
+<hr />
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"
