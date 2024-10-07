@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 export default function DashBookingRequests() {
   const { currentUser } = useSelector((state) => state.user);
   const [userBookingRequests, setUserBookingRequests] = useState([]);
+  const [userRooms, setUserRooms] = useState([]);
   const [showModel, setShowModel] = useState(false);
   const [bookingIdToDelete, setBookingIdToDelete] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,6 +50,20 @@ export default function DashBookingRequests() {
     };
 
     fetchBookings();
+
+    const fetchRooms = async () => {
+      try {
+        const res = await fetch(`/api/rooms/getrooms?searchTerm=${searchTerm}`);
+        const roomdata = await res.json();
+        if (res.ok) {
+          setUserRooms(roomdata.rooms);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRooms();
+
   }, [searchTerm]);
 
   const handleSearch = (e) => {
@@ -142,12 +157,14 @@ export default function DashBookingRequests() {
           padding: 8px;
           text-align: left;
           border-bottom: 1px solid #ddd;
+          font-size: 14px;
         }
         th {
           background-color: #f2f2f2;
+          font-size: 12px;
         }
       </style>
-      <h1><b>Room Details Report</b></h1>
+      <h1><b> Room Booking Details Report </b></h1>
       <table>
         <thead>
           <tr>
@@ -159,6 +176,7 @@ export default function DashBookingRequests() {
             <th>Gender</th>
             <th>Price</th>
             <th>Furnished Status</th>
+            <th>Booking Status</th>
           </tr>
         </thead>
         <tbody>
@@ -174,6 +192,7 @@ export default function DashBookingRequests() {
               <td>${booking.gender}</td>
               <td>${booking.price}</td>
               <td>${booking.furnished ? "FURNISHED" : "UNFURNISHED"}</td>
+              <td>${booking.bookingstatus ? "RESERVED" : "NOT YET"}</td>
             </tr>
           `
             )
@@ -268,7 +287,8 @@ export default function DashBookingRequests() {
             <Table.HeadCell>Gender</Table.HeadCell>
             <Table.HeadCell>Price(RS.)</Table.HeadCell>
             <Table.HeadCell>Furnished Status</Table.HeadCell>
-            <Table.HeadCell>Booking Status</Table.HeadCell>
+            <Table.HeadCell>Room Status</Table.HeadCell>
+            <Table.HeadCell>Accept Booking</Table.HeadCell>
             <Table.HeadCell>Delete</Table.HeadCell>
           </Table.Head>
           {userBookingRequests.map((booking) => (
@@ -279,12 +299,28 @@ export default function DashBookingRequests() {
                 </Table.Cell>
                 <Table.Cell>{booking.username}</Table.Cell>
                 <Table.Cell>{booking.email}</Table.Cell>
-                <Table.Cell>{booking.roomno}</Table.Cell>
+                <Table.Cell className="font-semibold text-black">{booking.roomno}</Table.Cell>
                 <Table.Cell>{booking.roomtype}</Table.Cell>
                 <Table.Cell>{booking.gender}</Table.Cell>
                 <Table.Cell>{booking.price}</Table.Cell>
                 <Table.Cell>
                   {booking.furnished ? "FURNISHED" : "UNFURNISHED"}
+                </Table.Cell>
+                <Table.Cell>
+                  {userRooms
+                    .filter((room) => room.roomno === booking.roomno) // Filter the room by matching roomno
+                    .map((room) => (
+                      <span
+                        key={room._id}
+                        className={` font-semibold  rounded-lg p-1 ${
+                          room.bookingstatus
+                            ? "bg-red-100 text-red-600"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {room.bookingstatus ? "RESERVED" : "AVAILABLE"}
+                      </span>
+                    ))}
                 </Table.Cell>
                 <Table.Cell>
 
@@ -295,7 +331,7 @@ export default function DashBookingRequests() {
                       onChange={() =>
                         handleToggleStatus(booking._id, booking.bookingstatus)
                       }
-                      className="form-checkbox h-6 w-6 text-blue-600"
+                      className="form-checkbox h-6 w-6 text-blue-500 rounded-md shadow-lg"
                     />
                     <span className="ml-2">
                       {booking.bookingstatus ? "Accepted" : "Pending"}
