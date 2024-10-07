@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 export default function DashBookingRequests() {
   const { currentUser } = useSelector((state) => state.user);
   const [userBookingRequests, setUserBookingRequests] = useState([]);
+  const [userRooms, setUserRooms] = useState([]);
   const [showModel, setShowModel] = useState(false);
   const [bookingIdToDelete, setBookingIdToDelete] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,7 +33,7 @@ export default function DashBookingRequests() {
           setUserBookingRequests(data.bookings);
           setTotalBookingRequests(data.totalBookingRequests);
 
-        // Calculate the total income from approved bookings
+          // Calculate the total income from approved bookings
           const approvedBookings = data.bookings.filter(
             (booking) => booking.bookingstatus === true
           );
@@ -40,7 +41,7 @@ export default function DashBookingRequests() {
             (acc, booking) => acc + booking.price,
             0
           );
-          setTotalBookingIncome(total,approvedBookings); 
+          setTotalBookingIncome(total, approvedBookings);
           setApprovedBookingsCount(approvedBookings.length);
         }
       } catch (error) {
@@ -49,6 +50,20 @@ export default function DashBookingRequests() {
     };
 
     fetchBookings();
+
+    const fetchRooms = async () => {
+      try {
+        const res = await fetch(`/api/rooms/getrooms?searchTerm=${searchTerm}`);
+        const roomdata = await res.json();
+
+        if (res.ok) {
+          setUserRooms(roomdata.rooms);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRooms();
   }, [searchTerm]);
 
   const handleSearch = (e) => {
@@ -78,7 +93,7 @@ export default function DashBookingRequests() {
   };
 
   const showNotification = (message) => {
-    alert(message); 
+    alert(message);
   };
 
   const handleToggleStatus = async (bookingId, currentStatus) => {
@@ -124,7 +139,6 @@ export default function DashBookingRequests() {
         );
         setTotalBookingIncome(total);
         setApprovedBookingsCount(approvedBookings.length);
-
       }
     } catch (error) {
       console.log(error.message);
@@ -141,13 +155,15 @@ export default function DashBookingRequests() {
         th, td {
           padding: 8px;
           text-align: left;
+          font-size: 12px;
           border-bottom: 1px solid #ddd;
         }
         th {
           background-color: #f2f2f2;
+          font-size: 12px;
         }
       </style>
-      <h1><b>Room Details Report</b></h1>
+      <h1><b>Room Booking Details Report</b></h1>
       <table>
         <thead>
           <tr>
@@ -159,6 +175,7 @@ export default function DashBookingRequests() {
             <th>Gender</th>
             <th>Price</th>
             <th>Furnished Status</th>
+            <th>Room Status</th>
           </tr>
         </thead>
         <tbody>
@@ -174,6 +191,7 @@ export default function DashBookingRequests() {
               <td>${booking.gender}</td>
               <td>${booking.price}</td>
               <td>${booking.furnished ? "FURNISHED" : "UNFURNISHED"}</td>
+              <td>${booking.bookingstatus ? "RESERVED" : "NOT YET"}</td>
             </tr>
           `
             )
@@ -190,18 +208,18 @@ export default function DashBookingRequests() {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar">
-       <div className="flex justify-end pb-4">
-          <Link to="/roomsummary">
-            <Button
-              type="button"
-              gradientDuoTone="purpleToBlue"
-              className="w-full , text-black bg-slate-400 "
-              outline
-            >
-              Room Income Summary
-            </Button>
-          </Link>
-        </div>
+      <div className="flex justify-end pb-4">
+        <Link to="/roomsummary">
+          <Button
+            type="button"
+            gradientDuoTone="purpleToBlue"
+            className="w-full , text-black bg-slate-400 "
+            outline
+          >
+            Room Income Summary
+          </Button>
+        </Link>
+      </div>
       <div className="flex justify-between">
         <input
           type="text"
@@ -236,7 +254,7 @@ export default function DashBookingRequests() {
           <div className="flex justify-between">
             <div className="">
               <h3 className="text-gray-500 text-md uppercase">
-                Total Approved Bookings 
+                Total Approved Bookings
               </h3>
               <p className="text-2xl">{approvedBookingsCount}</p>
             </div>
@@ -252,7 +270,7 @@ export default function DashBookingRequests() {
               </h3>
               <p className="text-2xl">Rs. {totalBookingIncome}.00</p>
             </div>
-            <HiInformationCircle  className="bg-yellow-400 text-white rounded-full text-5xl p-3 shadow-lg" />
+            <HiInformationCircle className="bg-yellow-400 text-white rounded-full text-5xl p-3 shadow-lg" />
           </div>
         </div>
       </div>
@@ -268,6 +286,7 @@ export default function DashBookingRequests() {
             <Table.HeadCell>Gender</Table.HeadCell>
             <Table.HeadCell>Price(RS.)</Table.HeadCell>
             <Table.HeadCell>Furnished Status</Table.HeadCell>
+            <Table.HeadCell>Room Status </Table.HeadCell>
             <Table.HeadCell>Booking Status</Table.HeadCell>
             <Table.HeadCell>Delete</Table.HeadCell>
           </Table.Head>
@@ -279,13 +298,30 @@ export default function DashBookingRequests() {
                 </Table.Cell>
                 <Table.Cell>{booking.username}</Table.Cell>
                 <Table.Cell>{booking.email}</Table.Cell>
-                <Table.Cell>{booking.roomno}</Table.Cell>
+                <Table.Cell className="font-semibold text-black">{booking.roomno}</Table.Cell>
                 <Table.Cell>{booking.roomtype}</Table.Cell>
                 <Table.Cell>{booking.gender}</Table.Cell>
                 <Table.Cell>{booking.price}</Table.Cell>
                 <Table.Cell>
                   {booking.furnished ? "FURNISHED" : "UNFURNISHED"}
                 </Table.Cell>
+                <Table.Cell>
+                  {userRooms
+                    .filter((room) => room.roomno === booking.roomno) // Filter the room by matching roomno
+                    .map((room) => (
+                      <span
+                        key={room._id}
+                        className={` font-semibold  rounded-lg p-1 ${
+                          room.bookingstatus
+                            ? "bg-red-100 text-red-600"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {room.bookingstatus ? "RESERVED" : "AVAILABLE"}
+                      </span>
+                    ))}
+                </Table.Cell>
+
                 <Table.Cell>
                   <label className="flex items-center cursor-pointer">
                     <input
@@ -294,7 +330,7 @@ export default function DashBookingRequests() {
                       onChange={() =>
                         handleToggleStatus(booking._id, booking.bookingstatus)
                       }
-                      className="form-checkbox h-6 w-6 text-blue-600"
+                      className="form-checkbox h-6 w-6 text-blue-500 rounded-md shadow-lg"
                     />
                     <span className="ml-2">
                       {booking.bookingstatus ? "Accepted" : "Pending"}
