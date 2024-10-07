@@ -38,6 +38,7 @@ import UpdateTicket from './Pages/UpdateTicket';
 import DashMyTickets from './Components/DashMyTickets';
 import AnnouncementForm from './Pages/AnnouncementForm';
 import UpdateAnnouncement from './Pages/UpdateAnnouncement';
+import PostedAnnouncements from './Pages/PostedAnnouncements';
 
 
 
@@ -93,6 +94,7 @@ export default function App() {
         <Route path="/my_tickets" element={<DashMyTickets/>}/>
         <Route path="/announcement-form" element={<AnnouncementForm/>}/>
         <Route path="/update-announcement/:id" element={<UpdateAnnouncement/>}/>
+        <Route path="/posted-announcements" element={<PostedAnnouncements/>}/>
 
       </Routes>
       <Footer />
