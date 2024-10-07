@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import SignIn from './Pages/SignIn';
@@ -37,6 +36,7 @@ import OrderIncomeMonthlySummary from './Pages/OrderIncomeMonthlySummary';
 import Support from './Pages/Support';
 import UpdateTicket from './Pages/UpdateTicket';
 import DashMyTickets from './Components/DashMyTickets';
+import AnnouncementForm from './Pages/AnnouncementForm';
 
 
 
@@ -90,6 +90,7 @@ export default function App() {
         <Route path="/support" element={<Support/>}/>
         <Route path="/update-ticket/:id" element={<UpdateTicket/>}/>
         <Route path="/my_tickets" element={<DashMyTickets/>}/>
+        <Route path="/announcement-form" element={<AnnouncementForm/>}/>
 
       </Routes>
       <Footer />
