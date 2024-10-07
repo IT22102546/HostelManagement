@@ -287,6 +287,7 @@ export default function DashBookingRequests() {
                   {booking.furnished ? "FURNISHED" : "UNFURNISHED"}
                 </Table.Cell>
                 <Table.Cell>
+
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
