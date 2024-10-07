@@ -82,6 +82,8 @@ export default function PostProduct() {
     return <Alert color="failure">{error}</Alert>;
   }
 
+  const isOutOfStock = product.quantity <= 0;
+
   return (
     <div className="p-3 max-w-5xl mx-auto min-h-screen">
       {notification.visible && (
@@ -108,10 +110,10 @@ export default function PostProduct() {
           <img src={product.images[mainImageIndex]} alt={product.title} className="w-full h-82 object-cover" />
           <h1 className="text-3xl my-7 font-semibold">{product.title}</h1>
           <div className="flex items-center mt-4 gap-2">
-          <div className=" gap-4 sm:flex-row justify-between mt-4">
-            Price: Rs. {product.price}
-          </div>
-            <Button className="bg-slate-400" onClick={() => handleQuantityChange(-1)}>
+            <div className=" gap-4 sm:flex-row justify-between mt-4">
+              Price: Rs. {product.price}
+            </div>
+            <Button className="bg-slate-400" onClick={() => handleQuantityChange(-1)} disabled={isOutOfStock}>
               <FaMinus />
             </Button>
             <TextInput
@@ -120,26 +122,30 @@ export default function PostProduct() {
               min="1"
               onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
               className="w-16 text-center"
+              disabled={isOutOfStock}
             />
-            <Button className="bg-slate-400" onClick={() => handleQuantityChange(1)}>
+            <Button className="bg-slate-400" onClick={() => handleQuantityChange(1)} disabled={isOutOfStock}>
               <FaPlus />
             </Button>
           </div>
           <p>{product.description}</p>
           
-          
-          <div className="flex justify-center gap-4 mt-4">
-            <button
-              className="block w-full text-center py-2 mt-2 bg-slate-200 border border-slate-200 text-black hover:bg-slate-400 rounded hover:border-slate-300 hover:text-white hover:font-semibold"
-              onClick={handleAddToCart}
-            >
-              Add to Cart
-            </button>
-            <Button className="bg-slate-400">Buy Product</Button>
-          </div>
+          {isOutOfStock ? (
+            <p className="text-red-600 font-semibold mt-4">Out of Stock</p>
+          ) : (
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                className="block w-full text-center py-2 mt-2 bg-slate-200 border border-slate-200 text-black hover:bg-slate-400 rounded hover:border-slate-300 hover:text-white hover:font-semibold"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
+              </button>
+              <Button className="bg-slate-400">Buy Product</Button>
+            </div>
+          )}
         </div>
       </div>
-      
+
       <div className="mt-10">
         <h2 className="text-xl font-semibold mb-4">Similar Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
