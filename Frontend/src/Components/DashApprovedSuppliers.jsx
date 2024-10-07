@@ -2,6 +2,7 @@ import { Button, Modal, Table, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiOutlineArchive, HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import  html2pdf  from "html2pdf.js";
 
 export default function ApprovedSuppliers() {
   const [suppliers, setSuppliers] = useState([]);
@@ -53,6 +54,62 @@ export default function ApprovedSuppliers() {
     }
   };
 
+  //Generate report
+  const generatePDFReport = () => {
+    const content = `
+      <style>
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+          font-size: 14px;
+        }
+        th {
+          background-color: #f2f2f2;
+          font-size: 12px;
+        }
+      </style>
+      <h1><b> Approved Supplier Details Report </b></h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Joined At</th>
+            <th>Supplier Name</th>
+            <th>Email</th>
+            <th>Contact No</th>
+            <th>Business Address</th>
+            <th>Product Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${suppliers
+            .map(
+              (item) => `
+            <tr>
+              <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+              <td>${item.supplierName}</td>
+              <td>${item.email}</td>
+              <td>${item.contactNumber}</td>
+              <td>${item.businessAddress}</td>
+              <td>${item.productCategories.join(" , ")}</td>
+            </tr>
+          `
+            )
+            .join("")}
+        </tbody>
+      </table>
+    `;
+
+    html2pdf()
+      .from(content)
+      .set({ margin: 1, filename: "Booking_Request_report.pdf" })
+      .save();
+  };
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       <div className="flex flex-wrap gap-5">
@@ -60,7 +117,7 @@ export default function ApprovedSuppliers() {
           <Button
             gradientDuoTone="purpleToBlue"
             outline
-            className=""
+            onClick={generatePDFReport}
           >
             Generate Report
           </Button>
@@ -115,6 +172,7 @@ export default function ApprovedSuppliers() {
           </Link> <br />
           <Table hoverable className="shadow-md">
             <Table.Head>
+              <Table.HeadCell>Joined Date</Table.HeadCell>
               <Table.HeadCell>Supplier Name</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
               <Table.HeadCell>Contact Number</Table.HeadCell>
@@ -139,6 +197,7 @@ export default function ApprovedSuppliers() {
               .map((item) => (
                 <Table.Body className="divide-y" key={item._id}>
                   <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
                     <Table.Cell>{item.supplierName}</Table.Cell>
                     <Table.Cell>{item.email}</Table.Cell>
                     <Table.Cell>{item.contactNumber}</Table.Cell>

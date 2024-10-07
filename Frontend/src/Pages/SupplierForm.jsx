@@ -262,7 +262,7 @@ export default function SupplierForm() {
 
           {/* Submit Button */}
           <Button type="submit" className="w-full bg-purple-700 hover:bg-purple-800">
-            Create account
+            Submit Application
           </Button>
         </form>
 
