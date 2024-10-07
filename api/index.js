@@ -15,6 +15,7 @@ import orderRoute from "./routes/order.route.js";
 import bookingRoute from'./routes/booking.route.js';
 import announcementRoute from "./routes/announcement.route.js";
 import ticketRoute from "./routes/ticket.route.js";
+import supplierRoute from "./routes/supplier.route.js";
 
 
 
@@ -51,6 +52,7 @@ app.use("/api/bookings", bookingRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/announcement", announcementRoute);
 app.use("/api/ticket",ticketRoute);
+app.use("/api/supplier", supplierRoute);
 
 
 app.use((err,req,res,next)=>{

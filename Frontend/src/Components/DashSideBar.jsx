@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt, HiDesktopComputer, HiTicket, HiSpeakerphone} from 'react-icons/hi';
+import { HiArchive, HiArrowSmRight, HiOutlineUserGroup, HiUser,HiGift, HiHome, HiOutlineHome, HiChartSquareBar, HiOutlineBookmarkAlt, HiDesktopComputer, HiTicket, HiSpeakerphone, HiSupport} from 'react-icons/hi';
 import {
   HiBookmark,
   HiOutlineArchive,
@@ -103,6 +103,16 @@ export default function DashSideBar() {
                 </Sidebar.Item>
               </Link>
 
+              <Link to="/dashboard?tab=bookings" key="bookings">
+                <Sidebar.Item
+                  active={tab === "bookings"}
+                  icon={HiOutlineBookmarkAlt}
+                  as="div"
+                  
+                >
+                  Booking Requests
+                </Sidebar.Item>
+              </Link>
              
               <Link to="/dashboard?tab=recived_orders" key="orders_recived">
                 <Sidebar.Item
@@ -115,15 +125,6 @@ export default function DashSideBar() {
               </Link>
 
 
-              <Link to="/dashboard?tab=bookings" key="bookings">
-                <Sidebar.Item
-                  active={tab === "bookings"}
-                  icon={HiOutlineBookmarkAlt}
-                  as="div"
-                >
-                  Booking Requests
-                </Sidebar.Item>
-              </Link>
 
               <Link to="/dashboard?tab=support-desk" key="support-desk">
                 <Sidebar.Item
@@ -144,6 +145,26 @@ export default function DashSideBar() {
                   Announcements
                 </Sidebar.Item>
               </Link>
+
+              <Link to="/dashboard?tab=suppliers" key="suppliers">
+                <Sidebar.Item
+                  active={tab === "suppliers"}
+                  icon={HiSupport}
+                  as="div"
+                >
+                 Suppliers
+                </Sidebar.Item>
+              </Link>
+{/* 
+              <Link to="/dashboard?tab=pending_suppliers" key="pending_suppliers">
+                <Sidebar.Item
+                  active={tab === "pending_suppliers"}
+                  icon={HiSupport}
+                  as="div"
+                >
+                 Pending Suppliers
+                </Sidebar.Item>
+              </Link> */}
             </>
           )}
 
@@ -190,7 +211,7 @@ export default function DashSideBar() {
             </Sidebar.Item>
           </Link>
           
-
+<hr />
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"

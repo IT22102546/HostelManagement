@@ -74,6 +74,7 @@ export default function Header() {
             >
               Announcements
             </NavLink>
+
             <NavLink 
               to="/support" 
               className={({ isActive }) => 
@@ -81,6 +82,15 @@ export default function Header() {
               }
             >
               Support
+            </NavLink>
+
+            <NavLink 
+              to="/become-supplier" 
+              className={({ isActive }) => 
+                isActive ? "nav-link-active" : "nav-link"
+              }
+            >
+              Become Supplier
             </NavLink>
           </div>
 

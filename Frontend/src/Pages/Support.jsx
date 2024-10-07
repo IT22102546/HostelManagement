@@ -1,6 +1,7 @@
 import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import 'aos/dist/aos.css';
 
 export default function Support() {
     const { currentUser } = useSelector((state) => state.user);
@@ -68,7 +69,7 @@ export default function Support() {
     <>
       <div className="flex flex-col md:flex-row items-center justify-between p-6 md:p-12">
         {/* Left Side: Headline, Tagline, and Button */}
-        <div className="w-full md:w-1/2 mb-8 md:mb-0">
+        <div className="w-full md:w-1/2 mb-8 md:mb-0" data-aos="fade-up">
           <h1 className="text-4xl font-bold mb-4 text-gray-900 font-sans">
             Welcome to the Hostel <span className='text-purple-600'>Help Desk!</span>
           </h1>
@@ -86,7 +87,7 @@ export default function Support() {
         </div>
 
         {/* Right Side: Image */}
-        <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+        <div className="w-full md:w-1/2 flex justify-center md:justify-end" data-aos="slide-right">
           <img
             src="/img/hostel.png" // Replace with your image URL
             alt="Support illustration"

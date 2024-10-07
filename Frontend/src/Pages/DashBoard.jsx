@@ -15,6 +15,8 @@ import DashMyBookingRequests from "../Components/DashMyBookingRequests";
 import DashSupportDesk from "../Components/DashSupportDesk";
 import DashMyTickets from "../Components/DashMyTickets";
 import DashAnnouncement from "../Components/DashAnnouncement";
+import DashApprovedSuppliers from "../Components/DashApprovedSuppliers";
+import DashSupplierRegistration from "../Components/DashSupplierRegistration";
 
 
 
@@ -49,6 +51,8 @@ export default function DashBoard() {
       {tab === 'support-desk' && <DashSupportDesk/>}
       {tab === 'my_tickets' && <DashMyTickets/>}
       {tab === 'announcement' && <DashAnnouncement/>}
+      {tab === 'suppliers' && <DashApprovedSuppliers/>}
+      {tab === 'pending_suppliers' && <DashSupplierRegistration/>}
 
      
 

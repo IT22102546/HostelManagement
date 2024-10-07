@@ -39,6 +39,11 @@ import DashMyTickets from './Components/DashMyTickets';
 import AnnouncementForm from './Pages/AnnouncementForm';
 import UpdateAnnouncement from './Pages/UpdateAnnouncement';
 import PostedAnnouncements from './Pages/PostedAnnouncements';
+import SupplierForm from './Pages/SupplierForm';
+import SellerFormSuccess from './Pages/SellerFormSuccess';
+import ApprovedSuppliers from './Components/DashApprovedSuppliers';
+import DashSupplierRegistration from './Components/DashSupplierRegistration';
+import UpdateSellerRequest from './Pages/UpdateSellerRequest';
 
 
 
@@ -95,6 +100,11 @@ export default function App() {
         <Route path="/announcement-form" element={<AnnouncementForm/>}/>
         <Route path="/update-announcement/:id" element={<UpdateAnnouncement/>}/>
         <Route path="/posted-announcements" element={<PostedAnnouncements/>}/>
+        <Route path="/become-supplier" element={<SupplierForm/>}/>
+        <Route path="/seller-form-success" element={<SellerFormSuccess/>}/>
+        <Route path="/suppliers" element={<ApprovedSuppliers/>}/>
+        <Route path="/pending-suppliers" element={<DashSupplierRegistration/>}/>
+        <Route path="/update-pending-supplier/:id" element={<UpdateSellerRequest/>}/>
 
       </Routes>
       <Footer />
