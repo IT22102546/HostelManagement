@@ -13,6 +13,8 @@ import productRoute from "./routes/product.route.js";
 import roomRoute from'./routes/room.route.js';
 import orderRoute from "./routes/order.route.js";
 import bookingRoute from'./routes/booking.route.js';
+import announcementRoute from "./routes/announcement.route.js";
+import ticketRoute from "./routes/ticket.route.js";
 
 
 
@@ -47,6 +49,8 @@ app.use("/api/products", productRoute);
 app.use("/api/rooms", roomRoute);
 app.use("/api/bookings", bookingRoute);
 app.use("/api/order", orderRoute);
+app.use("/api/announcement", announcementRoute);
+app.use("/api/ticket",ticketRoute);
 
 
 app.use((err,req,res,next)=>{

@@ -67,20 +67,20 @@ export default function Header() {
               Rooms
             </NavLink>
             <NavLink 
-              to="/ex3" 
+              to="/posted-announcements" 
               className={({ isActive }) => 
                 isActive ?"nav-link-active" : "nav-link"
               }
             >
-              ex3
+              Announcements
             </NavLink>
             <NavLink 
-              to="/ex4" 
+              to="/support" 
               className={({ isActive }) => 
                 isActive ? "nav-link-active" : "nav-link"
               }
             >
-              ex4
+              Support
             </NavLink>
           </div>
 
