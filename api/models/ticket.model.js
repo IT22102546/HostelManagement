@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 
 const ticketSchema = new mongoose.Schema({
+    userid:{
+        type: String,
+    },
     studentId: {
         type: String,
         required: true,
@@ -27,6 +30,10 @@ const ticketSchema = new mongoose.Schema({
     description:{
         type: String,
         required: true,
+    },
+    reply:{
+        type: String,
+        default: "No reply yet",
     },
     status:{
         type: Boolean,

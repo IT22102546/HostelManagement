@@ -8,15 +8,16 @@ export const testTicket = (req, res) => {
 
 // Create a new ticket
 export const createTicket = async (req, res, next) => {
-    const { studentId, studentName, email, issueType, title, description } = req.body;
+    const { userid, studentId, studentName, email, issueType, title, description } = req.body;
 
     // Ensure required fields are provided
-    if (!studentId || !studentName || !email || !issueType || !title || !description) {
+    if (!userid || !studentId || !studentName || !email || !issueType || !title || !description) {
         return next(errorHandler(400, 'Please provide all required fields: studentId, studentName, email, issueType, title, and description'));
     }
 
     // Create a new ticket instance
     const newTicket = new Ticket({
+        userid,
         studentId,
         studentName,
         email,
@@ -61,10 +62,30 @@ export const getTicket = async (req, res, next) => {
     }
 };
 
+
+export const getTicketUser = async (req, res, next) => {
+    try {
+        const userid = req.params.id;
+        // Find the ticket by userid instead of _id
+        const ticket = await Ticket.findOne({ userid });
+
+        if (!ticket) {
+            return res.status(404).json({ error: 'Ticket not found' });
+        }
+
+        res.json(ticket);  // Return the ticket
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
 // Update a ticket by ID
+
 export const updateTicket = async (req, res, next) => {
     const ticketId = req.params.id;
-    const { studentId, studentName, email, issueType, title, description, status } = req.body;
+    const { studentId, studentName, email, issueType, title, description,reply, status } = req.body;
 
     const updatedFields = {
         studentId,
@@ -73,6 +94,7 @@ export const updateTicket = async (req, res, next) => {
         issueType,
         title,
         description,
+        reply,
         status
     };
 
