@@ -14,6 +14,7 @@ export default function UpdateSellerRequest() {
     isSupplier: false,  // Default to false
   });
   const [publishError, setPublishError] = useState(null);
+  const [emailSent, setEmailSent] = useState(false); // New state for email status
   const { id } = useParams(); // Get the ID from the URL params
   const navigate = useNavigate();
 
@@ -65,6 +66,12 @@ export default function UpdateSellerRequest() {
       }
 
       setPublishError(null);
+      if (formData.isSupplier) {
+        setEmailSent(true); // Set email sent flag when supplier is approved
+      } else {
+        setEmailSent(false);
+      }
+
       alert("Supplier status updated successfully!");
       navigate("/dashboard?tab=suppliers"); // Navigate back to suppliers page
     } catch (error) {
@@ -176,6 +183,13 @@ export default function UpdateSellerRequest() {
         {publishError && (
           <Alert className="mt-5" color="failure">
             {publishError}
+          </Alert>
+        )}
+
+        {/* Display this alert if an email is sent */}
+        {emailSent && (
+          <Alert className="mt-5" color="success">
+            Approval email sent to the supplier.
           </Alert>
         )}
       </form>

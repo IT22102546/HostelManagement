@@ -45,7 +45,7 @@ const supplierSchema = new mongoose.Schema({
     type: Date,
     default: Date.now, // Automatically set the creation date when the supplier is created
   },
-});
+},{timestamps:true});
 
 // Create the model from the schema
 const Supplier = mongoose.model('supplier', supplierSchema);

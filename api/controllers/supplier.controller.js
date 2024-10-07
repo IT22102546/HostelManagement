@@ -1,5 +1,8 @@
 import Supplier from "../models/supplier.model.js";
 import { errorHandler } from "../utils/error.js";
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Test route
 export const testSupplier = (req, res) => {
@@ -79,6 +82,11 @@ export const updateSupplier = async (req, res, next) => {
             return res.status(404).json({ error: 'Supplier not found' });
         }
 
+            // If the status is now true (approved), send email
+        if (isSupplier) {
+            await sendApprovalEmail(updatedSupplier.email, updatedSupplier.supplierName, updatedSupplier.productCategories);
+        }
+        
         res.status(200).json(updatedSupplier);  // Return the updated supplier
     } catch (error) {
         next(error);
@@ -102,3 +110,33 @@ export const deleteSupplier = async (req, res, next) => {
         next(error);
     }
 };
+
+//send approved email to the supplier
+
+const sendApprovalEmail = async (email, supplierName, productCategories) => {
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: email,
+      subject: 'Your Booking Request has been Approved!',
+      text: `Hello ${supplierName},\n\nWe are pleased to inform you that your supplier registration for the following product categories: ${productCategories.join(' , '
+      )} has been approved.\n\nThank you for joining us!\n\nBest regards,\nThe Company Team`,
+    };
+  
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully to:', email);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
+  
+  
+  const transporter = nodemailer.createTransport({
+    service: 'gmail', // You can use any email service, this example is for Gmail
+    auth: {
+      user: process.env.EMAIL_USERNAME, // Your email from the .env file
+      pass: process.env.EMAIL_PASSWORD, // Your app-specific password from the .env file
+    },
+  });
+  
+    

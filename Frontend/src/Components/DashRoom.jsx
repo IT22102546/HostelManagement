@@ -96,7 +96,7 @@ export default function DashRoom() {
       <table>
         <thead>
           <tr>
-            <th>Updated At</th>
+            <th>Added Date</th>
             <th>Room No</th>
             <th>Room Type</th>
             <th>Gender</th>
@@ -222,7 +222,7 @@ export default function DashRoom() {
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
-              <Table.HeadCell>Date Updated</Table.HeadCell>
+              <Table.HeadCell>Added Date</Table.HeadCell>
               <Table.HeadCell>Room NO</Table.HeadCell>
               <Table.HeadCell>Room Type</Table.HeadCell>
               <Table.HeadCell>Gender</Table.HeadCell>
