@@ -50,22 +50,9 @@ export const getProducts = async (req, res, next) => {
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
-    const now = new Date();
-    
-    const oneMonthAgo = new Date(
-        now.getFullYear(),
-        now.getMonth() - 1,
-        now.getDate()
-      );
-  
-    const lastMonthProducts = await Product.countDocuments({
-        createdAt: { $gte: oneMonthAgo },
-      });
-
     res.status(200).json({
       products,
       totalProducts,
-      lastMonthProducts,
       totalPages: Math.ceil(totalProducts / limit),
       currentPage: Number(page),
     });
