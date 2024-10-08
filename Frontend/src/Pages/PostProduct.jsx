@@ -135,7 +135,6 @@ export default function PostProduct() {
             >
               Add to Cart
             </button>
-            <Button className="bg-slate-400">Buy Product</Button>
           </div>
         </div>
       </div>

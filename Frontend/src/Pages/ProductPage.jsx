@@ -158,11 +158,9 @@ export default function ProductPage() {
                 <p className="text-center text-gray-600">Price: Rs. {product.price}</p>
                
                 <div className="flex justify-center mt-4 space-x-2">
-                  <button className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                    Buy Now
-                  </button>
+                 
                   <button
-                    className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800"
+                    className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
                     onClick={() => handleAddToCart(product)}
                   >
                     Add to Cart

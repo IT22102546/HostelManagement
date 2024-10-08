@@ -21,7 +21,7 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="border-b-2 relative z-50 bg-gradient-to-r from-purple-700 to-purple-900 text-white p-8 rounded-lg shadow-lg">
+    <Navbar className="border-b-2 relative z-50 bg-gradient-to-r from-purple-700 to-purple-900 text-white p-8 rounded-b-lg shadow-lg">
       <div className="container mx-auto flex items-center justify-between py-4">
 
         {/* Logo */}

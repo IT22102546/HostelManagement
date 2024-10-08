@@ -61,6 +61,7 @@ export default function DashMyBookingRequests() {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar">
+      <h1 className="pt-6 pb-5 px-4 font-semibold">My Room Bookings</h1>
       {userBookingRequests.length > 0 ? (
         <Table hoverable className="shadow-md">
           <Table.Head>
@@ -98,18 +99,15 @@ export default function DashMyBookingRequests() {
                   </span>
                 </Table.Cell>
                 <Table.Cell>
-                  {/* Conditionally render the Delete button */}
-                  {!booking.bookingstatus && (
-                    <Button
-                      color="failure"
-                      onClick={() => {
-                        setShowModel(true);
-                        setBookingIdToDelete(booking._id);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  )}
+                  <Button
+                    color="failure"
+                    onClick={() => {
+                      setShowModel(true);
+                      setBookingIdToDelete(booking._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
