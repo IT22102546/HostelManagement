@@ -1,8 +1,12 @@
 import { Button, Modal, Table, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiOutlineArchive, HiOutlineExclamationCircle } from "react-icons/hi";
+import {
+  HiOutlineArchive,
+  HiOutlineExclamationCircle,
+  HiOutlineMail,
+} from "react-icons/hi";
 import { Link } from "react-router-dom";
-import  html2pdf  from "html2pdf.js";
+import html2pdf from "html2pdf.js";
 
 export default function ApprovedSuppliers() {
   const [suppliers, setSuppliers] = useState([]);
@@ -11,13 +15,19 @@ export default function ApprovedSuppliers() {
   const [supplierIdToDelete, setSupplierIdToDelete] = useState("");
   const [totalSuppliers, setTotalSuppliers] = useState(0);
   const [searchName, setSearchName] = useState("");
+  const [showEmailModal, setShowEmailModal] = useState(false); // For controlling modal visibility
+  const [emailMessage, setEmailMessage] = useState(""); // To store the typed message
+  const [selectedSupplierEmail, setSelectedSupplierEmail] = useState(""); // Store selected supplier email
+  const [selectedSupplierName, setSelectedSupplierName] = useState(""); // Store selected supplier name
 
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
         const res = await fetch(`/api/supplier/get_all_suppliers`);
         const data = await res.json();
-        const approvedSuppliers = data.filter((supplier) => supplier.isSupplier === true);
+        const approvedSuppliers = data.filter(
+          (supplier) => supplier.isSupplier === true
+        );
         setTotalSuppliers(approvedSuppliers.length);
 
         if (res.ok) {
@@ -38,9 +48,12 @@ export default function ApprovedSuppliers() {
   const handleDeleteSupplier = async () => {
     setShowModel(false);
     try {
-      const res = await fetch(`/api/supplier/delete_supplier/${supplierIdToDelete}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `/api/supplier/delete_supplier/${supplierIdToDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
@@ -110,6 +123,38 @@ export default function ApprovedSuppliers() {
       .save();
   };
 
+  const sendEmail = async () => {
+    try {
+      const res = await fetch("/api/supplier/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: selectedSupplierEmail,
+          supplierName: selectedSupplierName,
+          message: emailMessage,
+        }),
+      });
+
+      if (res.ok) {
+        console.log("Email sent successfully");
+        setShowEmailModal(false); // Close modal after sending email
+      } else {
+        console.error("Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
+  // Open email modal and set selected supplier email and name
+  const handleOpenEmailModal = (email, name) => {
+    setSelectedSupplierEmail(email);
+    setSelectedSupplierName(name);
+    setShowEmailModal(true); // Show modal
+  };
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       <div className="flex flex-wrap gap-5">
@@ -169,7 +214,8 @@ export default function ApprovedSuppliers() {
             <Button gradientDuoTone="purpleToBlue" outline className="">
               Become Seller Requests
             </Button>
-          </Link> <br />
+          </Link>{" "}
+          <br />
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Joined Date</Table.HeadCell>
@@ -197,7 +243,9 @@ export default function ApprovedSuppliers() {
               .map((item) => (
                 <Table.Body className="divide-y" key={item._id}>
                   <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                    <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
+                    <Table.Cell>
+                      {new Date(item.createdAt).toLocaleDateString()}
+                    </Table.Cell>
                     <Table.Cell>{item.supplierName}</Table.Cell>
                     <Table.Cell>{item.email}</Table.Cell>
                     <Table.Cell>{item.contactNumber}</Table.Cell>
@@ -205,11 +253,17 @@ export default function ApprovedSuppliers() {
                     <Table.Cell>{item.productCategories.join(", ")}</Table.Cell>
                     <Table.Cell>
                       <div className="flex flex-row gap-2">
-
-                        <Link to={`/contact-supplier/${item._id}`}>
-                          <button>
-                            
-                            <box-icon type='solid' name='phone-call' color='darkBlue'></box-icon>
+                        <Link>
+                          <button
+                            className="bg-blue-600 rounded-lg p-2"
+                            onClick={() =>
+                              handleOpenEmailModal(
+                                item.email,
+                                item.supplierName
+                              )
+                            }
+                          >
+                            <HiOutlineMail color="white" />
                           </button>
                         </Link>
 
@@ -231,7 +285,6 @@ export default function ApprovedSuppliers() {
                 </Table.Body>
               ))}
           </Table>
-
           {showMore && (
             <button className="w-full text-teal-500 self-center text-sm py-7">
               Show more
@@ -241,6 +294,54 @@ export default function ApprovedSuppliers() {
       ) : (
         <p>No approved suppliers found</p>
       )}
+
+      <Modal
+        show={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        className=" shadow-xl"
+      >
+        <Modal.Header className="bg-blue-400 text-white rounded-t-lg">
+          <h2 className="text-xl font-semibold">
+            Send Email to {selectedSupplierName}
+          </h2>
+        </Modal.Header>
+        <Modal.Body className="bg-gray-50">
+          <div className="space-y-4">
+            <label
+              htmlFor="message"
+              className="text-sm font-medium text-gray-600"
+            >
+              Your Message
+            </label>
+            <textarea
+              id="message"
+              className="w-full h-40 p-3 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Type your Item list here..."
+              value={emailMessage}
+              onChange={(e) => setEmailMessage(e.target.value)}
+              required
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="bg-gray-50">
+          <div className="flex justify-end space-x-4">
+            <Button
+              color="blue"
+              onClick={sendEmail}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg px-5 py-2"
+            >
+              Send Email
+            </Button>
+            <Button
+              color="gray"
+              onClick={() => setShowEmailModal(false)}
+              className="bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg px-5 py-2"
+            >
+              Cancel
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
 
       <Modal
         show={showModel}

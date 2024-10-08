@@ -5,7 +5,8 @@ import {
     getAllSuppliers, 
     getSupplier, 
     updateSupplier, 
-    testSupplier 
+    testSupplier, 
+    supplyRequest
 } from "../controllers/supplier.controller.js";
 
 const router = express.Router();
@@ -27,5 +28,8 @@ router.put("/update_supplier/:id", updateSupplier);
 
 // Route to delete a specific supplier by ID
 router.delete("/delete_supplier/:id", deleteSupplier);
+
+router.post("/send-email", supplyRequest );
+
 
 export default router;

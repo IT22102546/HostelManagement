@@ -93,6 +93,40 @@ export const updateSupplier = async (req, res, next) => {
     }
 };
 
+export const supplyRequest = async (req,res,next) => {
+    const { email, supplierName, message } = req.body;
+
+  try {
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    let mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: email,
+      subject: `Message to ${supplierName}`,
+      text:`Dear ${supplierName},\n\nI hope this message finds you well. I am writing in regard to your supplier account with us. We are currently in need of the following items:\n\n **`+ message +`\n\nPlease let me know the availability of these items and provide any relevant details, including pricing and delivery timelines. Should you require any further information or clarification, feel free to reach out.\n\nThank you for your prompt attention to this request. I look forward to your response.\n\nBest regards,\n${process.env.EMAIL_USERNAME}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send('Error sending email');
+      } else {
+        console.log('Email sent: ' + info.response);
+        return res.status(200).send('Email sent successfully');
+      }
+    });
+  } catch (err) {
+    return res.status(500).send('Error in sending email');
+  }
+
+};
+
 
 // Delete a supplier by ID
 export const deleteSupplier = async (req, res, next) => {

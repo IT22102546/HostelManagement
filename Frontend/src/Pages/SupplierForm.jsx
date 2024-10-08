@@ -3,6 +3,7 @@ import { Button, Label, TextInput, Textarea, Checkbox } from 'flowbite-react';
 import AOS from 'aos'; // Import AOS
 import 'aos/dist/aos.css'; // Import AOS CSS
 import { Navigate, useNavigate } from 'react-router-dom';
+import SellerFormSuccess from './SellerFormSuccess';
 
 export default function SupplierForm() {
   const formRef = useRef(null);
@@ -261,7 +262,7 @@ export default function SupplierForm() {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full bg-purple-700 hover:bg-purple-800">
+          <Button type="submit" className="w-full bg-purple-700 hover:bg-purple-800" onClick={<SellerFormSuccess/>}>
             Submit Application
           </Button>
         </form>
