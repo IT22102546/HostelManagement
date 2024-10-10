@@ -44,6 +44,7 @@ import SellerFormSuccess from './Pages/SellerFormSuccess';
 import ApprovedSuppliers from './Components/DashApprovedSuppliers';
 import DashSupplierRegistration from './Components/DashSupplierRegistration';
 import UpdateSellerRequest from './Pages/UpdateSellerRequest';
+import InventorySummary from './Pages/InventorySummary';
 
 
 
@@ -93,6 +94,7 @@ export default function App() {
            <Route path="/addroom" element={<AddRoom/>}/>
         </Route>
         <Route path="/roomsummary" element={<RoomIncomeMonthlySummary/>}/>
+        <Route path="Inventorysummary" element={<InventorySummary/>}/>
         <Route path="/ordermonthlysummary" element={<OrderIncomeMonthlySummary/>}/>
         <Route path="/support" element={<Support/>}/>
         <Route path="/update-ticket/:id" element={<UpdateTicket/>}/>
