@@ -163,7 +163,7 @@ export default function InventorySummary() {
         </Link>
       
       <h2 className="text-2xl text-center font-semibold pb-8 text-gray-800 mb-4">
-        Inventory Summary by Category/Products
+        Inventory Stock Summary by Category/Products
       </h2>
       <Bar
         className="border rounded-lg shadow-lg p-16"
