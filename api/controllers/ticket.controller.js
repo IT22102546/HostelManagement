@@ -65,18 +65,19 @@ export const getTicket = async (req, res, next) => {
 
 export const getTicketUser = async (req, res, next) => {
     try {
-        const userid = req.params.id;
-        // Find the ticket by userid instead of _id
-        const ticket = await Ticket.findOne({ userid });
+        const userid = req.params.id; // Assuming this is the userId
 
-        if (!ticket) {
-            return res.status(404).json({ error: 'Ticket not found' });
+        // Find all tickets by userId
+        const tickets = await Ticket.find({ userid });
+
+        if (!tickets || tickets.length === 0) {
+            return res.status(404).json({ error: 'No tickets found for this user' });
         }
 
-        res.json(ticket);  // Return the ticket
+        res.json(tickets);  // Return all the tickets
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+        next(error); // Pass error to global error handling middleware if exists
     }
 };
 
