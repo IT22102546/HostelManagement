@@ -1,6 +1,7 @@
 import Order from "../models/order.model.js";
 import { mongoose } from "mongoose";
 import { errorHandler } from "../utils/error.js";
+import Product from "../models/product.model.js"; 
 
 //test order
 export const testOrder = (req, res) => {
@@ -8,47 +9,61 @@ export const testOrder = (req, res) => {
 }
 
 //create new order
-export const createOrder = async (req, res,next)=>{
-    if (!req.body.userId || !req.body.productsId || !req.body.first_name || !req.body.last_name 
-        || !req.body.email || !req.body.phone || !req.body.address ||!req.body.state || !req.body.zip  
-        || !req.body.subtotal || !req.body.deliveryfee || !req.body.totalcost ) {
-        return next(errorHandler(400, 'Please provide all required fields'));
-      }
-
-      const userId = req.body.userId;
-      const productsId = req.body.productsId;
-      const first_name = req.body.first_name;
-      const last_name = req.body.last_name;
-      const email = req.body.email;
-      const phone = req.body.phone;
-      const address = req.body.address;
-      const state = req.body.state;
-      const zip = req.body.zip;
-      const status = req.body.status;
-      const subtotal = req.body.subtotal;
-      const deliveryfee = req.body.deliveryfee;
-      const totalcost = req.body.totalcost;
-
-      function idGen(phone) {
-        const randomString = Math.random().toString(36).substring(2, 10); 
-        const id = "ORD" + randomString + phone; 
-        return id;
-      }
-
-      const orderId = idGen(phone);
-
-      const newOrder = new Order({
-        orderId,userId,productsId,first_name,last_name,email,phone,
-        address,state,zip,status,subtotal,deliveryfee,totalcost
-      })
-
-      try {
-        const savedOrder = await newOrder.save();
-        res.status(201).json(savedOrder);
-      } catch (error) {
-        next(error);
-      }
-}
+export const createOrder = async (req, res, next) => {
+    if (
+      !req.body.userId || !req.body.productsId || !req.body.first_name ||
+      !req.body.last_name || !req.body.email || !req.body.phone ||
+      !req.body.address || !req.body.state || !req.body.zip || 
+      !req.body.subtotal || !req.body.deliveryfee || !req.body.totalcost
+    ) {
+      return next(errorHandler(400, 'Please provide all required fields'));
+    }
+  
+    const {
+      userId, productsId, first_name, last_name, email, phone, address, state, zip,
+      subtotal, deliveryfee, totalcost
+    } = req.body;
+  
+    function idGen(phone) {
+      const randomString = Math.random().toString(36).substring(2, 10); 
+      const id = "ORD" + randomString + phone; 
+      return id;
+    }
+  
+    const orderId = idGen(phone);
+  
+    const newOrder = new Order({
+      orderId, userId, productsId, first_name, last_name, email, phone,
+      address, state, zip, subtotal, deliveryfee, totalcost
+    });
+  
+    try {
+      // Save the new order
+      const savedOrder = await newOrder.save();
+  
+      // Reduce the quantity of each product in the order
+      const updateProductQuantityPromises = productsId.map(async (product) => {
+        const foundProduct = await Product.findOne({ title: product.title });
+  
+        if (!foundProduct) {
+          throw new Error(`Product ${product.title} not found`);
+        }
+  
+        // Reduce the quantity of the product
+        foundProduct.quantity -= product.quantity;
+  
+        // Save the updated product
+        await foundProduct.save();
+      });
+  
+      // Execute all promises
+      await Promise.all(updateProductQuantityPromises);
+  
+      res.status(201).json(savedOrder);
+    } catch (error) {
+      next(error);
+    }
+  };
 
 
 

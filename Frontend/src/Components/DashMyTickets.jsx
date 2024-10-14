@@ -15,6 +15,7 @@ export default function DashMyTickets() {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
+        console.log(currentUser._id);
         const res = await fetch(`/api/ticket/get_a_ticket_user/${currentUser._id}`);
         const data = await res.json();
         

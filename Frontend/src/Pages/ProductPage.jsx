@@ -16,6 +16,8 @@ export default function ProductPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(category || '');
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const [notification, setNotification] = useState({ visible: false, message: '' });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
@@ -24,7 +26,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     fetchProducts();
-  }, [currentPage, searchTerm, selectedCategory, selectedPriceRange]);
+  }, [currentPage, searchTerm, selectedCategory]);
 
   const fetchProducts = async () => {
     try {
@@ -61,13 +63,32 @@ export default function ProductPage() {
     setCurrentPage(1); // Reset to first page when filter changes
   };
 
+  useEffect(() => {
+    fetchProducts();
+  }, [currentPage, searchTerm, selectedCategory, selectedPriceRange]);
+
   const handleAddToCart = (product) => {
+    if (product.quantity <= 0) {
+      showNotification('Product is out of stock');
+      return;
+    }
+
     if (user) {
       dispatch(addToCart({ product, userId: user.id }));
       showNotification('Product added to the cart');
     } else {
       console.log('User not logged in');
     }
+  };
+
+  const handleBuyNow = (product) => {
+    if (product.quantity <= 0) {
+      showNotification('Product is out of stock');
+      return;
+    }
+
+    // Redirect to purchase form logic
+    console.log('Proceed to buy product:', product.title);
   };
 
   const showNotification = (message) => {
@@ -86,10 +107,8 @@ export default function ProductPage() {
       </div>
 
       <div className="flex">
-        {/* Sidebar for filters */}
         <aside className="w-1/4 p-4 border-r">
           <h3 className="text-xl font-semibold mb-4">Filters</h3>
-          {/* Category Filter */}
           <div className="mb-6">
             <h4 className="text-lg font-semibold mb-2">Categories</h4>
             <ul>
@@ -107,29 +126,24 @@ export default function ProductPage() {
               ))}
             </ul>
           </div>
-          {/* Price Range Filter */}
+
           <div>
-            <h4 className="text-lg font-semibold mb-2">Price Range</h4>
+            <h2 className="text-lg font-bold mb-4">Price Range</h2>
             <ul>
-              {['All', '0-1000', '1000-5000', '5000+'].map((range) => (
-                <li key={range}>
-                  <button
-                    className={`text-left block w-full px-2 py-1 mb-1 rounded ${
-                      selectedPriceRange === range ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800'
-                    }`}
-                    onClick={() => handlePriceRangeChange(range)}
-                  >
-                    {range}
-                  </button>
+              {['3000-5000', '5001-10000', '10001-50000', '50001-100000'].map(range => (
+                <li
+                  key={range}
+                  onClick={() => handlePriceRangeChange(range)}
+                  className={`cursor-pointer mb-2 ${selectedPriceRange === range ? 'bg-gray-200' : ''}`}
+                >
+                  Rs. {range.split('-')[0]} - Rs. {range.split('-')[1]}
                 </li>
               ))}
             </ul>
           </div>
         </aside>
 
-        {/* Main content */}
         <main className="w-3/4 p-4">
-         
           <div className="mb-4 w-52">
             <input
               type="text"
@@ -147,7 +161,6 @@ export default function ProductPage() {
                   <img
                     src={product.images[0]}
                     alt={product.title}
-                   
                     className="w-full h-40 object-cover mb-4"
                   />
                 </Link>
@@ -156,12 +169,25 @@ export default function ProductPage() {
                 </h3>
                 <p className="text-center text-blue-800 font-semibold">{product.description}</p>
                 <p className="text-center text-gray-600">Price: Rs. {product.price}</p>
-               
+                {product.quantity <= 0 ? (
+                  <p className="text-center text-red-600 font-semibold">Out of Stock</p>
+                ) : product.quantity < 10 ? (
+                  <p className="text-center text-yellow-600 font-semibold">Low Stock</p>
+                ) : null}
                 <div className="flex justify-center mt-4 space-x-2">
-                 
+
+                  <button
+                    className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                    onClick={() => handleBuyNow(product)}
+                    disabled={product.quantity <= 0}
+                  >
+                    Buy Now
+                  </button>
+
                   <button
                     className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
                     onClick={() => handleAddToCart(product)}
+                    disabled={product.quantity <= 0}
                   >
                     Add to Cart
                   </button>
@@ -170,7 +196,6 @@ export default function ProductPage() {
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="flex justify-center mt-6">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
