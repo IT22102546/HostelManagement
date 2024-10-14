@@ -58,7 +58,7 @@ export const getBookings = async (req, res, next) => {
   
 export const deleteBooking = async (req, res, next) => {
   try {
-    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    if ( req.user.id !== req.params.userId) {
       return next(errorHandler(403, 'You are not allowed to delete Room'));
     }
     await Booking.findByIdAndDelete(req.params.bookingId);

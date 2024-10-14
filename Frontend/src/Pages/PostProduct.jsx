@@ -110,7 +110,7 @@ export default function PostProduct() {
           <img src={product.images[mainImageIndex]} alt={product.title} className="w-full h-82 object-cover" />
           <h1 className="text-3xl my-7 font-semibold">{product.title}</h1>
           <div className="flex items-center mt-4 gap-2">
-            <div className=" gap-4 sm:flex-row justify-between mt-4">
+            <div className="gap-4 sm:flex-row justify-between mt-4">
               Price: Rs. {product.price}
             </div>
             <Button className="bg-slate-400" onClick={() => handleQuantityChange(-1)} disabled={isOutOfStock}>
@@ -129,7 +129,7 @@ export default function PostProduct() {
             </Button>
           </div>
           <p>{product.description}</p>
-          
+
           {isOutOfStock ? (
             <p className="text-red-600 font-semibold mt-4">Out of Stock</p>
           ) : (
